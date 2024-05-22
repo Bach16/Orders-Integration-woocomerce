@@ -5,8 +5,8 @@
     </v-sheet>
 
     <v-card class="mx-auto my-4 pa-4 tarjeta" elevation="8">
-      <v-row align="center" class="pa-2" no-gutters>
-        <v-col cols="12" md="8">
+      <v-row align="center" justify="center" class="pa-2 no-gutters">
+        <v-col cols="12" md="8" class="d-flex justify-center">
           <v-text-field
             v-model="id"
             hide-details
@@ -14,14 +14,14 @@
             label="Buscar"
             variant="outlined"
             height="56"
+            class="search-input"
           />
-        </v-col>
-        <v-col cols="12" md="4" class="d-flex justify-center justify-md-end mt-2">
           <v-btn
             color="primary"
             :loading="loading"
             @click="orderSearch"
             height="56"
+            class="ml-2 search-button"
           >
             Buscar
           </v-btn>
@@ -111,5 +111,13 @@ p {
   display: flex;
   justify-content: center;
   border-radius: 10px;
+}
+
+.search-input {
+  flex: 1;
+}
+
+.search-button {
+  margin-left: 8px;
 }
 </style>
