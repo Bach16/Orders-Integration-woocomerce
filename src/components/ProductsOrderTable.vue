@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="modificable" class="ms-2 my-6 pa-4 datos"  elevation="2">
+  <v-card v-if="modificable" class="ms-2 my-6 pa-4 datos">
     <v-card-title> Pedido {{ order?.id }} </v-card-title>
     <v-spacer> </v-spacer>
 
@@ -9,7 +9,7 @@
   </v-card>
 
 
-  <v-card class="ms-2 my-6 pb-5 datos" elevation="2">
+  <v-card class="ms-2 my-6 pb-5 datos" elevation="0">
 
     <v-table class="tabla">
 
@@ -163,7 +163,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+
 import draggable from "vuedraggable";
 
 export default {
@@ -176,42 +176,11 @@ export default {
       this.save();
     }
   
-   /*  save() {
-      this.newItem = {
-        cantidad:"",
-        nombre: "",
-        nbultos: "",
-        unidadesPorBulto: "",
-        totalUnidades: "",
-        descripcionProducto: "",
-        supervisado: "",
-        input: true,
-      };
-      this.order.line_items.push({ ...this.newItem });
-      localStorage.setItem('order_line_items', JSON.stringify(this.order.line_items));
-
-
-    }, */
+   
   },
   data() {
     return {
-      headers: [
-        { title: "Cantidad", key: "cantidad", align: "center" },
-        { title: "N de bultos", key: "nbultos", align: "center" },
-        {
-          title: "Unidades por bulto",
-          key: "unidades por bulto",
-          align: "center",
-        },
-        { title: "Total de unidades", vkey: "total unidades", align: "center" },
-        {
-          title: "Descripcion del producto",
-          vkey: "descripcion",
-          align: "center",
-        },
-        { title: "Supervisado", vkey: "supervisado", align: "center" },
-        /* { title: 'Listo', value: 'listo', align: 'center', sortable: false, filterable: false, 'v-if': '!modificable' } */
-      ],
+      
       /* newItem: {
         cantidad: "",
         nbultos: "",

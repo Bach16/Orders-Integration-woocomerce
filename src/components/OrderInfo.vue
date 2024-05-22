@@ -1,6 +1,6 @@
 <template>
-    <v-card class="ms-2 pb-5 datos" elevation="2">
-      <v-row align="center" class="pa-4" no-gutters>
+    <v-card class="ms-2 pb-5 datos" elevation="0">
+      <v-row align-center class="pa-4" no-gutters>
         <!-- Razon social -->
         <v-col cols="12">
           <v-sheet class="pa-2">

@@ -1,6 +1,6 @@
 <template>
   <v-container class="container">
-    <v-row align="center" class="pa-6" no-gutters>
+    <v-row align-center class="pa-6" no-gutters>
       <v-col cols="8">
         <v-sheet class="bg-transparent">
           <h1>Preparación de Pedido</h1>
@@ -18,7 +18,7 @@
 
 
 
-    <v-row align="center" no-gutters>
+    <v-row align-center no-gutters>
       <v-col cols="6">
         <v-card class="ms-2 datos" elevation="2">
           <v-textarea hide-details="auto" label="Observaciones" variant="solo" row-height="20" rows="2"
@@ -49,7 +49,7 @@
 
     <div class="text-center" @click="save(true)">
       <RouterLink :to="{ name: 'sendOrder', params: { id: orderStore?.orders[0]?.id } }">
-        <v-btn class="ms-2 my-6" align="center" color="primary"  >
+        <v-btn class="ms-2 my-6" align-center color="primary"  >
           Enviar a despacho
         </v-btn>
       </RouterLink>
@@ -161,4 +161,8 @@ export default {
 .tabla {
   width: 100%;
 }
+
+.v-table{
+  border: 1px solid black;}
+
 </style>

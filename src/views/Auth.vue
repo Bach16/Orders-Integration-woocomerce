@@ -1,20 +1,21 @@
 <template>
-  <v-row class="fill-height" justify="center" align="center">
+  <v-row class="fill-height">
     <v-col cols="12" lg="6" md="8" sm="10">
-      <v-card ref="form">
+      <v-card ref="form" >
         <h1 class="text-center pa-2">Empresa Logo</h1>
-        <v-form class="" align="center" justify="center">
+        <v-form d-flex align-content-center>
           <v-container fluid>
-            <v-row align="center" justify="center">
+            <v-row justify="center">
               <v-col cols="12" sm="6">
                 <v-text-field
                   width="100%"
                   label="User"
+                  hide-details
                   :rules="[rules.required]"
                 ></v-text-field>
               </v-col>
             </v-row>
-            <v-row align="center" justify="center">
+            <v-row justify="center">
               <v-col cols="12" sm="6">
                 <v-text-field
                   :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -23,6 +24,7 @@
                   class="input-group--focused"
                   label="Password"
                   name="input-10-2"
+                  hide-details
                   @click:append="show2 = !show2"
                 ></v-text-field>
               </v-col>
@@ -82,6 +84,9 @@ export default {
 <style>
 .fill-height {
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .mt-12 {
   margin-top: 12px;

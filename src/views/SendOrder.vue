@@ -1,7 +1,7 @@
 <template>
   <v-container class="container">
     <div id="printMe">
-    <v-row align="center" class="pa-6" no-gutters>
+    <v-row align-center class="pa-6" no-gutters>
       <v-col cols="8">
         <v-sheet class="bg-transparent">
           <h1>Despachado</h1>
@@ -27,7 +27,7 @@
         ></v-checkbox>
       </div> -->
 
-    <v-row align="center" no-gutters>
+    <v-row align-center no-gutters>
       <v-col cols="6">
         <v-card class="ms-2 py-6 datos" height="70px" elevation="2">
           <p>Observaciones</p>
@@ -63,12 +63,12 @@
 
     <div class="text-center">
       <RouterLink :to="{ name: 'deliveredOrder', params: { id: orderStore?.orders[0]?.id } }">
-        <v-btn class="ms-2 my-6" align="center" color="primary"  >
+        <v-btn class="ms-2 my-6" align-center color="primary"  >
           Guardar
         </v-btn>
       </RouterLink>
         
-      <v-btn class="ms-2 my-6" align="center" color="primary" @click="print">
+      <v-btn class="ms-2 my-6" align-center color="primary" @click="print">
         Imprimir guia
       </v-btn>
     </div>

@@ -4,8 +4,8 @@
       <h1>Busqueda de Pedidos</h1>
     </v-sheet>
 
-    <v-card class="ms-2 pl-3 pt-4 pb-6 tarjeta" elevation="8">
-      <v-row align="center" class="pa-2" no-gutters>
+    <v-card class="ms-2 pl-3 pt-4 pb-6 tarjeta" elevation="2">
+      <v-row align-center class="pa-2" no-gutters>
         <v-col cols="8">
           <v-text-field
           v-model="id" 
@@ -37,8 +37,8 @@
     <div v-if="orderStore?.ordersLoading">Loading...</div>
     <div v-else class="list-container">
       <div class="list-item" v-for="item in orderStore?.orders" :key="item.id">
-        <v-card class="ms-2 pa-3 mb-4 tarjeta" elevation="8">
-          <v-row align="center" class="pa-2" no-gutters>
+        <v-card class="ms-2 pa-3 mb-8 tarjeta" elevation="2">
+          <v-row align-center class="pa-2" no-gutters>
             <v-col cols="8">
               <p>Pedido #{{ item.id }}</p>
             </v-col>

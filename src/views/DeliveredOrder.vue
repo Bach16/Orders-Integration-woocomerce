@@ -1,6 +1,6 @@
 <template>
   <v-container class="container">
-    <v-row align="center" class="pa-6" no-gutters>
+    <v-row align-center class="pa-6" no-gutters>
       <v-col cols="8">
         <v-sheet class="bg-transparent">
           <h1>Entregado</h1>
@@ -11,8 +11,8 @@
       </v-col>
     </v-row>
 
-    <v-card class="ms-2 pl-3 pt-4 pb-6 tarjeta" elevation="8">
-      <v-row align="center" class="pa-2" no-gutters>
+    <v-card class="ms-2 pl-3 pt-4 pb-6 tarjeta" elevation="2">
+      <v-row align-center class="pa-2" no-gutters>
         <v-col cols="8">
           <v-text-field
             hide-details
@@ -32,8 +32,8 @@
       <h2>Resultados</h2>
     </v-sheet>
 
-    <v-card class="ms-2 pa-3 tarjeta" elevation="8">
-      <v-row align="center" class="pa-2" no-gutters>
+    <v-card class="ms-2 pa-3 tarjeta" elevation="2">
+      <v-row align-center class="pa-2" no-gutters>
         <v-col cols="8">
           <p class="text-order">Pedido N° {{ orderStore?.orders[0]?.id }}</p>
         </v-col>
@@ -52,7 +52,7 @@
     <div class="text-center mt-8">
       <v-btn
         class="ms-2 my-6"
-        align="center"
+        align-center
         color="primary"
         @click="dialog = true"
         height="56"
