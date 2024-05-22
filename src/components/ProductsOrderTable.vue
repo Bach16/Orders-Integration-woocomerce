@@ -12,6 +12,7 @@
   <v-card class="ms-2 my-6 pb-5 datos" elevation="2">
 
     <v-table class="tabla">
+      <h1>asd</h1>
 
       <thead>
         <tr>
