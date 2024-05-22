@@ -4,7 +4,7 @@
     <v-row align="center" class="pa-6" no-gutters>
       <v-col cols="8">
         <v-sheet class="bg-transparent">
-          <h1>Preparación de Pedido</h1>
+          <h1>Despacho</h1>
         </v-sheet>
       </v-col>
       <v-col cols="3" offset="1">
