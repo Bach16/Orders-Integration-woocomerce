@@ -4,11 +4,11 @@
       <h1>Busqueda de Pedidos</h1>
     </v-sheet>
 
-    <v-card class="ms-2 pl-3 pt-4 pb-6 tarjeta" elevation="8">
+    <v-card class="mx-auto my-4 pa-4 tarjeta" elevation="8">
       <v-row align="center" class="pa-2" no-gutters>
-        <v-col cols="8">
+        <v-col cols="12" md="8">
           <v-text-field
-          v-model="id" 
+            v-model="id"
             hide-details
             append-inner-icon="mdi-magnify"
             label="Buscar"
@@ -16,9 +16,8 @@
             height="56"
           />
         </v-col>
-        <v-col cols="4">
+        <v-col cols="12" md="4" class="d-flex justify-center justify-md-end mt-2">
           <v-btn
-            class="ml-5"
             color="primary"
             :loading="loading"
             @click="orderSearch"
@@ -36,22 +35,24 @@
 
     <div v-if="orderStore?.ordersLoading">Loading...</div>
     <div v-else class="list-container">
-      <div class="list-item" v-for="item in orderStore?.orders" :key="item.id">
-        <v-card class="ms-2 pa-3 mb-4 tarjeta" elevation="8">
-          <v-row align="center" class="pa-2" no-gutters>
-            <v-col cols="8">
-              <p>Pedido #{{ item.id }}</p>
-            </v-col>
-            <v-col cols="4">
-              <RouterLink :to="{ name: 'preparationOrder', params: { id: item.id } }">
-                <v-btn class="ml-5" color="primary" height="36">
-                  Preparar
-                </v-btn>
-              </RouterLink>
-            </v-col>
-          </v-row>
-        </v-card>
-      </div>
+      <v-row>
+        <v-col cols="12" md="6" lg="4" v-for="item in orderStore?.orders" :key="item.id">
+          <v-card class="my-4 pa-3 tarjeta" elevation="8">
+            <v-row align="center" class="pa-2" no-gutters>
+              <v-col cols="8">
+                <p>Pedido #{{ item.id }}</p>
+              </v-col>
+              <v-col cols="4" class="d-flex justify-center justify-md-end">
+                <RouterLink :to="{ name: 'preparationOrder', params: { id: item.id } }">
+                  <v-btn color="primary" height="36">
+                    Preparar
+                  </v-btn>
+                </RouterLink>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
   </v-container>
 </template>
@@ -68,12 +69,10 @@ export default {
     searchResults: null,
   }),
 
-  
   setup() {
     const orderStore = useOrdersStore();
     const id = ref("");
     const orderSearch = () => {
-        console.log(id.value)
       orderStore.getOrders(id.value);
     };
 
