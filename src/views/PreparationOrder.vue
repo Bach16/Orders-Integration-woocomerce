@@ -1,12 +1,12 @@
 <template>
   <v-container class="container">
     <v-row align="center" class="pa-6" no-gutters>
-      <v-col cols="8">
+      <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
           <h1>Preparación de Pedido</h1>
         </v-sheet>
       </v-col>
-      <v-col cols="3" offset="1">
+      <v-col cols="12" md="3" offset-md="1">
         <p>Nº de proceso</p>
       </v-col>
     </v-row>
@@ -19,13 +19,13 @@
 
 
     <v-row align="center" no-gutters>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <v-card class="ms-2 datos" elevation="2">
           <v-textarea hide-details="auto" label="Observaciones" variant="solo" row-height="20" rows="2"
             auto-grow></v-textarea>
         </v-card>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <v-card class="ms-2 datos" elevation="2">
           <v-row class="pa-4" no-gutters>
             <!-- Totales -->
@@ -37,7 +37,7 @@
 
             <v-divider class="border-opacity-50" length="100px" vertical></v-divider>
 
-            <v-col cols="4">
+            <v-col cols="6">
               <v-sheet class="pa-2">
                 <p class="text-right">${{ orderStore?.orders[0]?.total }}</p>
               </v-sheet>
@@ -49,7 +49,7 @@
 
     <div class="text-center" @click="save(true)">
       <RouterLink :to="{ name: 'sendOrder', params: { id: orderStore?.orders[0]?.id } }">
-        <v-btn class="ms-2 my-6" align="center" color="primary"  >
+        <v-btn class="ms-2 my-6" color="primary"  >
           Enviar a despacho
         </v-btn>
       </RouterLink>
