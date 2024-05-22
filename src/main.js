@@ -71,7 +71,7 @@ const routes = [
     component: () => import('./views/SendOrder.vue'),
   },
   {
-    path: '/deliveredOrder',
+    path: '/deliveredOrder/:id',
     name: 'deliveredOrder',
     component: () => import('./views/DeliveredOrder.vue'),
   },

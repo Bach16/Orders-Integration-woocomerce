@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="modificable" class="ms-2 my-6 pb-5 datos" elevation="2">
+  <v-card v-if="modificable" class="ms-2 my-6 pa-4 datos"  elevation="2">
     <v-card-title> Pedido {{ order?.id }} </v-card-title>
     <v-spacer> </v-spacer>
 
