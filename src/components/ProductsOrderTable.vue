@@ -1,15 +1,15 @@
 <template>
-  <v-card v-if="modificable" class="ms-2 my-6 pa-4 datos">
+  <v-card v-if="modificable"  class="ms-2 my-6 pa-4 datos align-center">
     <v-card-title> Pedido {{ order?.id }} </v-card-title>
     <v-spacer> </v-spacer>
 
-    <v-btn class="mb-2" color="primary" dark @click="callModifyObject">
+    <v-btn class="mr-2" color="primary" dark @click="callModifyObject">
       Nueva fila
     </v-btn>
   </v-card>
 
 
-  <v-card class="ms-2 my-6 pb-5 datos" elevation="0">
+  <v-card class="ms-2 my-6 datos" flat>
 
     <v-table class="tabla">
 
@@ -99,66 +99,7 @@
         </tbody>
     </v-table>
 
-    <!-- <tbody>
-        <tr v-for="item in order?.line_items" :key="item.name">
-          <td v-if="modificable">
-            <v-text-field hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else="modificable">{{ item.id }}</td>
-          <td v-if="modificable">
-            <v-text-field hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else="modificable">{{ item.id }}</td>
 
-          <td>{{ item.id }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.price }}</td>
-
-          <td v-if="!modificable"><v-checkbox hide-details></v-checkbox></td>
-          
-        </tr>
-      </tbody> -->
-
-    <!-- <template v-slot:body>
-        <tr :key="props.item.name">
-          <td v-if="modificable">
-            <v-text-field hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.id }}</td>
-
-          <td v-if="modificable">
-            <v-text-field hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.id }}</td>
-
-          <td v-if="props.item.input">
-            <v-text-field v-model="props.item.unidadesPorBulto" hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.id }}</td>
-
-          <td v-if="props.item.input">
-            <v-text-field v-model="props.item.totalUnidades" hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.quantity }}</td>
-
-          <td v-if="props.item.input">
-            <v-text-field v-model="props.item.descripcionProducto" hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.name }}</td>
-
-          <td v-if="props.item.input">
-            <v-text-field v-model="props.item.supervisado" hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.price }}</td>
-
-          <td v-if="!modificable">
-            <v-checkbox hide-details></v-checkbox>
-          </td>
-        </tr>
-      </template> -->
-    <!--     </v-data-table>
- -->
   </v-card>
 </template>
 
@@ -194,3 +135,14 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-table{
+  border: 1px solid #E0E0E0;
+}
+
+.tbody{
+  border: 1px solid black;
+
+}
+</style>

@@ -214,7 +214,6 @@ a:active {
 
 }
 
-.v-table{
-  border: 1px solid black;}
+
 
 </style>
