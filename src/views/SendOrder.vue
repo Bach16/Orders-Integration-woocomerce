@@ -1,7 +1,17 @@
 <template>
   <v-container class="container">
     <div id="printMe">
-    <v-row align-center class="pa-6" no-gutters>
+    <v-row align="center" class="pa-6" no-gutters>
+      <v-col cols="12">
+        <RouterLink
+          :to="{ name: 'preparationOrder',}"
+        >
+          <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a">
+            <v-icon icon="mdi-arrow-left-bold-circle-outline" start></v-icon>
+            <p class="">Regresar</p>
+          </div>
+        </RouterLink>
+      </v-col>
       <v-col cols="8">
         <v-sheet class="bg-transparent">
           <h1>Despachado</h1>
@@ -129,4 +139,12 @@ export default {
   }
 };
 </script>
+
+<style>
+a:link {
+  text-decoration: none;
+  color: inherit;
+
+}
+</style>
 
