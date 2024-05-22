@@ -82,7 +82,7 @@ export default {
       this.newItem = {
         cantidad: "",
         nbultos: "",
-        id: "",
+        product_id: "",
         quantity: "",
         name: "",
         price: "",
@@ -105,7 +105,7 @@ export default {
       newItem:{
         cantidad: "",
         nbultos: "",
-        id: "",
+        product_id: "",
         quantity: "",
         name: "",
         price: "",

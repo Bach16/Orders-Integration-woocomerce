@@ -31,25 +31,25 @@
 
         </tr>
       </thead>
-      <draggable v-if="modificable" :list="order?.line_items" tag="tbody" item-key="name">
+      <draggable v-if="modificable" :list="order?.line_items" tag="tbody" item-key="id">
         <template #item="{ element }">
-          <tr :key="element.name">
+          <tr :key="element.id">
             <!-- Cantidad -->
-            <td v-if="modificable">
+            <td >
               <v-text-field v-model="element.cantidad" hide-details="auto" variant="plain"></v-text-field>
             </td>
-            <td v-else>{{ element.cantidad }}</td>
+            
             <!-- N de Bultos -->
 
-            <td v-if="modificable">
+            <td >
               <v-text-field v-model="element.nbultos" hide-details="auto" variant="plain"></v-text-field>
             </td>
-            <td v-else>{{ element.nbultos }}</td>
+            
             <!-- Unidades por bulto -->
             <td v-if="element.input">
-              <v-text-field v-model="element.id" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field v-model="element.product_id" hide-details="auto" variant="plain"></v-text-field>
             </td>
-            <td v-else>{{ element.id }}</td>
+            <td v-else>{{ element.product_id }}</td>
             
             <!-- Total de unidades -->
             <td v-if="element.input">
@@ -68,49 +68,31 @@
             </td>
             <td v-else>{{ element.price }}</td>
 
-            <td v-if="!modificable">
-              <v-checkbox v-model="element.listo" hide-details></v-checkbox>
-            </td>
           </tr>
         </template>
       </draggable>
+
       <tbody v-else>
         <tr v-for="element in order?.line_items" :key="element.name">
             <!-- Cantidad -->
-            <td v-if="modificable">
-              <v-text-field v-model="element.cantidad" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.cantidad }}</td>
+            <td>{{ element.cantidad }}</td>
+            
             <!-- N de Bultos -->
+            <td >{{ element.nbultos }}</td>
 
-            <td v-if="modificable">
-              <v-text-field v-model="element.nbultos" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.nbultos }}</td>
             <!-- Unidades por bulto -->
-            <td v-if="element.input">
-              <v-text-field v-model="element.id" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.id }}</td>
+            <td>{{ element.product_id }}</td>
             
             <!-- Total de unidades -->
-            <td v-if="element.input">
-              <v-text-field v-model="element.quantity" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.quantity }}</td>
+            <td>{{ element.quantity }}</td>
             <!-- Descripcion -->
-            <td v-if="element.input">
-              <v-text-field v-model="element.name" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.name }}</td>
+            
+            <td >{{ element.name }}</td>
             <!-- Supervisado -->
 
-            <td v-if="element.input">
-              <v-text-field v-model="element.price" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.price }}</td>
+            <td>{{ element.price }}</td>
 
-            <td v-if="!modificable">
+            <td>
               <v-checkbox v-model="element.listo" hide-details></v-checkbox>
             </td>
           </tr>

@@ -14,6 +14,7 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import VueHtmlToPaper from 'vue-html-to-paper';
 
 
+
 const options = {
   name: '_blank',
   specs: [
@@ -22,8 +23,7 @@ const options = {
     'scrollbars=yes'
   ],
   styles: [
-    'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-    'https://unpkg.com/kidlat-css/css/kidlat.css'
+    'https://unpkg.com/vuetify@latest/dist/vuetify.min.css',
   ],
   timeout: 1000, // default timeout before the print window appears
   autoClose: true, // if false, the window will not close after printing
