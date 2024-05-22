@@ -1,123 +1,116 @@
 <template>
-    <v-card class="ms-2 pb-5 datos" elevation="2">
-      <v-row align="center" class="pa-4" no-gutters>
+  <v-card class="ms-2 pb-5 datos" elevation="2">
+    <v-responsive>
+      <v-row class="pa-4" no-gutters>
         <!-- Razon social -->
-        <v-col cols="12">
-          <v-sheet class="pa-2">
-            <span>Razón social:</span>
-            <span class="ml-4">{{order?.billing?.company}}</span>
-          </v-sheet>
+        <v-col cols="12" md="3" class="pa-2">
+            <span class="bold-text">Razón social:</span>
+            <!-- Mantener el texto "Razón social" en la parte superior y aplicar el salto de línea en el modo responsive -->
+            <span class="ml-4">{{ order?.billing?.company}}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50"></v-divider>
-
+        <v-divider/>
         <!-- Provincia -->
-        <v-col cols="4">
-          <v-sheet class="pa-2">
-            <span>Provincia:</span>
-            <span class="ml-4">{{order?.billing?.state}}</span>
-          </v-sheet>
+        <v-col cols="4" md="3" class="pa-2">
+            <span class="bold-text">Provincia:</span>
+            <span class="ml-4">{{ order?.billing?.state }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50" vertical length="50px"></v-divider>
-
+        
         <!-- Canton -->
-        <v-col cols="4">
-          <v-sheet class="pa-2">
-            <span>Canton:</span>
-            <span class="ml-4">{{order?.billing?.city}}</span>
-          </v-sheet>
+        <v-col cols="4" md="3" class="pa-2">
+            <span class="bold-text">Canton:</span>            
+            <span class="ml-4 pl-2">{{ order?.billing?.city }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50" vertical length="50px"></v-divider>
 
         <!-- Parroquia -->
-        <v-col cols="4">
-          <v-sheet class="pa-2">
-            <span>Parroquia:</span>
-            <span class="ml-4">{{order?.billing?.city}}</span>
-          </v-sheet>
+        <v-col cols="4" md="3" class="pa-2">
+            <span class="bold-text">Parroquia:</span>
+            <span class="ml-4">{{ order?.billing?.city }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50"></v-divider>
-        <v-responsive width="100%"></v-responsive>
 
         <!-- Direccion -->
-        <v-col cols="4">
-          <v-sheet class="pa-3">
-            <span>Direccion:</span>
-            <span class="ml-4">{{order?.billing?.address_1}}</span>
-          </v-sheet>
+        <v-col cols="12" md="3" class="pa-2">
+            <span class="bold-text">Direccion:</span>
+            <span class="ml-4">{{ order?.billing?.address_1 }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50"></v-divider>
-        <v-responsive width="100%"></v-responsive>
+        <v-divider/>
 
         <!-- Administrador de contrato -->
-        <v-col cols="6">
-          <v-sheet class="pa-2">
-            <span>Administrador de contrato:</span>
-            <span class="ml-4">{{order?.billing?.first_name}} {{order?.billing?.last_name}}</span>
-          </v-sheet>
+        <v-col cols="12" md="3" class="pa-2">
+            <span class="bold-text">Administrador de contrato:</span><br/>
+            <span>{{ order?.billing?.first_name + ' ' + order?.billing?.last_name }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50" vertical length="50px"></v-divider>
 
         <!-- E-mail -->
-        <v-col cols="3">
-          <v-sheet class="pa-2">
-            <span>E-mail:</span>
-            <span class="ml-4">{{order?.billing?.email}}</span>
-          </v-sheet>
+        <v-col cols="6" md="3" class="pa-2">
+            <span class="bold-text">E-mail:</span><br/>
+            <span>{{ truncateText(order?.billing?.email) }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50" vertical length="50px"></v-divider>
 
         <!-- Telefono -->
-        <v-col cols="3">
-          <v-sheet class="pa-2">
-            <span>Telefono:</span>
-            <span class="ml-4">{{order?.billing?.phone}}</span>
-          </v-sheet>
+        <v-col cols="6" md="3" class="pa-2">
+            <span class="bold-text">Telefono:</span><br/>
+            <span>{{ order?.billing?.phone }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50"></v-divider>
-        <v-responsive width="100%"></v-responsive>
 
         <!-- Bodeguero -->
-        <v-col cols="6">
-          <v-sheet class="pa-2">
-            <span>Bodeguero:</span>
-            <span class="ml-4">-------------</span>
-          </v-sheet>
+        <v-col cols="12" md="3" class="pa-2">
+            <span class="bold-text">Bodeguero:</span><br/>
+            <span>{{ '-------------' }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50" vertical length="50px"></v-divider>
+        <v-divider/>
 
         <!-- E-mail -->
-        <v-col cols="3">
-          <v-sheet class="pa-2">
-            <span>E-mail:</span>
-            <span class="ml-4">-------------</span>
-          </v-sheet>
+        <v-col cols="6" md="3" class="pa-2">
+            <span class="bold-text">E-mail:</span><br/>
+            <span>{{ truncateText('-----------') }}</span>
         </v-col>
-
-        <v-divider class="border-opacity-50" vertical length="50px"></v-divider>
 
         <!-- Telefono -->
-        <v-col cols="3">
-          <v-sheet class="pa-2">
-            <span>Telefono:</span>
-            <span class="ml-4">-------------</span>
-          </v-sheet>
+        <v-col cols="6" md="3" class="pa-2">
+            <span class="bold-text">Telefono:</span><br/>
+            <span>{{ '-------------' }}</span>
         </v-col>
       </v-row>
-    </v-card>
+    </v-responsive>
+  </v-card>
 </template>
 
-<script >
+<script>
 export default {
-  props: ['order']
+  props: ['order'],
+  data() {
+    return {
+      isResponsive: false
+    };
+  },
+  methods: {
+    truncateText(text) {
+      const maxLength = 10;
+      if (text?.length > maxLength) {
+        return text.substring(0, maxLength) + '...';
+      } else {
+        return text;
+      }
+    },
+    checkResponsive() {
+      // Check if the screen width is below a certain threshold for responsiveness
+      if (window.innerWidth <= 960) {
+        this.isResponsive = true;
+      } else {
+        this.isResponsive = false;
+      }
+    }
+  },
+  mounted() {
+    // Check initial responsiveness
+    this.checkResponsive();
+    // Add event listener to check responsiveness on window resize
+    window.addEventListener('resize', this.checkResponsive);
+  },
+  beforeDestroy() {
+    // Remove event listener on component destroy to prevent memory leaks
+    window.removeEventListener('resize', this.checkResponsive);
+  }
 }
 </script>
 
@@ -128,12 +121,13 @@ export default {
   border-radius: 20px;
 }
 
-.datostxt {
-  font-size: 16px;
-  font-weight: 300;
+.bold-text {
+  font-weight: bold;
 }
 
-.tabla {
-  width: 100%;
+.pa-2 {
+  padding: 8px !important; /* Ajusta el padding según sea necesario */
 }
+
+
 </style>
