@@ -1,0 +1,23 @@
+@media print {
+    /* Estilos específicos para impresión */
+    body {
+      font-size: 12pt;
+      color: black;
+      margin-left: 20mm; /* Márgen izquierdo de 20mm */
+      margin-right: 20mm; /* Márgen derecho de 20mm */
+    }
+  
+    .no-print {
+      display: none;
+    }
+  
+    .print-only {
+      display: block;
+    }
+  }
+
+  #body {
+    background-color: aqua;
+    margin: 0;
+    padding: 0;
+  }

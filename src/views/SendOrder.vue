@@ -2,9 +2,19 @@
   <v-container class="container">
     <div id="printMe">
     <v-row align="center" class="pa-6" no-gutters>
+      <v-col cols="12">
+        <RouterLink
+          :to="{ name: 'preparationOrder',}"
+        >
+          <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a">
+            <v-icon icon="mdi-arrow-left-bold-circle-outline" start></v-icon>
+            <p class="">Regresar</p>
+          </div>
+        </RouterLink>
+      </v-col>
       <v-col cols="8">
         <v-sheet class="bg-transparent">
-          <h1>Preparación de Pedido</h1>
+          <h1>Despachado</h1>
         </v-sheet>
       </v-col>
       <v-col cols="3" offset="1">
@@ -27,7 +37,7 @@
         ></v-checkbox>
       </div> -->
 
-    <v-row align="center" no-gutters>
+    <v-row align-center no-gutters>
       <v-col cols="6">
         <v-card class="ms-2 py-6 datos" height="70px" elevation="2">
           <p>Observaciones</p>
@@ -62,11 +72,13 @@
   </div>
 
     <div class="text-center">
-      <v-btn class="ms-2 my-6" align="center" color="primary" @click="onClick">
-        Guardar
-      </v-btn>
-
-      <v-btn class="ms-2 my-6" align="center" color="primary" @click="print">
+      <RouterLink :to="{ name: 'deliveredOrder', params: { id: orderStore?.orders[0]?.id } }">
+        <v-btn class="ms-2 my-6" align-center color="primary"  >
+          Guardar
+        </v-btn>
+      </RouterLink>
+        
+      <v-btn class="ms-2 my-6" align-center color="primary" @click="print">
         Imprimir guia
       </v-btn>
     </div>
@@ -97,49 +109,7 @@ export default {
 
   data() {
     return {
-      output: null,
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-        },
-      ],
+      
     };
   },
   setup() {
@@ -169,4 +139,12 @@ export default {
   }
 };
 </script>
+
+<style>
+a:link {
+  text-decoration: none;
+  color: inherit;
+
+}
+</style>
 
