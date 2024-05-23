@@ -1,11 +1,11 @@
 <template>
-  <v-container class="container">
+  <v-container class="mx-lg-16 mx-2 container">
     <v-sheet class="pa-6 bg-transparent">
       <h1>Busqueda de Pedidos</h1>
     </v-sheet>
 
-    <v-card class="mx-auto my-4 pa-4 tarjeta" elevation="8">
-      <v-row align="center" justify="center" class="pa-2 no-gutters">
+    <v-card class="ms-2 my-4 pa-4 tarjeta" elevation="2">
+      <v-row align-center justify="center" class="pa-2 no-gutters">
         <v-col cols="12" md="8" class="d-flex justify-center">
           <v-text-field
             v-model="id"
@@ -34,7 +34,7 @@
     </v-sheet>
 
     <div v-if="orderStore?.ordersLoading">Loading...</div>
-    <div v-else class="list-container">
+    <div v-else class=" ms-2 list-container">
       <v-row>
         <v-col cols="12" md="6" lg="4" v-for="item in orderStore?.ordersList" :key="item.id">
           <v-card class="my-4 pa-3 tarjeta" elevation="8">
@@ -90,10 +90,7 @@ export default {
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-}
+
 
 h1,
 h2 {
@@ -108,8 +105,10 @@ p {
   background-color: #e3f2fd;
   height: auto;
   min-height: 100vh;
-  width: auto;
+  
+  
 }
+
 
 .tarjeta {
   display: flex;

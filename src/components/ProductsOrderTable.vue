@@ -1,31 +1,26 @@
 <template>
-  <v-card v-if="modificable" class="ms-2 my-6 pa-4 datos">
-    <v-card-title> Pedido {{ order?.id }} </v-card-title>
+  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center border-sm">
+    <v-card-title class="font-weight-bold"> Pedido {{ order?.id }} </v-card-title>
     <v-spacer> </v-spacer>
-
-    <v-btn class="mb-2" color="primary" dark @click="callModifyObject">
+    <v-btn class="mr-9" color="primary" dark @click="callModifyObject">
       Nueva fila
     </v-btn>
   </v-card>
 
-  <v-card class="ms-2 my-6 pb-5 datos" elevation="0">
+  <v-card class=" my-6 datos" flat>
 
-    <v-table class="tabla">
-      <thead>
-        <tr>
-          <th class="text-left">Cantidad</th>
-          <th class="text-left">
-            N de <br />
-            bultos
-          </th>
-          <th class="text-left">Unidades <br />por bulto</th>
-          <th class="text-left">
-            Total de <br />
-            unidades
-          </th>
-          <th class="text-left">Descripcion del producto</th>
-          <th class="text-left">Supervisado</th>
-          <th v-if="!modificable" class="text-left">Listo</th>
+    <v-table class="tabla border-secondary border-opacity-50 border-sm">
+
+      <thead >
+        <tr >
+          <th class="border-secondary border-opacity-50 border-e-sm border-b-md font-weight-bold">Cantidad</th>
+          <th class="border-secondary border-opacity-50 border-e-sm border-b-md font-weight-bold"> N de <br /> bultos </th>
+          <th class="border-secondary border-opacity-50 border-e-sm border-b-md">Unidades <br />por bulto</th>
+          <th class="border-secondary border-opacity-50 border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
+          <th class="border-secondary border-opacity-50 border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
+          <th class="border-secondary border-opacity-50 border-b-md font-weight-bold">Supervisado</th>
+          <th v-if="!modificable" class="border-secondary border-opacity-50 border-b-md border-s-sm  font-weight-bold">Listo</th>
+
         </tr>
       </thead>
       <draggable
@@ -37,7 +32,7 @@
         <template #item="{ element }">
           <tr :key="String(element.id)">
             <!-- Cantidad -->
-            <td v-if="modificable">
+            <td class="border-e-sm" v-if="modificable">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 name="cantidad"
@@ -49,7 +44,7 @@
             
             <!-- N de Bultos -->
 
-            <td v-if="modificable">
+            <td class="border-e-sm"  v-if="modificable">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 name="nbultos"
@@ -60,7 +55,7 @@
             </td>
             
             <!-- Unidades por bulto -->
-            <td v-if="element.input">
+            <td class="border-e-sm"  v-if="element.input">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 name="product_id"
@@ -69,10 +64,10 @@
                 variant="plain"
               ></v-text-field>
             </td>
-            <td v-else>{{ element.product_id }}</td>
-
+            <td class="border-e-sm" v-else>{{ element.product_id }}</td>
+            
             <!-- Total de unidades -->
-            <td v-if="element.input">
+            <td class="border-e-sm"  v-if="element.input">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 name="quantity"
@@ -81,9 +76,10 @@
                 variant="plain"
               ></v-text-field>
             </td>
-            <td v-else>{{ element.quantity }}</td>
+            <td class="border-e-sm" v-else>{{ element.quantity }}</td>
+            
             <!-- Descripcion -->
-            <td v-if="element.input">
+            <td class="border-e-sm"  v-if="element.input">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 name="name"
@@ -92,9 +88,9 @@
                 variant="plain"
               ></v-text-field>
             </td>
-            <td v-else>{{ element.name }}</td>
+            <td class="border-e-sm" v-else>{{ element.name }}</td>
+            
             <!-- Supervisado -->
-
             <td v-if="element.input">
               <v-text-field
                 @input="onChangeToLocalStorage"
@@ -113,93 +109,35 @@
         </template>
       </draggable>
 
-      <tbody v-else>
+      <tbody v-else >
         <tr v-for="element in order?.line_items" :key="element.name">
-          <!-- Cantidad -->
+            <!-- Cantidad -->
+            <td class="border-e-sm" >{{ element.cantidad }}</td>
+            
+            <!-- N de Bultos -->
+            <td class="border-e-sm" >{{ element.nbultos }}</td>
 
-          <td>{{ element.cantidad }}</td>
-          <!-- N de Bultos -->
+            <!-- Unidades por bulto -->
+            <td class="border-e-sm" >{{ element.product_id }}</td>
+            
+            <!-- Total de unidades -->
+            <td class="border-e-sm" >{{ element.quantity }}</td>
+            <!-- Descripcion -->
+            
+            <td class="border-e-sm" >{{ element.name }}</td>
+            
+            <!-- Supervisado -->
+            <td class="border-e-sm" >{{ element.price }}</td>
 
-          <td>{{ element.nbultos }}</td>
-          <!-- Unidades por bulto -->
-
-          <td>{{ element.product_id }}</td>
-
-          <!-- Total de unidades -->
-          <td>{{ element.quantity }}</td>
-          <!-- Descripcion -->
-          <td>{{ element.name }}</td>
-          <!-- Supervisado -->
-
-          <td>{{ element.price }}</td>
-
-          <td>
-            <v-checkbox v-model="element.checked" hide-details></v-checkbox>
-          </td>
-        </tr>
-      </tbody>
+            <!-- Listo -->
+            <td >
+              <v-checkbox v-model="element.checked" hide-details></v-checkbox>
+            </td>
+          </tr>
+        </tbody>
     </v-table>
 
-    <!-- <tbody>
-        <tr v-for="item in order?.line_items" :key="item.name">
-          <td v-if="modificable">
-            <v-text-field hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else="modificable">{{ item.id }}</td>
-          <td v-if="modificable">
-            <v-text-field hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else="modificable">{{ item.id }}</td>
 
-          <td>{{ item.id }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.price }}</td>
-
-          <td v-if="!modificable"><v-checkbox hide-details></v-checkbox></td>
-          
-        </tr>
-      </tbody> -->
-
-    <!-- <template v-slot:body>
-        <tr :key="props.item.name">
-          <td v-if="modificable">
-            <v-text-field hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.id }}</td>
-
-          <td v-if="modificable">
-            <v-text-field hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.id }}</td>
-
-          <td v-if="props.item.input">
-            <v-text-field v-model="props.item.unidadesPorBulto" hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.id }}</td>
-
-          <td v-if="props.item.input">
-            <v-text-field v-model="props.item.totalUnidades" hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.quantity }}</td>
-
-          <td v-if="props.item.input">
-            <v-text-field v-model="props.item.descripcionProducto" hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.name }}</td>
-
-          <td v-if="props.item.input">
-            <v-text-field v-model="props.item.supervisado" hide-details="auto" variant="plain"></v-text-field>
-          </td>
-          <td v-else>{{ props.item.price }}</td>
-
-          <td v-if="!modificable">
-            <v-checkbox hide-details></v-checkbox>
-          </td>
-        </tr>
-      </template> -->
-    <!--     </v-data-table>
- -->
   </v-card>
 </template>
 
@@ -239,19 +177,6 @@ export default {
   
    
   },
-  data() {
-    return {
-      
-      /* newItem: {
-        cantidad: "",
-        nbultos: "",
-        unidadesPorBulto: "",
-        totalUnidades: "",
-        descripcionProducto: "",
-        supervisado: "",
-        input: true,
-      }, */
-    };
-  },
 };
 </script>
+
