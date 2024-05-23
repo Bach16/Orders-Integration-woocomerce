@@ -36,7 +36,7 @@
 
     <div v-if="orderStore?.ordersLoading">Loading...</div>
     <div v-else class="list-container">
-      <div class="list-item" v-for="item in orderStore?.orders" :key="item.id">
+      <div class="list-item" v-for="item in orderStore?.ordersList" :key="item.id">
         <v-card class="ms-2 pa-3 mb-4 tarjeta" elevation="8">
           <v-row align="center" class="pa-2" no-gutters>
             <v-col cols="8">

@@ -33,6 +33,8 @@
       :newItem="newItem"
       :save="save"
       :onChangeToLocalStorage="onChangeToLocalStorage"
+      :_id="orderStore?.orders[0]?.id"
+      :comments="orderStore?.orders[0]?.comments"
     />
 
     <div class="text-center" @click="save(true)">
@@ -54,7 +56,7 @@ import ProductsOrderTable from "../components/ProductsOrderTable.vue";
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
 import { useRoute } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, watch } from "vue";
 
 export default {
   components: {
@@ -75,7 +77,7 @@ export default {
       newItem: {
         cantidad: "",
         nbultos: "",
-        id: "",
+        product_id: "",
         quantity: "",
         name: "",
         price: "",
@@ -106,7 +108,7 @@ export default {
       const newItem = {
         cantidad: "",
         nbultos: "",
-        id: "",
+        product_id: "",
         quantity: "",
         name: "",
         price: "",
@@ -125,14 +127,14 @@ export default {
       if (!localStorageParsed) {
         localStorage.setItem(
           "order_line_items",
-          JSON.stringify({ [idasd]: orderStore?.orders[0]?.line_items })
+          JSON.stringify({ [idasd]: orderStore?.orders[0] })
         );
       } else {
         localStorage.setItem(
           "order_line_items",
           JSON.stringify({
             ...localStorageParsed,
-            [idasd]: orderStore?.orders[0]?.line_items,
+            [idasd]: orderStore?.orders[0]
           })
         );
       }
@@ -146,17 +148,19 @@ export default {
       }
     });
 
-    /* onUnmounted(() => {
-      if(!localStorageParsed){
-        localStorage.setItem("order_line_items",JSON.stringify({[idasd]:orderStore?.orders[0]?.line_items}));
-
-      }else{
+    watch(
+      () => orderStore.orders,
+      (orders) => {
         localStorage.setItem(
           "order_line_items",
-          JSON.stringify({...localStorageParsed,[idasd]:orderStore?.orders[0]?.line_items})
+          JSON.stringify({
+            ...JSON.parse(localStorage.getItem("order_line_items")),
+            [idasd]: orders[0]
+          })
         );
-      }
-    }); */
+      },
+      { deep: true }
+    );
 
     return {
       orderStore,
