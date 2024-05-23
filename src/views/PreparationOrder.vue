@@ -82,6 +82,7 @@ export default {
         name: "",
         price: "",
         input: true,
+        checked:false
       },
     };
   },
@@ -113,6 +114,7 @@ export default {
         name: "",
         price: "",
         input: true,
+        checked:false
       };
       if (!isSave) {
         orderStore?.orders[0]?.line_items.push({ ...newItem });

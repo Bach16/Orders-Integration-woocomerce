@@ -8,11 +8,8 @@
     </v-btn>
   </v-card>
 
-
   <v-card class="ms-2 my-6 pb-5 datos" elevation="2">
-
     <v-table class="tabla">
-
       <thead>
         <tr>
           <th class="text-left">Cantidad</th>
@@ -28,78 +25,117 @@
           <th class="text-left">Descripcion del producto</th>
           <th class="text-left">Supervisado</th>
           <th v-if="!modificable" class="text-left">Listo</th>
-
         </tr>
       </thead>
-      <draggable v-if="modificable" :list="order?.line_items" tag="tbody" item-key="id">
+      <draggable
+        v-if="modificable"
+        :list="order?.line_items"
+        tag="tbody"
+        item-key="id"
+      >
         <template #item="{ element }">
-          <tr :key="element.id">
+          <tr :key="String(element.id)">
             <!-- Cantidad -->
             <td v-if="modificable">
-              <v-text-field @input="onChangeToLocalStorage" name="cantidad" v-model="element.cantidad" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field
+                @input="onChangeToLocalStorage"
+                name="cantidad"
+                v-model="element.cantidad"
+                hide-details="auto"
+                variant="plain"
+              ></v-text-field>
             </td>
             <td v-else>{{ element.cantidad }}</td>
             <!-- N de Bultos -->
 
             <td v-if="modificable">
-              <v-text-field @input="onChangeToLocalStorage" name="nbultos" v-model="element.nbultos" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field
+                @input="onChangeToLocalStorage"
+                name="nbultos"
+                v-model="element.nbultos"
+                hide-details="auto"
+                variant="plain"
+              ></v-text-field>
             </td>
             <td v-else>{{ element.nbultos }}</td>
             <!-- Unidades por bulto -->
             <td v-if="element.input">
-              <v-text-field @input="onChangeToLocalStorage" name="product_id" v-model="element.product_id" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field
+                @input="onChangeToLocalStorage"
+                name="product_id"
+                v-model="element.product_id"
+                hide-details="auto"
+                variant="plain"
+              ></v-text-field>
             </td>
             <td v-else>{{ element.product_id }}</td>
-            
+
             <!-- Total de unidades -->
             <td v-if="element.input">
-              <v-text-field @input="onChangeToLocalStorage" name="quantity" v-model="element.quantity" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field
+                @input="onChangeToLocalStorage"
+                name="quantity"
+                v-model="element.quantity"
+                hide-details="auto"
+                variant="plain"
+              ></v-text-field>
             </td>
             <td v-else>{{ element.quantity }}</td>
             <!-- Descripcion -->
             <td v-if="element.input">
-              <v-text-field @input="onChangeToLocalStorage" name="name" v-model="element.name" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field
+                @input="onChangeToLocalStorage"
+                name="name"
+                v-model="element.name"
+                hide-details="auto"
+                variant="plain"
+              ></v-text-field>
             </td>
             <td v-else>{{ element.name }}</td>
             <!-- Supervisado -->
 
             <td v-if="element.input">
-              <v-text-field @input="onChangeToLocalStorage" name="price" v-model="element.price" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field
+                @input="onChangeToLocalStorage"
+                name="price"
+                v-model="element.price"
+                hide-details="auto"
+                variant="plain"
+              ></v-text-field>
             </td>
             <td v-else>{{ element.price }}</td>
 
             <td v-if="!modificable">
-              <v-checkbox  v-model="element.listo" hide-details></v-checkbox>
+              <v-checkbox v-model="element.checked" hide-details></v-checkbox>
             </td>
           </tr>
         </template>
       </draggable>
       <tbody v-else>
         <tr v-for="element in order?.line_items" :key="element.name">
-            <!-- Cantidad -->
-            
-            <td >{{ element.cantidad }}</td>
-            <!-- N de Bultos -->
+          <!-- Cantidad -->
 
-            
-            <td >{{ element.nbultos }}</td>
-            <!-- Unidades por bulto -->
-            
-            <td >{{ element.product_id }}</td>
-            
-            <!-- Total de unidades -->
-            <td>{{ element.quantity }}</td>
-            <!-- Descripcion -->
-            <td >{{ element.name }}</td>
-            <!-- Supervisado -->
+          <td>{{ element.cantidad }}</td>
+          <!-- N de Bultos -->
 
-            <td >{{ element.price }}</td>
+          <td>{{ element.nbultos }}</td>
+          <!-- Unidades por bulto -->
 
-            <td >
-              <v-checkbox v-model="element.listo" hide-details></v-checkbox>
-            </td>
-          </tr>
-        </tbody>
+          <td>{{ element.product_id }}</td>
+
+          <!-- Total de unidades -->
+          <td>{{ element.quantity }}</td>
+          <!-- Descripcion -->
+          <td>{{ element.name }}</td>
+          <!-- Supervisado -->
+
+          <td>{{ element.price }}</td>
+
+          <td>
+            <v-checkbox v-model="element.checked" hide-details></v-checkbox>
+          </td>
+        </tr>
+      </tbody>
     </v-table>
 
     <!-- <tbody>
@@ -166,19 +202,40 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import draggable from "vuedraggable";
+import { useOrdersStore } from "../stores/Orders";
+import { useRoute } from "vue-router";
+const orderStore = useOrdersStore();
+
+
+
 export default {
-  props: ["order", "modificable","newItem","save","onChangeToLocalStorage"],
+  props: ["order", "modificable", "newItem", "save", "onChangeToLocalStorage"],
+  setup() {
+    watch(
+      () => orderStore.orders,
+      (orders) => {
+        localStorage.setItem(
+          "order_line_items",
+          JSON.stringify({
+            ...JSON.parse(localStorage.getItem("order_line_items")),
+            [orders[0].id]: orders[0],
+          })
+        );
+      },
+      { deep: true }
+    );
+  },
   components: {
     draggable,
-  }, 
+  },
   methods: {
     callModifyObject() {
       this.save();
-    }
-  
-   /*  save() {
+    },
+
+    /*  save() {
       this.newItem = {
         cantidad:"",
         nombre: "",

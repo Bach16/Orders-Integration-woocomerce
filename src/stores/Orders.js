@@ -28,7 +28,11 @@ export const useOrdersStore = defineStore("orders", {
           localStorage.getItem("order_line_items")
         );
         const url = id.length ? `${BASE_URL}?include=${id}` : BASE_URL;
-        const response = await axios.get(url, AUTH_HEADER);
+        let response = await axios.get(url, AUTH_HEADER);
+
+        if (response.data[0]?.line_items) {
+          response.data[0].line_items = response.data[0]?.line_items.map((e) => {return { ...e, checked: false };})
+        }
 
         if (path === "searchOrder") {
           this.ordersList = response.data;
