@@ -1,13 +1,13 @@
 <template>
   <v-container class="mx-lg-16 mx-2 container">
-    <v-row class="pa-6 align-center justify-start" no-gutters>
+    <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <RouterLink
           :to="{ name: 'searchOrder',}"
         >
           <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a">
-            <v-icon icon="mdi-arrow-left-bold-circle-outline" start></v-icon>
-            <p class="">Regresar</p>
+            <v-icon icon="mdi-arrow-left-bold-circle-outline" color="primary" start></v-icon>
+            <p class="text-primary" pink>Regresar</p>
           </div>
         </RouterLink>
       </v-col>
@@ -16,8 +16,9 @@
           <h1>Preparación de Pedido</h1>
         </v-sheet>
       </v-col>
-      <v-col cols="12" md="3" >
-        <h3 class="text-start">Nº de proceso</h3>
+      <v-col cols="12" md="4" >
+        <h2 class="text-start">Nº de factura {{ orderStore?.orders[0]?.id }}</h2>
+        
       </v-col>
     </v-row>
 
@@ -28,6 +29,7 @@
       :modificable="true"
       v-if="orderStore?.ordersLoading"
     />
+
     <ProductsOrderTable
       v-else
       :order="orderStore?.orders[0]"
@@ -188,7 +190,7 @@ export default {
 .datos {
   display: flex;
   justify-content: center;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 .datostxt {

@@ -90,11 +90,13 @@ export default {
 </script>
 
 <style>
+h1 {
+  color: #263D8D;
+  text-transform: uppercase;
+}
 
-
-h1,
 h2 {
-  color: #263d8d;
+  color: #263D8D;
 }
 
 p {
@@ -107,7 +109,6 @@ p {
   min-height: 100vh;
 
 }
-
 
 .tarjeta {
   display: flex;

@@ -1,24 +1,22 @@
 <template>
-  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center border-sm">
-    <v-card-title class="font-weight-bold"> Pedido {{ order?.id }} </v-card-title>
-    <v-spacer> </v-spacer>
-    <v-btn class="mr-9" color="primary" dark @click="callModifyObject">
-      Nueva fila
-    </v-btn>
+  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md">
+    <p class="font-weight-bold"> Agregar una fila </p>
+    <v-spacer />
+    <v-icon icon="mdi-plus-circle-outline" color="primary" start  @click="callModifyObject"></v-icon>
   </v-card>
 
-  <v-card class=" my-6 datos" flat>
+  <v-card class=" my-6 ms-2 datos" flat>
 
-    <v-table class="tabla border-secondary border-opacity-50 border-sm">
+    <v-table class="tabla border-primary border-opacity-50 border-md">
 
       <thead >
         <tr >
-          <th class="border-secondary border-opacity-50 border-e-sm border-b-md font-weight-bold">Cantidad</th>
-          <th class="border-secondary border-opacity-50 border-e-sm border-b-md font-weight-bold"> N de <br /> bultos </th>
-          <th class="border-secondary border-opacity-50 border-e-sm border-b-md">Unidades <br />por bulto</th>
-          <th class="border-secondary border-opacity-50 border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
-          <th class="border-secondary border-opacity-50 border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
-          <th class="border-secondary border-opacity-50 border-b-md font-weight-bold">Supervisado</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Cantidad</th>
+          <th class="border-e-sm border-b-md font-weight-bold"> N de <br /> bultos </th>
+          <th class="border-e-sm border-b-md font-weight-bold">Unidades <br />por bulto</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
+          <th class="border-b-md font-weight-bold">Supervisado</th>
           <th v-if="!modificable" class="border-secondary border-opacity-50 border-b-md border-s-sm  font-weight-bold">Listo</th>
 
         </tr>
