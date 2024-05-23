@@ -1,12 +1,22 @@
 <template>
   <v-container class="container">
     <v-row align="center" class="pa-6" no-gutters>
-      <v-col cols="8">
+      <v-col cols="12">
+        <RouterLink
+          :to="{ name: 'searchOrder',}"
+        >
+          <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a">
+            <v-icon icon="mdi-arrow-left-bold-circle-outline" start></v-icon>
+            <p class="">Regresar</p>
+          </div>
+        </RouterLink>
+      </v-col>
+      <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
           <h1>Preparación de Pedido</h1>
         </v-sheet>
       </v-col>
-      <v-col cols="3" offset="1">
+      <v-col cols="12" md="3" offset-md="1">
         <p>Nº de proceso</p>
       </v-col>
     </v-row>
@@ -68,6 +78,7 @@ export default {
   methods: {
     onClick() {
       this.$router.push("/sendOrder");
+      this.$router.push("/sendOrder");
     },
 
     navigate() {},
@@ -78,13 +89,14 @@ export default {
         cantidad: "",
         nbultos: "",
         product_id: "",
+        product_id: "",
         quantity: "",
         name: "",
         price: "",
         input: true,
-        checked:false
-      },
-    };
+        checked:false      
+    }
+    }
   },
   setup() {
     const orderStore = useOrdersStore();
@@ -92,10 +104,9 @@ export default {
     const ruta = route?.path?.split("/");
 
     //---------------update order-----------------
-    const body = {
-      status: "completed",
-    };
+    
     const idasd = route.params.id;
+      
 
     const orderSearch = () => {
       orderStore.updateOrder(idasd.value, body);
@@ -166,7 +177,6 @@ export default {
 
     return {
       orderStore,
-      body,
       save,
       onChangeToLocalStorage,
     };
@@ -189,4 +199,32 @@ export default {
 .tabla {
   width: 100%;
 }
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+
+}
+
+a:hover {
+  text-decoration: none;
+  color: inherit;
+
+}
+
+a:active {
+  text-decoration: none;
+  color: inherit;
+
+}
+
+.v-table{
+  border: 1px solid black;}
+
 </style>

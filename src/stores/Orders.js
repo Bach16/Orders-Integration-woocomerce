@@ -1,13 +1,13 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-const BASE_URL = "https://bimwebsite.com/naturaeh/wp-json/wc/v3/orders";
+const BASE_URL = import.meta.env.VITE_ECOMMERCE_URL;
 const AUTH_HEADER = {
   headers: {
     Authorization:
       "Basic " +
       btoa(
-        "ck_b381e199ec8ac5ca77257a5aeba21c62f8492ae2:cs_5378a078b9c6e78beca3d4ad6e1804fed3924d49"
+        `${import.meta.env.VITE_ECOMMERCE_USERNAME}:${import.meta.env.VITE_ECOMMERCE_PASSWORD}`
       ),
   },
 };
