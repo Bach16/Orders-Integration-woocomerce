@@ -12,7 +12,6 @@
     "axios": "^1.7.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
-    "vue-draggable-plus": "^0.4.1",
     "vue-html-to-paper": "^2.0.3",
     "vue-router": "^4.3.2",
     "vuedraggable": "^4.1.0",

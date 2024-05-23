@@ -1,7 +1,7 @@
 <template>
-  <v-container class="container">
+  <v-container class="mx-lg-16 mx-2 container">
     <div id="printMe">
-    <v-row align="center" class="pa-6" no-gutters>
+    <v-row align="center" class="pa-6 d-print-none" no-gutters>
       <v-col cols="12">
         <RouterLink
           :to="{ name: 'preparationOrder',}"
@@ -27,18 +27,8 @@
     <!-- Tabla -->
     <ProductsOrderTableSkeleton :modificable="false" v-if="orderStore?.ordersLoading" />
     <ProductsOrderTable v-else :order="orderStore?.orders[0]" :modificable="false"/>
-
-
-      <!-- <div>
-        <v-checkbox
-          v-for="item in desserts"
-          :key="item.name"
-          hide-details
-          vertical
-        ></v-checkbox>
-      </div> -->
-
       <OrderTableFooter :order="orderStore?.orders[0]" :modificable="false" />
+      
   </div>
 
     <div class="text-center">
@@ -110,5 +100,6 @@ a:link {
   color: inherit;
 
 }
+
 </style>
 
