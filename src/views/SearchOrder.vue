@@ -94,7 +94,7 @@ export default {
 
 h1,
 h2 {
-  color: #1565c0;
+  color: #263d8d;
 }
 
 p {
@@ -102,11 +102,10 @@ p {
 }
 
 .container {
-  background-color: #e3f2fd;
+  background-color: #DBE1E9;
   height: auto;
   min-height: 100vh;
-  
-  
+
 }
 
 

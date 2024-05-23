@@ -53,8 +53,12 @@ const vuetify = createVuetify({
       light:{
         dark: false,
         colors: {
-          primary: '#01579B',
-          secondary: '#37474F'
+          primary: '#263D8D',
+          secondary: '#8693BF',
+          background: 'DBE1E9'
+        },
+        variables: {
+          'border-color': '#000000',
         }
       }
     }
