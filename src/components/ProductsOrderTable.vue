@@ -36,40 +36,40 @@
           <tr :key="element.name">
             <!-- Cantidad -->
             <td v-if="modificable">
-              <v-text-field v-model="element.cantidad" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field @input="onChangeToLocalStorage" name="cantidad" v-model="element.cantidad" hide-details="auto" variant="plain"></v-text-field>
             </td>
             <td v-else>{{ element.cantidad }}</td>
             <!-- N de Bultos -->
 
             <td v-if="modificable">
-              <v-text-field v-model="element.nbultos" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field @input="onChangeToLocalStorage" name="nbultos" v-model="element.nbultos" hide-details="auto" variant="plain"></v-text-field>
             </td>
             <td v-else>{{ element.nbultos }}</td>
             <!-- Unidades por bulto -->
             <td v-if="element.input">
-              <v-text-field v-model="element.id" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field @input="onChangeToLocalStorage" name="id" v-model="element.id" hide-details="auto" variant="plain"></v-text-field>
             </td>
             <td v-else>{{ element.id }}</td>
             
             <!-- Total de unidades -->
             <td v-if="element.input">
-              <v-text-field v-model="element.quantity" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field @input="onChangeToLocalStorage" name="quantity" v-model="element.quantity" hide-details="auto" variant="plain"></v-text-field>
             </td>
             <td v-else>{{ element.quantity }}</td>
             <!-- Descripcion -->
             <td v-if="element.input">
-              <v-text-field v-model="element.name" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field @input="onChangeToLocalStorage" name="name" v-model="element.name" hide-details="auto" variant="plain"></v-text-field>
             </td>
             <td v-else>{{ element.name }}</td>
             <!-- Supervisado -->
 
             <td v-if="element.input">
-              <v-text-field v-model="element.price" hide-details="auto" variant="plain"></v-text-field>
+              <v-text-field @input="onChangeToLocalStorage" name="price" v-model="element.price" hide-details="auto" variant="plain"></v-text-field>
             </td>
             <td v-else>{{ element.price }}</td>
 
             <td v-if="!modificable">
-              <v-checkbox v-model="element.listo" hide-details></v-checkbox>
+              <v-checkbox  v-model="element.listo" hide-details></v-checkbox>
             </td>
           </tr>
         </template>
@@ -77,40 +77,25 @@
       <tbody v-else>
         <tr v-for="element in order?.line_items" :key="element.name">
             <!-- Cantidad -->
-            <td v-if="modificable">
-              <v-text-field v-model="element.cantidad" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.cantidad }}</td>
+            
+            <td >{{ element.cantidad }}</td>
             <!-- N de Bultos -->
 
-            <td v-if="modificable">
-              <v-text-field v-model="element.nbultos" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.nbultos }}</td>
+            
+            <td >{{ element.nbultos }}</td>
             <!-- Unidades por bulto -->
-            <td v-if="element.input">
-              <v-text-field v-model="element.id" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.id }}</td>
+            
+            <td >{{ element.id }}</td>
             
             <!-- Total de unidades -->
-            <td v-if="element.input">
-              <v-text-field v-model="element.quantity" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.quantity }}</td>
+            <td>{{ element.quantity }}</td>
             <!-- Descripcion -->
-            <td v-if="element.input">
-              <v-text-field v-model="element.name" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.name }}</td>
+            <td >{{ element.name }}</td>
             <!-- Supervisado -->
 
-            <td v-if="element.input">
-              <v-text-field v-model="element.price" hide-details="auto" variant="plain"></v-text-field>
-            </td>
-            <td v-else>{{ element.price }}</td>
+            <td >{{ element.price }}</td>
 
-            <td v-if="!modificable">
+            <td >
               <v-checkbox v-model="element.listo" hide-details></v-checkbox>
             </td>
           </tr>
@@ -183,9 +168,8 @@
 <script>
 import { ref } from "vue";
 import draggable from "vuedraggable";
-
 export default {
-  props: ["order", "modificable","newItem","save","isInput"],
+  props: ["order", "modificable","newItem","save","onChangeToLocalStorage"],
   components: {
     draggable,
   }, 

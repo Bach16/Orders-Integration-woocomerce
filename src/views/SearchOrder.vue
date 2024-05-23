@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { useRoute } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { ref } from "vue";
 
@@ -71,10 +72,12 @@ export default {
   
   setup() {
     const orderStore = useOrdersStore();
+    const route = useRoute();
+    const ruta = route?.path?.split("/");
+
     const id = ref("");
     const orderSearch = () => {
-        console.log(id.value)
-      orderStore.getOrders(id.value);
+      orderStore.getOrders(id.value,ruta[1]);
     };
 
     return {
