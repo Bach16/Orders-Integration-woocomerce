@@ -25,7 +25,8 @@
     <OrderInfo :order="orderStore?.orders[0]" />
 
     <!-- Tabla -->
-    <ProductsOrderTable :order="orderStore?.orders[0]" :modificable="false" isInput="false"/>
+    <ProductsOrderTableSkeleton :modificable="false" v-if="orderStore?.ordersLoading" />
+    <ProductsOrderTable v-else :order="orderStore?.orders[0]" :modificable="false"/>
 
 
       <!-- <div>
@@ -37,38 +38,7 @@
         ></v-checkbox>
       </div> -->
 
-    <v-row align-center no-gutters>
-      <v-col cols="6">
-        <v-card class="ms-2 py-6 datos" height="70px" elevation="2">
-          <p>Observaciones</p>
-          <p class="ml-10">-------------</p>
-        </v-card>
-      </v-col>
-      <v-col cols="6">
-        <v-card class="ms-2 datos" elevation="2">
-          <v-row class="pa-4" no-gutters>
-            <!-- Totales -->
-            <v-col cols="6">
-              <v-sheet class="pa-2">
-                <span>Totales</span>
-              </v-sheet>
-            </v-col>
-
-            <v-divider
-              class="border-opacity-50"
-              length="100px"
-              vertical
-            ></v-divider>
-
-            <v-col cols="4">
-              <v-sheet class="pa-2">
-                <p class="text-right">0.00</p>
-              </v-sheet>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
+      <OrderTableFooter :order="orderStore?.orders[0]" :modificable="false" />
   </div>
 
     <div class="text-center">
@@ -91,9 +61,11 @@ import { useRoute } from 'vue-router';
 import { useOrdersStore } from '../stores/Orders';
 import { onMounted } from 'vue';
 import ProductsOrderTable from '../components/ProductsOrderTable.vue';
+import OrderTableFooter from '../components/OrderTableFooter.vue';
+import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
 
 export default {
-  components: { OrderInfo,ProductsOrderTable },
+  components: { OrderInfo,ProductsOrderTable,OrderTableFooter,ProductsOrderTableSkeleton },
   methods: {
     print () {
       // Pass the element id here
@@ -107,11 +79,6 @@ export default {
     navigate() {},
   },
 
-  data() {
-    return {
-      
-    };
-  },
   setup() {
     const route = useRoute()
     const orderStore = useOrdersStore()
@@ -119,18 +86,15 @@ export default {
       status: "completed"
     }
     const idasd = route.params.id
-
-
-    console.log(orderStore?.orders[0]);
-
-    /* if (orderStore?.orders[0]?.id !== route.params.id) {
-      onMounted(() => {
-        const id = route.params.id
+    const ruta = route?.path?.split("/");
+    onMounted(() => {
+      if (orderStore?.orders[0]?.id !== route.params.id) {
+        const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id)
+          orderStore.getOrders(id, ruta[1]);
         }
-      })
-    } */
+      }
+    });
 
     return {
       orderStore,
