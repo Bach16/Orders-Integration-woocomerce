@@ -15,6 +15,8 @@
             variant="outlined"
             height="56"
             class="search-input"
+            type="text"
+            @input="filterInput"
           />
           <v-btn
             color="primary"
@@ -76,22 +78,27 @@ export default {
     const ruta = route?.path?.split("/");
 
     const id = ref("");
+
+    const filterInput = (event) => {
+      const value = event.target.value.replace(/[^0-9]/g, '');
+      id.value = value;
+    };
+
     const orderSearch = () => {
-      orderStore.getOrders(id.value,ruta[1]);
+      orderStore.getOrders(id.value, ruta[1]);
     };
 
     return {
       orderSearch,
       orderStore,
       id,
+      filterInput,
     };
   },
 };
 </script>
 
 <style>
-
-
 h1,
 h2 {
   color: #263d8d;
@@ -105,9 +112,7 @@ p {
   background-color: #DBE1E9;
   height: auto;
   min-height: 100vh;
-
 }
-
 
 .tarjeta {
   display: flex;
