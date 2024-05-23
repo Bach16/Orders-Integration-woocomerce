@@ -1,5 +1,5 @@
 <template>
-  <v-container class="container">
+  <v-container class="mx-lg-16 mx-2 container">
     <v-row align="center" class="pa-6" no-gutters>
       <v-col cols="12">
         <RouterLink

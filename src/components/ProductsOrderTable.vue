@@ -1,6 +1,6 @@
 <template>
-  <v-card v-if="modificable"  class="ms-2 my-6 pa-4 datos align-center">
-    <v-card-title> Pedido {{ order?.id }} </v-card-title>
+  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center">
+    <v-card-title class="font-weight-bold"> Pedido {{ order?.id }} </v-card-title>
     <v-spacer> </v-spacer>
 
     <v-btn class="mr-2" color="primary" dark @click="callModifyObject">
@@ -15,19 +15,13 @@
 
       <thead>
         <tr>
-          <th class="text-left">Cantidad</th>
-          <th class="text-left">
-            N de <br />
-            bultos
-          </th>
-          <th class="text-left">Unidades <br />por bulto</th>
-          <th class="text-left">
-            Total de <br />
-            unidades
-          </th>
-          <th class="text-left">Descripcion del producto</th>
-          <th class="text-left">Supervisado</th>
-          <th v-if="!modificable" class="text-left">Listo</th>
+          <th class="font-weight-bold">Cantidad</th>
+          <th class="font-weight-bold"> N de <br /> bultos </th>
+          <th class="font-weight-bold">Unidades <br />por bulto</th>
+          <th class="font-weight-bold">Total de <br />unidades</th>
+          <th class="font-weight-bold">Descripcion del producto</th>
+          <th class="font-weight-bold">Supervisado</th>
+          <th v-if="!modificable" class="font-weight-bold">Listo</th>
 
         </tr>
       </thead>
