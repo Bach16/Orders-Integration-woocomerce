@@ -1,6 +1,6 @@
 <template>
   <v-container class="mx-lg-16 mx-2 container">
-    <v-row align="center" class="pa-6" no-gutters>
+    <v-row class="pa-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <RouterLink
           :to="{ name: 'searchOrder',}"
@@ -16,8 +16,8 @@
           <h1>Preparación de Pedido</h1>
         </v-sheet>
       </v-col>
-      <v-col cols="12" md="3" offset-md="1">
-        <p>Nº de proceso</p>
+      <v-col cols="12" md="3" >
+        <h3 class="text-start">Nº de proceso</h3>
       </v-col>
     </v-row>
 

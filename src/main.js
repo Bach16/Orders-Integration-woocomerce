@@ -48,6 +48,17 @@ const vuetify = createVuetify({
       mdi,
     },
   },
+  theme: {
+    themes:{
+      light:{
+        dark: false,
+        colors: {
+          primary: '#01579B',
+          secondary: '#37474F'
+        }
+      }
+    }
+  }
 })
 
 const routes = [
