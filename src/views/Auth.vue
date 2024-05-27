@@ -1,69 +1,66 @@
 <template>
-  <v-row class="fill-height">
-    <v-col cols="12" lg="6" md="8" sm="10">
-      <v-card ref="form" class="pa-4 mx-2">
-        <h1 class="text-center pa-2">Empresa Logo</h1>
-        <v-form class="text-center">
-          <v-container fluid>
-            <v-row align="center" justify="center">
-              <v-col cols="12" sm="10" md="8">
+  <v-container class="mx-lg-16 mx-2">
+    <div class="login">
+      <v-row no-gutters class="card2">
+        <v-col cols="12" class="mb-6">
+          <h1 class="font-weight-bold text-primary text-uppercase">
+            Inicio de Sesión
+          </h1>
+        </v-col>
+        <v-col>
+          <v-card class="rounded-xl pa-16">
+            <v-row>
+              <v-col cols="12">
+                <h2 class="text-primary font-weight-bold mb-1">Usuario</h2>
                 <v-text-field
-                  label="User"
-                  hide-details
+                  class="mb-2"
                   :rules="[rules.required]"
+                  density="compact"
+                  placeholder="Email"
+                  prepend-inner-icon="mdi-account-circle"
+                  variant="outlined"
                 ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row align="center" justify="center">
-              <v-col cols="12" sm="10" md="8">
+                <h2 class="text-primary font-weight-bold mb-1">Contraseña</h2>
                 <v-text-field
-                  :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                  class="mb-2"
                   :rules="[rules.required]"
-                  :type="show2 ? 'text' : 'password'"
-                  label="Password"
-                  name="input-10-2"
-                  hide-details
-                  @click:append="show2 = !show2"
+                  :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+                  :type="visible ? 'text' : 'password'"
+                  density="compact"
+                  placeholder="Ingresa tu contraseña"
+                  prepend-inner-icon="mdi-lock-outline"
+                  variant="outlined"
+                  @click:append-inner="visible = !visible"
                 ></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-form>
 
-        <v-divider class="mt-4"></v-divider>
-        <v-card-actions class="d-flex justify-end">
-          <v-tooltip v-if="formHasErrors" location="left">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                class="my-0"
-                icon
-                v-bind="attrs"
-                v-on="on"
-                @click="resetForm"
-              >
-                <v-icon>mdi-refresh</v-icon>
-              </v-btn>
-            </template>
-            <span>Refresh form</span>
-          </v-tooltip>
-          <RouterLink
-            :to="{ name: 'searchOrder' }"
-          >
-            <v-btn color="primary" variant="text" @click="submit">
-              Ingresar
-            </v-btn>
-          </RouterLink>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+                <v-card-actions class="d-flex justify-center">
+                  <RouterLink :to="{ name: 'searchOrder' }">
+                    <v-btn
+                      hide-details
+                      class="px-8 rounded-lg"
+                      color="primary"
+                      size="large"
+                      @click="submit"
+                      variant="flat"
+                    >
+                      Iniciar Sesión
+                    </v-btn>
+                  </RouterLink>
+                </v-card-actions>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      show2: false,
+      visible: false,
       rules: {
         required: (value) => !!value || "Required.",
       },
@@ -73,17 +70,15 @@ export default {
 </script>
 
 <style>
-.fill-height {
-  min-height: 100vh;
+.login {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 90vh;
 }
-.mt-4 {
-  margin-top: 16px;
-}
-.mx-2 {
-  margin-left: 8px;
-  margin-right: 8px;
+
+.card2 {
+  max-width: 800px; /* Puedes ajustar este valor según tus necesidades */
+  width: 100%; /* Asegura que el contenido dentro de la tarjeta se ajuste al tamaño */
 }
 </style>

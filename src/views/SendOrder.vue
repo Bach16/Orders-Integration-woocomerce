@@ -60,13 +60,7 @@ export default {
     print () {
       // Pass the element id here
       this.$htmlToPaper('printMe');
-    },
-    onClick() {
-      this.$router.push('/deliveredOrder');
-      
-    },
-
-    navigate() {},
+    }
   },
 
   setup() {
