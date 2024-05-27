@@ -15,6 +15,7 @@
           <th class="border-e-sm border-b-md font-weight-bold"> N de <br /> bultos </th>
           <th class="border-e-sm border-b-md font-weight-bold">Unidades <br />por bulto</th>
           <th class="border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Varios</th>
           <th class="border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
           <th class="border-b-md font-weight-bold">Supervisado</th>
           <th v-if="!modificable" class="border-b-md border-s-sm  font-weight-bold">Listo</th>
@@ -33,16 +34,17 @@
         <template #item="{ element, index }">
           <tr :key="String(element.id)" class="drag-handle ">
             <!-- Cantidad -->
-            <td class="border-e-sm" v-if="modificable">
+            <td class="border-e-sm" v-if="element.input">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 @keypress="onlyNumbers($event)"
-                name="cantidad"
-                v-model="element.cantidad"
+                name="product_id"
+                v-model="element.product_id"
                 hide-details="auto"
                 variant="plain"
               ></v-text-field>
             </td>
+            <td class="border-e-sm" v-else>{{ element.product_id }}</td>
 
             <!-- N de Bultos -->
             <td class="border-e-sm" v-if="modificable">
@@ -57,30 +59,42 @@
             </td>
 
             <!-- Unidades por bulto -->
-            <td class="border-e-sm" v-if="element.input">
+            <td class="border-e-sm" v-if="modificable">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 @keypress="onlyNumbers($event)"
-                name="product_id"
-                v-model="element.product_id"
+                name="unidbultos"
+                v-model="element.unidbultos"
                 hide-details="auto"
                 variant="plain"
               ></v-text-field>
             </td>
-            <td class="border-e-sm" v-else>{{ element.product_id }}</td>
+            
 
             <!-- Total de unidades -->
-            <td class="border-e-sm" v-if="element.input">
+            <td class="border-e-sm" v-if="modificable">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 @keypress="onlyNumbers($event)"
-                name="quantity"
-                v-model="element.quantity"
+                name="totalunidades"
+                v-model="element.totalunidades"
                 hide-details="auto"
                 variant="plain"
               ></v-text-field>
             </td>
-            <td class="border-e-sm" v-else>{{ element.quantity }}</td>
+           <!--  <td class="border-e-sm" v-else>{{ element.quantity }}</td> -->
+
+           <!-- Varios -->
+            <td class="border-e-sm" v-if="modificable">
+              <v-text-field
+                @input="onChangeToLocalStorage"
+                @keypress="onlyNumbers($event)"
+                name="varios"
+                v-model="element.varios"
+                hide-details="auto"
+                variant="plain"
+              ></v-text-field>
+            </td>
 
             <!-- Descripcion -->
             <td class="border-e-sm" v-if="element.input">
@@ -114,16 +128,19 @@
       <tbody v-else>
         <tr v-for="element in order?.line_items" :key="element.name">
           <!-- Cantidad -->
-          <td class="border-e-sm">{{ element.cantidad }}</td>
+          <td class="border-e-sm">{{ element.product_id }}</td>
 
           <!-- N de Bultos -->
           <td class="border-e-sm">{{ element.nbultos }}</td>
 
           <!-- Unidades por bulto -->
-          <td class="border-e-sm">{{ element.product_id }}</td>
+          <td class="border-e-sm">{{ element.unidbultos }}</td>
 
           <!-- Total de unidades -->
-          <td class="border-e-sm">{{ element.quantity }}</td>
+          <td class="border-e-sm">{{ element.totalunidades }}</td>
+
+          <!-- Varios -->
+          <td class="border-e-sm">{{ element.varios }}</td>
           
           <!-- Descripcion -->
           <td class="border-e-sm">{{ element.name }}</td>

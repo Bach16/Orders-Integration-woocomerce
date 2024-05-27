@@ -88,21 +88,22 @@ export default {
     DeleteTableButton,
   },
   methods: {
-    onClick() {
+   /*  onClick() {
       this.$router.push("/sendOrder");
       this.$router.push("/sendOrder");
-    },
+    }, */
 
-    navigate() {},
+    
   },
   data() {
     return {
       newItem: {
         id: String(Date.now()).slice(-7),
-        cantidad: "",
-        nbultos: "",
         product_id: "",
-        quantity: "",
+        nbultos: "",
+        unidbultos: "",
+        totalunidades: "",
+        varios: "",
         name: "",
         price: "",
         input: true,
@@ -130,10 +131,11 @@ export default {
         localStorage.getItem("order_line_items")
       );
       const newItem = {
-        cantidad: "",
-        nbultos: "",
         product_id: "",
-        quantity: "",
+        nbultos: "",
+        unidbultos: "",
+        totalunidades: "",
+        varios: "",
         name: "",
         price: "",
         input: true,
