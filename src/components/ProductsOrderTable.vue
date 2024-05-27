@@ -20,9 +20,17 @@
           <th v-if="!modificable" class="border-secondary border-opacity-50 border-b-md border-s-sm font-weight-bold">Listo</th>
         </tr>
       </thead>
-      <draggable v-if="modificable" :list="order?.line_items" tag="tbody" item-key="id">
-        <template #item="{ element }">
-          <tr :key="String(element.id)">
+      <draggable
+        v-if="modificable"
+        :list="order?.line_items"
+        tag="tbody"
+        item-key="id"
+        animation="200"
+        ghost-class="drag-ghost"
+        handle=".drag-handle"
+      >
+        <template #item="{ element, index }">
+          <tr :key="String(element.id)" class="drag-handle ">
             <!-- Cantidad -->
             <td class="border-e-sm" v-if="modificable">
               <v-text-field
@@ -174,3 +182,34 @@ export default {
   }
 };
 </script>
+
+<style>
+.drag-ghost {
+  opacity: 0.035;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Agrega un sombreado a la fila arrastrada */
+  border: 2px solid #ddd; /* Añade un borde alrededor de la fila arrastrada */
+  background-color: rgb(0, 68, 255);
+}
+
+.drag-handle {
+  cursor: move !important; /* Forzar cursor a icono de movimiento */
+}
+
+.drag-handle:active {
+  cursor: move !important; /* Asegurar que el icono de movimiento se muestra mientras se arrastra */
+}
+
+/* Aplicar a todo el componente draggable para asegurar que no parpadee el cursor */
+.draggable-item {
+  cursor: move !important; 
+}
+
+/* Transición de animación */
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+</style>
