@@ -1,10 +1,8 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 container">
+  <v-container class="mx-lg-16 container">
     <v-row class="pa-6 align-center justify-start" no-gutters>
       <v-col cols="12">
-        <RouterLink
-          :to="{ name: 'searchOrder',}"
-        >
+        <RouterLink :to="{ name: 'searchOrder' }">
           <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a">
             <v-icon icon="mdi-arrow-left-bold-circle-outline" start></v-icon>
             <p class="">Regresar</p>
@@ -16,7 +14,7 @@
           <h1>Preparación de Pedido</h1>
         </v-sheet>
       </v-col>
-      <v-col cols="12" md="3" >
+      <v-col cols="12" md="3">
         <h3 class="text-start">Nº de proceso</h3>
       </v-col>
     </v-row>
@@ -28,14 +26,25 @@
       :modificable="true"
       v-if="orderStore?.ordersLoading"
     />
-    <ProductsOrderTable
-      v-else
-      :order="orderStore?.orders[0]"
-      :modificable="true"
-      :newItem="newItem"
-      :save="save"
-      :onChangeToLocalStorage="onChangeToLocalStorage"
-    />
+    <div class="d-flex sad" v-else>
+      <div class="table-container">
+        <ProductsOrderTable
+          :order="orderStore?.orders[0]"
+          :modificable="true"
+          :newItem="newItem"
+          :save="save"
+          :onChangeToLocalStorage="onChangeToLocalStorage"
+        />
+      </div>
+      <div  class=" py-4 px-2">
+        <div class="top-container"></div>
+        <div v-for="item in orderStore?.orders[0]?.line_items" :key="item.id" class="d-flex flex-column">
+          {{ console.log(item.id)}}
+          <DeleteTableButton :onClick="orderStore?.deleteSubproduct" :id="item.id" v-if="item?.isNew"/>
+          <div v-else class="delete-button"></div>
+        </div>
+      </div>
+    </div>
 
     <OrderTableFooter
       :order="orderStore?.orders[0]"
@@ -67,6 +76,7 @@ import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTabl
 import { useRoute } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted, onUnmounted, watch } from "vue";
+import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
 
 export default {
   components: {
@@ -74,6 +84,7 @@ export default {
     ProductsOrderTable,
     OrderTableFooter,
     ProductsOrderTableSkeleton,
+    DeleteTableButton,
   },
   methods: {
     onClick() {
@@ -86,17 +97,18 @@ export default {
   data() {
     return {
       newItem: {
+        id: String(Date.now()).slice(-7),
         cantidad: "",
         nbultos: "",
-        product_id: "",
         product_id: "",
         quantity: "",
         name: "",
         price: "",
         input: true,
-        checked:false      
-    }
-    }
+        checked: false,
+        isNew:true
+      },
+    };
   },
   setup() {
     const orderStore = useOrdersStore();
@@ -104,9 +116,8 @@ export default {
     const ruta = route?.path?.split("/");
 
     //---------------update order-----------------
-    
+
     const idasd = route.params.id;
-      
 
     const orderSearch = () => {
       orderStore.updateOrder(idasd.value, body);
@@ -125,7 +136,9 @@ export default {
         name: "",
         price: "",
         input: true,
-        checked:false
+        checked: false,
+        isNew:true,
+        id:String(Date.now()).slice(-7),
       };
       if (!isSave) {
         orderStore?.orders[0]?.line_items.push({ ...newItem });
@@ -147,7 +160,7 @@ export default {
           "order_line_items",
           JSON.stringify({
             ...localStorageParsed,
-            [idasd]: orderStore?.orders[0]
+            [idasd]: orderStore?.orders[0],
           })
         );
       }
@@ -168,7 +181,7 @@ export default {
           "order_line_items",
           JSON.stringify({
             ...JSON.parse(localStorage.getItem("order_line_items")),
-            [idasd]: orders[0]
+            [idasd]: orders[0],
           })
         );
       },
@@ -203,27 +216,41 @@ export default {
 a:link {
   text-decoration: none;
   color: inherit;
-
 }
 
 a:visited {
   text-decoration: none;
   color: inherit;
-
 }
 
 a:hover {
   text-decoration: none;
   color: inherit;
-
 }
 
 a:active {
   text-decoration: none;
   color: inherit;
-
 }
-
-
-
+.top-container {
+  height: 10.6rem;
+}
+.delete-button {
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.table-container{
+  width: 1200px;
+}
+.v-container{
+  max-width: 1200px ;
+}
+.sad{
+  width: 1250px;
+}
+.das{
+  width: 1200px;
+}
 </style>
