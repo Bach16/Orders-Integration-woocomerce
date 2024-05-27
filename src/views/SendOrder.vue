@@ -1,24 +1,24 @@
 <template>
   <v-container class="mx-lg-16 mx-2 container">
     <div id="printMe">
-    <v-row align="center" class="pa-6 d-print-none" no-gutters>
+    <v-row  class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <RouterLink
           :to="{ name: 'preparationOrder',}"
         >
-          <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a">
-            <v-icon icon="mdi-arrow-left-bold-circle-outline" start></v-icon>
-            <p class="">Regresar</p>
+          <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a d-print-none">
+            <v-icon icon="mdi-arrow-left-bold-circle-outline" color="primary" start></v-icon>
+            <p class="text-primary">Regresar</p>
           </div>
         </RouterLink>
       </v-col>
-      <v-col cols="8">
+      <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
-          <h1>Despachado</h1>
+          <h1 class="text-primary text-uppercase">Despacho de Pedido</h1>
         </v-sheet>
       </v-col>
-      <v-col cols="3" offset="1">
-        <p>Nº de proceso</p>
+      <v-col cols="12" md="4">
+        <h2 class="text-start text-primary">Nº de factura {{ orderStore?.orders[0]?.id }}</h2>     
       </v-col>
     </v-row>
 

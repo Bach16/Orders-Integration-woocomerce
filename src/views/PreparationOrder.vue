@@ -13,11 +13,11 @@
       </v-col>
       <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
-          <h1>Preparación de Pedido</h1>
+          <h1 class="text-primary text-uppercase">Preparación de Pedido</h1>
         </v-sheet>
       </v-col>
       <v-col cols="12" md="4" >
-        <h2 class="text-start">Nº de factura {{ orderStore?.orders[0]?.id }}</h2>
+        <h2 class="text-start text-primary">Nº de factura {{ orderStore?.orders[0]?.id }}</h2>
         
       </v-col>
     </v-row>
@@ -198,9 +198,7 @@ export default {
   font-weight: 300;
 }
 
-.tabla {
-  width: 100%;
-}
+
 
 a:link {
   text-decoration: none;

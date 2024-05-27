@@ -17,7 +17,7 @@
           <th class="border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
           <th class="border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
           <th class="border-b-md font-weight-bold">Supervisado</th>
-          <th v-if="!modificable" class="border-secondary border-opacity-50 border-b-md border-s-sm  font-weight-bold">Listo</th>
+          <th v-if="!modificable" class="border-b-md border-s-sm  font-weight-bold">Listo</th>
 
         </tr>
       </thead>
@@ -100,9 +100,7 @@
             </td>
             <td v-else>{{ element.price }}</td>
 
-            <td v-if="!modificable">
-              <v-checkbox v-model="element.checked" hide-details></v-checkbox>
-            </td>
+           
           </tr>
         </template>
       </draggable>
@@ -178,3 +176,8 @@ export default {
 };
 </script>
 
+<style>
+.tabla {
+  width: 100%;
+}
+</style>

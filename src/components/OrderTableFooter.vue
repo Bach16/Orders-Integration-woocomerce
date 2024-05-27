@@ -32,18 +32,33 @@
     </v-col>
     <v-col cols="5" offset="1">
       <v-card
-        class="pa-2 datos align-center border-md border-primary border-opacity-50"
-        height="50px" 
+        class="pa-2 mb-2 datos align-center border-md border-primary border-opacity-50"
+        height="45px"
         flat
       >
-      <v-row>
-        <v-col cols="12" md="12" class="border-t-sm border-e-sm">
-          <span class="bold-text">Provincia: </span>
-        </v-col>
-      </v-row>
-        <v-spacer />
-        <p>Totales Nº de bultos</p>
+        <v-row>
+          <v-col cols="8" md="8" class="border-e-sm">
+            <span class="bold-text">Totales Nº de bultos </span>
+          </v-col>
+          <v-col cols="4" md="4" class="border-e-sm">
+            <span>100 </span>
+          </v-col>
+        </v-row>
+      </v-card>
 
+      <v-card
+        class="pa-2 datos align-center border-md border-primary border-opacity-50"
+        height="45px"
+        flat
+      >
+        <v-row>
+          <v-col cols="8" md="8" class="border-e-sm">
+            <span class="bold-text">Total cajas de varios </span>
+          </v-col>
+          <v-col cols="4" md="4" class="border-e-sm">
+            <span>6 </span>
+          </v-col>
+        </v-row>
       </v-card>
     </v-col>
   </v-row>
