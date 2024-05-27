@@ -30,13 +30,15 @@
         </v-col>
       </v-row>
     </v-card>
-
-    <v-sheet class="pa-6 mt-3 bg-transparent">
-      <h2>Resultados</h2>
-    </v-sheet>
-
+    
+    
+       
     <div v-if="orderStore?.ordersLoading">Loading...</div>
-    <div v-else class=" ms-2 list-container">
+    <div v-else-if="!orderStore?.ordersLoading && orderStore?.ordersList.length" class=" ms-2 list-container">
+      <v-sheet class="pa-6 mt-3 bg-transparent">
+          <h2>Resultados</h2>
+        </v-sheet>
+        
       <v-row>
         <v-col cols="12" md="6" lg="4" v-for="item in orderStore?.ordersList" :key="item.id">
           <v-card class="my-4 pa-3 tarjeta" elevation="8">
@@ -56,15 +58,19 @@
         </v-col>
       </v-row>
     </div>
+    <div v-else-if="firstSearch"><NotFound/></div>
+
   </v-container>
 </template>
 
 <script>
 import { useRoute } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import NotFound from "../components/NotFound.vue";
 
 export default {
+  components:{NotFound},
   data: () => ({
     loaded: false,
     loading: false,
@@ -78,6 +84,11 @@ export default {
     const ruta = route?.path?.split("/");
 
     const id = ref("");
+    let firstSearch = ref(false);
+
+    onMounted(() => {
+      
+    });
 
     const filterInput = (event) => {
       const value = event.target.value.replace(/[^0-9]/g, '');
@@ -85,6 +96,7 @@ export default {
     };
 
     const orderSearch = () => {
+      firstSearch.value = true
       orderStore.getOrders(id.value, ruta[1]);
     };
 
@@ -93,6 +105,7 @@ export default {
       orderStore,
       id,
       filterInput,
+      firstSearch
     };
   },
 };
