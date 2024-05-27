@@ -19,9 +19,9 @@
           <th class="border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
           <th class="border-b-md font-weight-bold">Supervisado</th>
           <th v-if="!modificable" class="border-b-md border-s-sm  font-weight-bold">Listo</th>
-
         </tr>
       </thead>
+      
       <draggable
         v-if="modificable"
         :list="order?.line_items"
