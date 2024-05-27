@@ -1,15 +1,11 @@
 <template>
-  {{ console.log(modificable) }}
-  <v-card v-if="modificable" class="ms-2 my-6 pb-5 datos" elevation="2">
-    <v-card-title> Pedido {{ order?.id }} </v-card-title>
-    <v-spacer> </v-spacer>
-
-    <v-btn class="mb-2" color="primary" dark @click="callModifyObject">
-      Nueva fila
-    </v-btn>
+  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md">
+    <p class="font-weight-bold"> Agregar una fila </p>
+    <v-spacer />
+    <v-icon icon="mdi-plus-circle-outline" color="primary" start  @click="callModifyObject"></v-icon>
   </v-card>
 
-  <v-card class="ms-2 my-6 pb-5 datos" elevation="2">
+  <v-card class="my-6 ms-2 datos" elevation="2">
     <v-table class="tabla">
       <thead>
         <tr>
@@ -79,5 +75,10 @@ export default {
   height: 70%;
   background-color: rgb(243, 243, 243);
   border-radius: 0.5rem;
+}
+.datos {
+  display: flex;
+  justify-content: center;
+  border-radius: 15px;
 }
 </style>

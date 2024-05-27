@@ -1,21 +1,22 @@
 <template>
-  <v-container class="mx-lg-16 container">
-    <v-row class="pa-6 align-center justify-start" no-gutters>
+  <v-container class="mx-lg-16 mx-2 container">
+    <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <RouterLink :to="{ name: 'searchOrder' }">
           <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a">
-            <v-icon icon="mdi-arrow-left-bold-circle-outline" start></v-icon>
-            <p class="">Regresar</p>
+            <v-icon icon="mdi-arrow-left-bold-circle-outline" color="primary" start></v-icon>
+            <p class="text-primary" pink>Regresar</p>
           </div>
         </RouterLink>
       </v-col>
       <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
-          <h1>Preparación de Pedido</h1>
+          <h1 class="text-primary text-uppercase">Preparación de Pedido</h1>
         </v-sheet>
       </v-col>
-      <v-col cols="12" md="3">
-        <h3 class="text-start">Nº de proceso</h3>
+      <v-col cols="12" md="4" >
+        <h2 class="text-start text-primary">Nº de factura {{ orderStore?.orders[0]?.id }}</h2>
+        
       </v-col>
     </v-row>
 
@@ -36,7 +37,7 @@
           :onChangeToLocalStorage="onChangeToLocalStorage"
         />
       </div>
-      <div  class=" py-4 px-2">
+      <div  class=" py-0 px-2">
         <div class="top-container"></div>
         <div v-for="item in orderStore?.orders[0]?.line_items" :key="item.id" class="d-flex flex-column">
           {{ console.log(item.id)}}
@@ -201,7 +202,7 @@ export default {
 .datos {
   display: flex;
   justify-content: center;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 .datostxt {
@@ -209,9 +210,7 @@ export default {
   font-weight: 300;
 }
 
-.tabla {
-  width: 100%;
-}
+
 
 a:link {
   text-decoration: none;
@@ -233,7 +232,7 @@ a:active {
   color: inherit;
 }
 .top-container {
-  height: 10.6rem;
+  height: 10.4rem;
 }
 .delete-button {
   height: 52px;

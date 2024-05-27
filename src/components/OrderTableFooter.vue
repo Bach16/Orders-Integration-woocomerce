@@ -1,40 +1,62 @@
 <template>
-  <v-row align="center" no-gutters>
+  <v-row class="align-start ms-2" no-gutters>
     <v-col cols="6">
-      <v-card class="ms-2 py-6 datos" height="70px" elevation="2">
-        <p>Observaciones</p>
-        <v-text-field
-          v-if="modificable"
-          @input="onChangeToLocalStorage"
-          :id="_id"
-          name="cantidad"
-          :placeholder="comments"
-          hide-details="auto"
-          variant="plain"
-        />
-        <p v-else class="ml-10">{{ order?.comments }}</p>
+      <v-card
+        class="pa-2 datos border-md border-primary border-opacity-50"
+        height="100px"
+        flat
+      >
+        <v-row no-gutters>
+          <v-col cols="12">
+            <p class="font-weight-bold">Observaciones</p>
+          </v-col>
+          <v-col cols="12" class="pb-1">
+            <v-textarea
+              class="mt-n4"
+              v-if="modificable"
+              @input="onChangeToLocalStorage"
+              :id="_id"
+              name="cantidad"
+              :placeholder="comments"
+              hide-details="auto"
+              variant="plain"
+              no-resize
+              rows="2"
+            />
+            <v-card-text v-else class="mt-n4 ml-n4">{{
+              order?.comments
+            }}</v-card-text>
+          </v-col>
+        </v-row>
       </v-card>
     </v-col>
-    <v-col cols="6">
-      <v-card class="ms-2 datos" elevation="2">
-        <v-row class="pa-4" no-gutters>
-          <!-- Totales -->
-          <v-col cols="6">
-            <v-sheet class="pa-2">
-              <span>Totales</span>
-            </v-sheet>
+    <v-col cols="5" offset="1">
+      <v-card
+        class="pa-2 mb-2 datos align-center border-md border-primary border-opacity-50"
+        height="45px"
+        flat
+      >
+        <v-row>
+          <v-col cols="8" md="8" class="border-e-sm">
+            <span class="bold-text">Totales Nº de bultos </span>
           </v-col>
+          <v-col cols="4" md="4" class="border-e-sm">
+            <span>100 </span>
+          </v-col>
+        </v-row>
+      </v-card>
 
-          <v-divider
-            class="border-opacity-50"
-            length="100px"
-            vertical
-          ></v-divider>
-
-          <v-col cols="4">
-            <v-sheet class="pa-2">
-              <p class="text-right">${{ order?.total }}</p>
-            </v-sheet>
+      <v-card
+        class="pa-2 datos align-center border-md border-primary border-opacity-50"
+        height="45px"
+        flat
+      >
+        <v-row>
+          <v-col cols="8" md="8" class="border-e-sm">
+            <span class="bold-text">Total cajas de varios </span>
+          </v-col>
+          <v-col cols="4" md="4" class="border-e-sm">
+            <span>6 </span>
           </v-col>
         </v-row>
       </v-card>
@@ -46,7 +68,7 @@
 import { useOrdersStore } from "../stores/Orders";
 
 export default {
-  props: ["order", "modificable", "_id","comments"],
+  props: ["order", "modificable", "_id", "comments"],
   setup() {
     const orderStore = useOrdersStore();
     const onChangeToLocalStorage = (e) => {

@@ -20,7 +20,7 @@ export default {
 }
 .del-button{
     font-size: 22px;
-    padding: 20px;
+    padding: 18px;
     border-radius: 3px;
     background-color: rgb(255, 255, 255);
 }

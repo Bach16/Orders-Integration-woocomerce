@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ms-2 datos border-sm" flat>
+  <v-card class="ms-2 datos border-md  border-primary border-opacity-50" flat>
     <v-responsive>
       <v-row align-center no-gutters>
         <!-- Razon social -->

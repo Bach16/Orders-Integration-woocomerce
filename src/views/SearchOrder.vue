@@ -99,9 +99,13 @@ export default {
 </script>
 
 <style>
-h1,
+h1 {
+  color: #263D8D;
+  text-transform: uppercase;
+}
+
 h2 {
-  color: #263d8d;
+  color: #263D8D;
 }
 
 p {
