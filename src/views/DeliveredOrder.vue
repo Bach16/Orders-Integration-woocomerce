@@ -6,41 +6,33 @@
           <h1>Entregado</h1>
         </v-sheet>
       </v-col>
-      <v-col cols="3" offset="1">
-        <p>Nº de proceso</p>
-      </v-col>
     </v-row>
 
-    <v-card class="ms-2 pl-3 pt-4 pb-6 tarjeta" elevation="2">
+    <v-card class="ms-2 my-5 pl-3 pt-4 pb-6 tarjeta" elevation="2">
       <v-row align-center class="pa-2" no-gutters>
-        <v-col cols="8">
-          <v-text-field
-            hide-details
-            append-inner-icon="mdi-magnify"
-            label="Buscar pedido"
-            variant="outlined"
-            height="56"
-          />
+        <v-col cols="6" md="4">
+          <h3 class="text-start text-primary">
+            Nombre: {{ orderStore?.orders[0]?.id }}
+          </h3>
         </v-col>
-        <v-col cols="4">
-          <v-btn class="ml-5" color="primary" height="56"> Buscar </v-btn>
+        <v-col cols="6" md="4">
+          <h3 class="text-start text-primary">
+            Factura# {{ orderStore?.orders[0]?.id }}
+          </h3>
+        </v-col>
+        <v-col cols="6" md="4">
+          <h3 class="text-start text-primary">
+            Documento: {{ orderStore?.orders[0]?.id }}
+          </h3>
         </v-col>
       </v-row>
     </v-card>
 
-    <v-sheet class="pa-6 mt-3 bg-transparent">
-      <h2>Resultados</h2>
-    </v-sheet>
-
     <v-card class="ms-2 pa-3 tarjeta" elevation="2">
       <v-row align-center class="pa-2" no-gutters>
-        <v-col cols="8">
-          <p class="text-order">Pedido N° {{ orderStore?.orders[0]?.id }}</p>
-        </v-col>
-        <v-col cols="4">
+        <v-col cols="20">
           <v-file-input
             hide-details
-            accept="image/*"
             label="Subir comprobante de entrega"
             bg-color="primary"
             color="white"
@@ -57,7 +49,7 @@
         @click="dialog = true"
         height="56"
       >
-        Actualizar
+        Guardar
       </v-btn>
     </div>
 
@@ -67,8 +59,8 @@
           <v-card
             max-width="400"
             prepend-icon="mdi-content-save"
-            text="La información del pedido ha sido actualizada exitosamente."
-            title="Pedido Actualizado"
+            text="El comprobante ha sido guardado exitosamente."
+            title="Comprobante Guardado"
           >
             <template v-slot:actions>
               <RouterLink :to="{ name: 'searchOrder' }">
