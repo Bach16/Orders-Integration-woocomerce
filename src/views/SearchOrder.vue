@@ -30,36 +30,34 @@
         </v-col>
       </v-row>
     </v-card>
-    
-    
-       
+
     <div v-if="orderStore?.ordersLoading">Loading...</div>
-    <div v-else-if="!orderStore?.ordersLoading && orderStore?.ordersList.length" class=" ms-2 list-container">
+    <div
+      v-else-if="!orderStore?.ordersLoading && orderStore?.ordersList.length"
+      class="ms-2 list-container"
+    >
       <v-sheet class="pa-6 mt-3 bg-transparent">
-          <h2>Resultados</h2>
-        </v-sheet>
-        
+        <h2>Resultados</h2>
+      </v-sheet>
+
       <v-row>
-        <v-col cols="12" md="6" lg="4" v-for="item in orderStore?.ordersList" :key="item.id">
-          <v-card class="my-4 pa-3 tarjeta" elevation="8">
-            <v-row align="center" class="pa-2" no-gutters>
-              <v-col cols="8">
-                <p>Pedido #{{ item.id }}</p>
-              </v-col>
-              <v-col cols="4" class="d-flex justify-center justify-md-end">
-                <RouterLink :to="{ name: 'preparationOrder', params: { id: item.id } }">
-                  <v-btn color="primary" height="36">
-                    Preparar
-                  </v-btn>
-                </RouterLink>
-              </v-col>
-            </v-row>
-          </v-card>
+        <v-col
+          cols="12"
+          md="6"
+          lg="4"
+          v-for="item in orderStore?.ordersList"
+          :key="item.id"
+        >
+          <SearchResultCard
+            route="preparationOrder"
+            content="preparar"
+            :id="item.id"
+            :params="item.id"
+          />
         </v-col>
       </v-row>
     </div>
-    <div v-else-if="firstSearch"><NotFound/></div>
-
+    <div v-else-if="firstSearch"><NotFound /></div>
   </v-container>
 </template>
 
@@ -68,9 +66,10 @@ import { useRoute } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted, ref } from "vue";
 import NotFound from "../components/NotFound.vue";
+import SearchResultCard from "../components/SearchResultCard.vue";
 
 export default {
-  components:{NotFound},
+  components: { NotFound, SearchResultCard },
   data: () => ({
     loaded: false,
     loading: false,
@@ -86,17 +85,15 @@ export default {
     const id = ref("");
     let firstSearch = ref(false);
 
-    onMounted(() => {
-      
-    });
+    onMounted(() => {});
 
     const filterInput = (event) => {
-      const value = event.target.value.replace(/[^0-9]/g, '');
+      const value = event.target.value.replace(/[^0-9]/g, "");
       id.value = value;
     };
 
     const orderSearch = () => {
-      firstSearch.value = true
+      firstSearch.value = true;
       orderStore.getOrders(id.value, ruta[1]);
     };
 
@@ -105,7 +102,7 @@ export default {
       orderStore,
       id,
       filterInput,
-      firstSearch
+      firstSearch,
     };
   },
 };
@@ -113,12 +110,12 @@ export default {
 
 <style>
 h1 {
-  color: #263D8D;
+  color: #263d8d;
   text-transform: uppercase;
 }
 
 h2 {
-  color: #263D8D;
+  color: #263d8d;
 }
 
 p {
@@ -126,7 +123,7 @@ p {
 }
 
 .container {
-  background-color: #DBE1E9;
+  background-color: #dbe1e9;
   height: auto;
   min-height: 100vh;
 }
