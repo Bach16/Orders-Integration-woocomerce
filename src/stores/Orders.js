@@ -19,6 +19,7 @@ export const useOrdersStore = defineStore("orders", {
     ordersList: [],
     orderUpdateLoading: false,
     orderStatus: null,
+    areNews:false
   }),
   actions: {
     async getOrders(id, path) {
@@ -78,7 +79,9 @@ export const useOrdersStore = defineStore("orders", {
     },
     async updateOrderComments(id,comments) {
       this.orders[0] = {...this.orders[0],comments:comments};
-      console.log(this.orders[0]);
+    },
+    async deleteSubproduct(id) {
+      this.orders[0].line_items = this.orders[0]?.line_items.filter(e=>{return e.id !== id})
     },
   },
 });
