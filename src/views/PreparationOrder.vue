@@ -241,6 +241,7 @@ a:active {
   align-items: center;
 }
 .table-container{
+  padding-right: 32px;
   width: 1200px;
 }
 .v-container{
