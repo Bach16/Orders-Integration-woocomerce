@@ -135,7 +135,7 @@ export default {
         nbultos: "",
         unidbultos: "",
         totalunidades: "",
-        varios: "",
+        varios:"",
         name: "",
         price: "",
         input: true,
@@ -243,16 +243,12 @@ a:active {
   align-items: center;
 }
 .table-container{
-  padding-right: 32px;
-  width: 1200px;
+  width: 95%
 }
-.v-container{
-  max-width: 1200px ;
-}
+
 .sad{
-  width: 1250px;
+/*   padding-right: 28px; */
+  width: 105%;
 }
-.das{
-  width: 1200px;
-}
+
 </style>
