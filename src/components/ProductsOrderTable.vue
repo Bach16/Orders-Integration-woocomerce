@@ -1,26 +1,39 @@
 <template>
-  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md">
-    <p class="font-weight-bold"> Agregar una fila </p>
+  <v-card
+    v-if="modificable"
+    flat
+    class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md"
+  >
+    <p class="font-weight-bold">Agregar una fila</p>
     <v-spacer />
-    <v-icon icon="mdi-plus-circle-outline" color="primary" start  @click="callModifyObject"></v-icon>
+    <v-icon
+      icon="mdi-plus-circle-outline"
+      color="primary"
+      start
+      @click="callModifyObject"
+    ></v-icon>
   </v-card>
 
-  <v-card class=" my-6 ms-2 datos" flat>
-
+  <v-card class="my-6 ms-2 datos" flat>
     <v-table class="tabla border-primary border-opacity-50 border-md">
-
-      <thead >
-        <tr >
+      <thead>
+        <tr>
           <th class="border-e-sm border-b-md font-weight-bold">Cantidad</th>
           <th class="border-e-sm border-b-md font-weight-bold"> N de <br /> bultos </th>
           <th class="border-e-sm border-b-md font-weight-bold">Unidades <br />por bulto</th>
           <th class="border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Varios</th>
           <th class="border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
           <th class="border-b-md font-weight-bold">Supervisado</th>
-          <th v-if="!modificable" class="border-b-md border-s-sm  font-weight-bold">Listo</th>
-
+          <th
+            v-if="!modificable"
+            class="border-b-md border-s-sm font-weight-bold"
+          >
+            Listo
+          </th>
         </tr>
       </thead>
+      
       <draggable
         v-if="modificable"
         :list="order?.line_items"
@@ -31,18 +44,19 @@
         handle=".drag-handle"
       >
         <template #item="{ element, index }">
-          <tr :key="String(element.id)" class="drag-handle ">
+          <tr :key="String(element.id)" class="drag-handle">
             <!-- Cantidad -->
-            <td class="border-e-sm" v-if="modificable">
+            <td class="border-e-sm" v-if="element.input">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 @keypress="onlyNumbers($event)"
-                name="cantidad"
-                v-model="element.cantidad"
+                name="product_id"
+                v-model="element.product_id"
                 hide-details="auto"
                 variant="plain"
               ></v-text-field>
             </td>
+            <td class="border-e-sm" v-else>{{ element.product_id }}</td>
 
             <!-- N de Bultos -->
             <td class="border-e-sm" v-if="modificable">
@@ -57,30 +71,42 @@
             </td>
 
             <!-- Unidades por bulto -->
-            <td class="border-e-sm" v-if="element.input">
+            <td class="border-e-sm" v-if="modificable">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 @keypress="onlyNumbers($event)"
-                name="product_id"
-                v-model="element.product_id"
+                name="unidbultos"
+                v-model="element.unidbultos"
                 hide-details="auto"
                 variant="plain"
               ></v-text-field>
             </td>
-            <td class="border-e-sm" v-else>{{ element.product_id }}</td>
+            
 
             <!-- Total de unidades -->
-            <td class="border-e-sm" v-if="element.input">
+            <td class="border-e-sm" v-if="modificable">
               <v-text-field
                 @input="onChangeToLocalStorage"
                 @keypress="onlyNumbers($event)"
-                name="quantity"
-                v-model="element.quantity"
+                name="totalunidades"
+                v-model="element.totalunidades"
                 hide-details="auto"
                 variant="plain"
               ></v-text-field>
             </td>
-            <td class="border-e-sm" v-else>{{ element.quantity }}</td>
+           <!--  <td class="border-e-sm" v-else>{{ element.quantity }}</td> -->
+
+           <!-- Varios -->
+            <td class="border-e-sm" v-if="modificable">
+              <v-text-field
+                @input="onChangeToLocalStorage"
+                @keypress="onlyNumbers($event)"
+                name="varios"
+                v-model="element.varios"
+                hide-details="auto"
+                variant="plain"
+              ></v-text-field>
+            </td>
 
             <!-- Descripcion -->
             <td class="border-e-sm" v-if="element.input">
@@ -105,8 +131,6 @@
               ></v-text-field>
             </td>
             <td v-else>{{ element.price }}</td>
-
-           
           </tr>
         </template>
       </draggable>
@@ -114,16 +138,19 @@
       <tbody v-else>
         <tr v-for="element in order?.line_items" :key="element.name">
           <!-- Cantidad -->
-          <td class="border-e-sm">{{ element.cantidad }}</td>
+          <td class="border-e-sm">{{ element.product_id }}</td>
 
           <!-- N de Bultos -->
           <td class="border-e-sm">{{ element.nbultos }}</td>
 
           <!-- Unidades por bulto -->
-          <td class="border-e-sm">{{ element.product_id }}</td>
+          <td class="border-e-sm">{{ element.unidbultos }}</td>
 
           <!-- Total de unidades -->
-          <td class="border-e-sm">{{ element.quantity }}</td>
+          <td class="border-e-sm">{{ element.totalunidades }}</td>
+
+          <!-- Varios -->
+          <td class="border-e-sm">{{ element.varios }}</td>
           
           <!-- Descripcion -->
           <td class="border-e-sm">{{ element.name }}</td>
@@ -154,13 +181,13 @@ export default {
     watch(
       () => orderStore.orders,
       (orders) => {
-        localStorage.setItem(
-          "order_line_items",
-          JSON.stringify({
-            ...JSON.parse(localStorage.getItem("order_line_items")),
-            [orders[0].id]: orders[0],
-          })
-        );
+        orders[0].totalBultos = orders[0]?.line_items?.reduce((total, item) => {
+          console.log(parseInt(item.nbultos));
+          if (parseInt(item.nbultos)) {
+            return total + parseInt(item.nbultos);
+          }
+          return total + 0;
+        }, 0);
       },
       { deep: true }
     );
@@ -177,8 +204,8 @@ export default {
       if (charCode < 48 || charCode > 57) {
         event.preventDefault();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -200,14 +227,16 @@ export default {
 
 /* Aplicar a todo el componente draggable para asegurar que no parpadee el cursor */
 .draggable-item {
-  cursor: move !important; 
+  cursor: move !important;
 }
 
 /* Transición de animación */
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: all 0.3s ease;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
   transform: translateY(20px);
 }

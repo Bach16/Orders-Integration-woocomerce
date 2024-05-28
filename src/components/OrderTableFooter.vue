@@ -41,7 +41,7 @@
             <span class="bold-text">Totales Nº de bultos </span>
           </v-col>
           <v-col cols="4" md="4" class="border-e-sm">
-            <span>100 </span>
+            <span>{{ order?.totalBultos }}</span>
           </v-col>
         </v-row>
       </v-card>
@@ -51,12 +51,26 @@
         height="45px"
         flat
       >
-        <v-row>
+        <v-row class="align-center">
           <v-col cols="8" md="8" class="border-e-sm">
             <span class="bold-text">Total cajas de varios </span>
           </v-col>
           <v-col cols="4" md="4" class="border-e-sm">
-            <span>6 </span>
+            <v-textarea
+              class="align-center"
+              v-if="modificable"
+              @input="onChangeTotalBoxes"
+              @keypress="onlyNumbers($event)"
+              :id="_id"
+              name="totalVariousBoxes"
+              hide-details="auto"
+              variant="plain"
+              no-resize
+              rows="2"
+            />
+            <v-card-text v-else class="mt-n4 ml-n4">{{
+              order?.totalVariousBoxes
+            }}</v-card-text>
           </v-col>
         </v-row>
       </v-card>
@@ -69,13 +83,26 @@ import { useOrdersStore } from "../stores/Orders";
 
 export default {
   props: ["order", "modificable", "_id", "comments"],
+  methods: {
+    onlyNumbers(event) {
+      const charCode = event.charCode ? event.charCode : event.keyCode;
+      if (charCode < 48 || charCode > 57) {
+        event.preventDefault();
+      }
+    },
+  },
   setup() {
     const orderStore = useOrdersStore();
     const onChangeToLocalStorage = (e) => {
       orderStore.updateOrderComments(parseInt(e.target.id), e.target.value);
     };
+    const onChangeTotalBoxes = (e) => {
+      orderStore.updateOrderTotalBoxes(parseInt(e.target.id), e.target.value);
+    };
+
     return {
       onChangeToLocalStorage,
+      onChangeTotalBoxes,
     };
   },
 };
