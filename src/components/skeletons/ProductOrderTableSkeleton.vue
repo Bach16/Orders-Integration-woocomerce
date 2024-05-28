@@ -5,55 +5,62 @@
     <v-icon icon="mdi-plus-circle-outline" color="primary" start  @click="callModifyObject"></v-icon>
   </v-card>
 
-  <v-card class="my-6 ms-2 datos" elevation="2">
-    <v-table class="tabla">
+  <v-card class="my-6 ms-2 datos" flat>
+    <v-table class="tabla border-primary border-opacity-50 border-md">
       <thead>
         <tr>
-          <th class="text-left">Cantidad</th>
-          <th class="text-left">
-            N de <br />
-            bultos
-          </th>
-          <th class="text-left">Unidades <br />por bulto</th>
-          <th class="text-left">
-            Total de <br />
-            unidades
-          </th>
-          <th class="text-left">Descripcion del producto</th>
-          <th class="text-left">Supervisado</th>
-          <th v-if="!modificable" class="text-left">Listo</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Cantidad</th>
+          <th class="border-e-sm border-b-md font-weight-bold"> N de <br /> bultos </th>
+          <th class="border-e-sm border-b-md font-weight-bold">Unidades <br />por bulto</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Varios</th>
+          <th class="border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
+          <th class="border-b-md font-weight-bold">Supervisado</th>
+          <th v-if="!modificable" class="border-b-md border-s-sm  font-weight-bold">Listo</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="element in [1, 5, 4]" :key="element.name">
           <!-- Cantidad -->
-
-          <td class="skeleton-data-container">
+          <td class="border-e-sm skeleton-data-container">
             <div class="skeleton-data"></div>
           </td>
+
           <!-- N de Bultos -->
-
-          <td class="skeleton-data-container">
+          <td class="border-e-sm skeleton-data-container">
             <div class="skeleton-data"></div>
           </td>
+
           <!-- Unidades por bulto -->
-
-          <td class="skeleton-data-container">
+          <td class="border-e-sm skeleton-data-container">
             <div class="skeleton-data"></div>
           </td>
+          
           <!-- Total de unidades -->
-          <td class="skeleton-data-container">
+          <td class="border-e-sm skeleton-data-container">
             <div class="skeleton-data"></div>
           </td>
-          <!-- Descripcion -->
-          <td class="skeleton-data-container">
-            <div class="skeleton-data"></div>
-          </td>
-          <!-- Supervisado -->
 
+          <!-- Varios -->
+          <td class="border-e-sm skeleton-data-container">
+            <div class="skeleton-data"></div>
+          </td>
+
+          <!-- Descripcion -->
+          <td class="border-e-sm skeleton-data-container">
+            <div class="skeleton-data"></div>
+          </td>
+
+          <!-- Supervisado -->
           <td class="skeleton-data-container">
             <div class="skeleton-data"></div>
           </td>
+
+          <!-- Listo -->
+          <td v-if="!modificable" class="border-s-sm skeleton-data-container">
+            <div class="skeleton-data"></div>
+          </td>
+
         </tr>
       </tbody>
     </v-table>
