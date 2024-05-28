@@ -50,6 +50,9 @@
           </template>
         </v-card>
       </v-dialog>
+      <!-- <v-btn class="ms-2 my-6" align-center color="primary" @click="print">
+        Imprimir guia
+      </v-btn> -->  <!-- no borrar porfi -->
     </div>
   </v-container>
 </template>
