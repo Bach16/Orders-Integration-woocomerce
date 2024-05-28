@@ -31,33 +31,7 @@
       </v-row>
     </v-card>
 
-    <div v-if="orderStore?.ordersLoading">Loading...</div>
-    <div
-      v-else-if="!orderStore?.ordersLoading && orderStore?.ordersList.length"
-      class="ms-2 list-container"
-    >
-      <v-sheet class="pa-6 mt-3 bg-transparent">
-        <h2>Resultados</h2>
-      </v-sheet>
-
-      <v-row>
-        <v-col
-          cols="12"
-          md="6"
-          lg="4"
-          v-for="item in orderStore?.ordersList"
-          :key="item.id"
-        >
-          <SearchResultCard
-            route="preparationOrder"
-            content="preparar"
-            :id="item.id"
-            :params="item.id"
-          />
-        </v-col>
-      </v-row>
-    </div>
-    <div v-else-if="firstSearch"><NotFound /></div>
+    <SearchResultContainer :isLoading="orderStore?.ordersLoading" :ordersList="orderStore?.ordersList" :rol="rol"/>
   </v-container>
 </template>
 
@@ -67,9 +41,10 @@ import { useOrdersStore } from "../stores/Orders";
 import { onMounted, ref } from "vue";
 import NotFound from "../components/NotFound.vue";
 import SearchResultCard from "../components/SearchResultCard.vue";
+import SearchResultContainer from "../components/searchResultContainer.vue";
 
 export default {
-  components: { NotFound, SearchResultCard },
+  components: { NotFound, SearchResultCard,SearchResultContainer },
   data: () => ({
     loaded: false,
     loading: false,
@@ -84,8 +59,16 @@ export default {
 
     const id = ref("");
     let firstSearch = ref(false);
+    const rol = ref("");
 
-    onMounted(() => {});
+    onMounted(() => {
+      const storedRol = sessionStorage.getItem("rol");
+      if (storedRol) {
+        rol.value = storedRol;
+      }
+      orderStore.getOrders(id.value, ruta[1]);
+
+    });
 
     const filterInput = (event) => {
       const value = event.target.value.replace(/[^0-9]/g, "");
@@ -103,6 +86,7 @@ export default {
       id,
       filterInput,
       firstSearch,
+      rol
     };
   },
 };

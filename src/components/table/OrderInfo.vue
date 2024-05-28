@@ -98,7 +98,6 @@ export default {
   methods: {
     truncateText(text) {
       this.checkResponsive();
-      console.log(this.isResponsive);
 
       if (this.isResponsive) {
         const maxLength = 10;

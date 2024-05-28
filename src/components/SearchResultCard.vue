@@ -10,6 +10,7 @@
           :route="route"
           :content="content"
           :params="params"
+          :isDriver="isDriver"
         />
       </v-col>
     </v-row>
@@ -22,6 +23,6 @@ import SearchCardButton from './buttons/SearchCardButton.vue';
 
 export default {
   components: { SearchCardButton },
-  props: ["route","id","content","params"]
+  props: ["route","id","content","params","isDriver"]
   };
 </script>

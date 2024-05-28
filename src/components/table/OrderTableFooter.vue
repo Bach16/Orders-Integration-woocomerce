@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { useOrdersStore } from "../stores/Orders";
+import { useOrdersStore } from "../../stores/Orders";
 
 export default {
   props: ["order", "modificable", "_id", "comments"],

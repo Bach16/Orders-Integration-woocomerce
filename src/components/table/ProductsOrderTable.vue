@@ -171,7 +171,7 @@
 <script>
 import { ref, watch } from "vue";
 import draggable from "vuedraggable";
-import { useOrdersStore } from "../stores/Orders";
+import { useOrdersStore } from "../../stores/Orders";
 
 const orderStore = useOrdersStore();
 
@@ -182,7 +182,6 @@ export default {
       () => orderStore.orders,
       (orders) => {
         orders[0].totalBultos = orders[0]?.line_items?.reduce((total, item) => {
-          console.log(parseInt(item.nbultos));
           if (parseInt(item.nbultos)) {
             return total + parseInt(item.nbultos);
           }
