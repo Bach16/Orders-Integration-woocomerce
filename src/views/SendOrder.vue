@@ -3,12 +3,10 @@
     <div id="printMe">
       <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
         <v-col cols="12">
-          <RouterLink :to="{ name: 'preparationOrder' }">
-            <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a d-print-none">
+            <div @click="goBack" class="mb-3 d-flex text-subtitle-1 cursor-pointer reset-a d-print-none">
               <v-icon icon="mdi-arrow-left-bold-circle-outline" color="primary" start></v-icon>
               <p class="text-primary">Regresar</p>
             </div>
-          </RouterLink>
         </v-col>
         <v-col cols="12" md="8">
           <v-sheet class="bg-transparent">
@@ -58,12 +56,12 @@
 </template>
 
 <script>
-import OrderInfo from '../components/OrderInfo.vue';
-import { useRoute } from 'vue-router';
+import OrderInfo from '../components/table/OrderInfo.vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useOrdersStore } from '../stores/Orders';
 import { onMounted, ref } from 'vue';
-import ProductsOrderTable from '../components/ProductsOrderTable.vue';
-import OrderTableFooter from '../components/OrderTableFooter.vue';
+import ProductsOrderTable from '../components/table/ProductsOrderTable.vue';
+import OrderTableFooter from '../components/table/OrderTableFooter.vue';
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
 
 export default {
@@ -82,10 +80,14 @@ export default {
 
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const orderStore = useOrdersStore();
     const dialog = ref(false); 
     const body = {
       status: "completed"
+    };
+    const goBack = () => {
+      router.go(-1);
     };
     const idasd = route.params.id;
     const ruta = route?.path?.split("/");
@@ -111,7 +113,8 @@ export default {
     return {
       orderStore,
       dialog,
-      onSaveClick
+      onSaveClick,
+      goBack
     };
   }
 };

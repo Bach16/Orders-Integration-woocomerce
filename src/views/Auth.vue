@@ -57,6 +57,7 @@
 </template>
 
 <script>
+  sessionStorage.setItem('rol', 'conductor'); /* cambiar para ver los distintos flujos (conductor - bodeguero - gerente) */
 export default {
   data() {
     return {

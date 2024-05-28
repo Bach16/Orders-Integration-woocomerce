@@ -68,7 +68,6 @@ export const useOrdersStore = defineStore("orders", {
           updatedData,
           AUTH_HEADER
         );
-        console.log(response.data);
         this.orderStatus = response.data.firstName;
       } catch (error) {
         console.error(error.message);
@@ -84,9 +83,6 @@ export const useOrdersStore = defineStore("orders", {
     },
     deleteSubproduct(id) {
       this.orders[0].line_items = this.orders[0]?.line_items.filter(e=>{return e.id !== id})
-    },
-    sumTotalBultos(id) {
-      console.log(id);
     },
   },
 });

@@ -2,12 +2,10 @@
   <v-container class="mx-lg-16 mx-2 container">
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
-        <RouterLink :to="{ name: 'searchOrder' }">
-          <div @click="goBack" class="mb-3 d-flex text-subtitle-1 reset-a">
+          <div @click="goBack" class="mb-3 cursor-pointer d-flex text-subtitle-1 reset-a">
             <v-icon icon="mdi-arrow-left-bold-circle-outline" color="primary" start></v-icon>
             <p class="text-primary" pink>Regresar</p>
           </div>
-        </RouterLink>
       </v-col>
       <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
@@ -86,11 +84,11 @@
 </template>
 
 <script>
-import OrderInfo from "../components/OrderInfo.vue";
-import OrderTableFooter from "../components/OrderTableFooter.vue";
-import ProductsOrderTable from "../components/ProductsOrderTable.vue";
+import OrderInfo from "../components/table/OrderInfo.vue";
+import OrderTableFooter from "../components/table/OrderTableFooter.vue";
+import ProductsOrderTable from "../components/table/ProductsOrderTable.vue";
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted, watch, ref } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
@@ -123,10 +121,14 @@ export default {
   setup() {
     const orderStore = useOrdersStore();
     const route = useRoute();
+    const router = useRouter();
     const dialog = ref(false); // Utilizar ref para el estado del diálogo
     const ruta = route?.path?.split("/");
 
     const idasd = route.params.id;
+    const goBack = () => {
+      router.go(-1);
+    };
 
     const orderSearch = () => {
       orderStore.updateOrder(idasd.value, body);
@@ -159,7 +161,6 @@ export default {
     };
 
     const onChangeToLocalStorage = (e) => {
-      console.log(e.target.name);
       const localStorageParsed = JSON.parse(
         localStorage.getItem("order_line_items")
       );
@@ -214,6 +215,7 @@ export default {
       save,
       onChangeToLocalStorage,
       onSaveClick,
+      goBack
     };
   },
 };
