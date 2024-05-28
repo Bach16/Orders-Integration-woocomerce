@@ -1,24 +1,44 @@
 <template>
-  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md">
-    <p class="font-weight-bold"> Agregar una fila </p>
+  <v-card
+    v-if="modificable"
+    flat
+    class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md"
+  >
+    <p class="font-weight-bold">Agregar una fila</p>
     <v-spacer />
-    <v-icon icon="mdi-plus-circle-outline" color="primary" start  @click="callModifyObject"></v-icon>
+    <v-icon
+      icon="mdi-plus-circle-outline"
+      color="primary"
+      start
+      @click="callModifyObject"
+    ></v-icon>
   </v-card>
 
-  <v-card class=" my-6 ms-2 datos" flat>
-
+  <v-card class="my-6 ms-2 datos" flat>
     <v-table class="tabla border-primary border-opacity-50 border-md">
-
-      <thead >
-        <tr >
+      <thead>
+        <tr>
           <th class="border-e-sm border-b-md font-weight-bold">Cantidad</th>
-          <th class="border-e-sm border-b-md font-weight-bold"> N de <br /> bultos </th>
-          <th class="border-e-sm border-b-md font-weight-bold">Unidades <br />por bulto</th>
-          <th class="border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
-          <th class="border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
+          <th class="border-e-sm border-b-md font-weight-bold">
+            N de <br />
+            bultos
+          </th>
+          <th class="border-e-sm border-b-md font-weight-bold">
+            Unidades <br />por bulto
+          </th>
+          <th class="border-e-sm border-b-md font-weight-bold">
+            Total de <br />unidades
+          </th>
+          <th class="border-e-sm border-b-md font-weight-bold">
+            Descripcion del producto
+          </th>
           <th class="border-b-md font-weight-bold">Supervisado</th>
-          <th v-if="!modificable" class="border-b-md border-s-sm  font-weight-bold">Listo</th>
-
+          <th
+            v-if="!modificable"
+            class="border-b-md border-s-sm font-weight-bold"
+          >
+            Listo
+          </th>
         </tr>
       </thead>
       <draggable
@@ -31,7 +51,7 @@
         handle=".drag-handle"
       >
         <template #item="{ element, index }">
-          <tr :key="String(element.id)" class="drag-handle ">
+          <tr :key="String(element.id)" class="drag-handle">
             <!-- Cantidad -->
             <td class="border-e-sm" v-if="modificable">
               <v-text-field
@@ -105,8 +125,6 @@
               ></v-text-field>
             </td>
             <td v-else>{{ element.price }}</td>
-
-           
           </tr>
         </template>
       </draggable>
@@ -124,7 +142,7 @@
 
           <!-- Total de unidades -->
           <td class="border-e-sm">{{ element.quantity }}</td>
-          
+
           <!-- Descripcion -->
           <td class="border-e-sm">{{ element.name }}</td>
 
@@ -154,13 +172,13 @@ export default {
     watch(
       () => orderStore.orders,
       (orders) => {
-        localStorage.setItem(
-          "order_line_items",
-          JSON.stringify({
-            ...JSON.parse(localStorage.getItem("order_line_items")),
-            [orders[0].id]: orders[0],
-          })
-        );
+        orders[0].totalBultos = orders[0]?.line_items?.reduce((total, item) => {
+          console.log(parseInt(item.nbultos));
+          if (parseInt(item.nbultos)) {
+            return total + parseInt(item.nbultos);
+          }
+          return total + 0;
+        }, 0);
       },
       { deep: true }
     );
@@ -177,8 +195,8 @@ export default {
       if (charCode < 48 || charCode > 57) {
         event.preventDefault();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -200,14 +218,16 @@ export default {
 
 /* Aplicar a todo el componente draggable para asegurar que no parpadee el cursor */
 .draggable-item {
-  cursor: move !important; 
+  cursor: move !important;
 }
 
 /* Transición de animación */
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: all 0.3s ease;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
   transform: translateY(20px);
 }

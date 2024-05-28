@@ -40,7 +40,6 @@
       <div  class=" py-0 px-2">
         <div class="top-container"></div>
         <div v-for="item in orderStore?.orders[0]?.line_items" :key="item.id" class="d-flex flex-column">
-          {{ console.log(item.id)}}
           <DeleteTableButton :onClick="orderStore?.deleteSubproduct" :id="item.id" v-if="item?.isNew"/>
           <div v-else class="delete-button"></div>
         </div>
@@ -76,7 +75,7 @@ import ProductsOrderTable from "../components/ProductsOrderTable.vue";
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
 import { useRoute } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
-import { onMounted, onUnmounted, watch } from "vue";
+import { onMounted, watch } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
 
 export default {
@@ -87,20 +86,12 @@ export default {
     ProductsOrderTableSkeleton,
     DeleteTableButton,
   },
-  methods: {
-    onClick() {
-      this.$router.push("/sendOrder");
-      this.$router.push("/sendOrder");
-    },
-
-    navigate() {},
-  },
   data() {
     return {
       newItem: {
         id: String(Date.now()).slice(-7),
         cantidad: "",
-        nbultos: "",
+        nbultos: 0,
         product_id: "",
         quantity: "",
         name: "",
@@ -131,7 +122,7 @@ export default {
       );
       const newItem = {
         cantidad: "",
-        nbultos: "",
+        nbultos: 0,
         product_id: "",
         quantity: "",
         name: "",
@@ -147,9 +138,11 @@ export default {
     };
 
     const onChangeToLocalStorage = (e) => {
+      console.log(e.target.name);
       const localStorageParsed = JSON.parse(
         localStorage.getItem("order_line_items")
       );
+      if(e.target.name == "nbultos")
 
       if (!localStorageParsed) {
         localStorage.setItem(
