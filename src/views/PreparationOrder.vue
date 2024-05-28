@@ -106,19 +106,17 @@ export default {
   data() {
     return {
       newItem: {
-        id: String(Date.now()).slice(-7),
-        cantidad: "",
-        nbultos: 0,
         product_id: "",
-        nbultos: "",
+        nbultos: 0,
         unidbultos: "",
         totalunidades: "",
-        varios: "",
+        varios:"",
         name: "",
         price: "",
         input: true,
         checked: false,
-        isNew:true
+        isNew: true,
+        id: String(Date.now()).slice(-7),
       },
     };
   },
@@ -139,10 +137,8 @@ export default {
         localStorage.getItem("order_line_items")
       );
       const newItem = {
-        cantidad: "",
-        nbultos: 0,
         product_id: "",
-        nbultos: "",
+        nbultos: 0,
         unidbultos: "",
         totalunidades: "",
         varios:"",
