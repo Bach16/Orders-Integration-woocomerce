@@ -4,28 +4,28 @@
   <div v-else-if="!isLoading && ordersList?.length" class="ms-2 list-container">
     <v-sheet class="mb-1 bg-transparent">
       <h2 v-if="!!(!isLoading && ordersList?.length) && !!firstSearch">Resultados de busqueda</h2>
-      <h2 v-else-if="rol=='bodeguero'">Pedidos para el dia de hoy</h2>
-      <h2 v-else-if="rol=='gerente'">Despachos para el dia de hoy</h2>
-      <h2 v-else-if="rol=='conductor'">Lista de pedidos entregados</h2>
+      <h2 v-else-if="rol=='shop_manager'">Pedidos para el dia de hoy</h2>
+      <h2 v-else-if="rol=='administrator'">Despachos para el dia de hoy</h2>
+      <h2 v-else-if="rol=='contributor'">Lista de pedidos entregados</h2>
     </v-sheet>
     <v-row>
       <v-col  md="6" lg="6" v-for="item in ordersList" :key="item.id">
         <SearchResultCard
-          v-if="rol == 'bodeguero'"
+          v-if="rol == 'shop_manager'"
           route="preparationOrder"
           content="preparar"
           :id="item.id"
           :params="item.id"
         />
         <SearchResultCard
-          v-if="rol == 'gerente'"
+          v-if="rol == 'administrator'"
           route="sendOrder"
           content="Despachar"
           :id="item.id"
           :params="item.id"
         />
         <SearchResultCard
-          v-if="rol == 'conductor'"
+          v-if="rol == 'contributor'"
           route="sendOrder"
           content="Subir comprobante de entrega"
           :isDriver="true"
