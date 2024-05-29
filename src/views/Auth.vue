@@ -12,27 +12,21 @@
             <v-row>
               <v-col cols="12">
                 <h2 class="text-primary font-weight-bold mb-1">Usuario</h2>
-                <v-text-field
-                  class="mb-2"
-                  :rules="[rules.required]"
+                <InputC
+                  classs="mb-2"
                   density="compact"
                   placeholder="Email"
-                  prepend-inner-icon="mdi-account-circle"
+                  prependInnerIcon="mdi-account-circle"
                   variant="outlined"
-                ></v-text-field>
+                />
                 <h2 class="text-primary font-weight-bold mb-1">Contraseña</h2>
-                <v-text-field
-                  class="mb-2"
-                  :rules="[rules.required]"
-                  :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-                  :type="visible ? 'text' : 'password'"
+                <InputPassword
+                  classs="mb-2"
                   density="compact"
                   placeholder="Ingresa tu contraseña"
-                  prepend-inner-icon="mdi-lock-outline"
+                  prependInnerIcon="mdi-lock-outline"
                   variant="outlined"
-                  @click:append-inner="visible = !visible"
-                ></v-text-field>
-
+                />
                 <v-card-actions class="d-flex justify-center">
                   <RouterLink :to="{ name: 'searchOrder' }">
                     <v-btn
@@ -57,16 +51,15 @@
 </template>
 
 <script>
-  sessionStorage.setItem('rol', 'conductor'); /* cambiar para ver los distintos flujos (conductor - bodeguero - gerente) */
+import InputC from "../components/inputs/InputC.vue";
+import InputPassword from "../components/inputs/InputPassword.vue";
+
+sessionStorage.setItem(
+  "rol",
+  "bodeguero"
+); /* cambiar para ver los distintos flujos (conductor - bodeguero - gerente) */
 export default {
-  data() {
-    return {
-      visible: false,
-      rules: {
-        required: (value) => !!value || "Required.",
-      },
-    };
-  },
+  components: { InputC, InputPassword },
 };
 </script>
 

@@ -1,37 +1,48 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 container">
-    <v-sheet class="pa-6 bg-transparent">
+  <v-container class="mx-lg-16 mx-2  container">
+    <v-sheet class="py-6 px-2 bg-transparent">
       <h1>Busqueda de Pedidos</h1>
     </v-sheet>
 
-    <v-card class="ms-2 my-4 pa-4 tarjeta" elevation="2">
-      <v-row align-center justify="center" class="pa-2 no-gutters">
-        <v-col cols="12" md="8" class="d-flex justify-center">
-          <v-text-field
-            v-model="id"
+    <!-- Tarjeta Busqueda de pedidos -->
+    <v-card class="ms-2 my-4 pa-4 tarjeta">
+      <v-row no-gutters class="pa-2 ">
+        <v-col lg="11" md="10" class="d-flex justify-center">
+          <InputC
+            :vModel="id"
             hide-details
-            append-inner-icon="mdi-magnify"
+            appendInnerIcon="mdi-magnify"
             label="Buscar"
             variant="outlined"
             height="56"
             class="search-input"
             type="text"
-            @input="filterInput"
+            :input="filterInput"
+            :onlyNumber="true"
+            :isSearch="true"
           />
+        </v-col>
+        <v-col lg="1" md="2" class="d-flex justify-center">
           <v-btn
-            color="primary"
-            :loading="loading"
-            @click="orderSearch"
-            height="56"
-            class="ml-2 search-button"
+          color="primary"
+          :loading="loading"
+          @click="orderSearch"
+          height="56"
+          class="ml-2"
           >
-            Buscar
-          </v-btn>
+          Buscar
+        </v-btn>
         </v-col>
       </v-row>
     </v-card>
-
-    <SearchResultContainer :isLoading="orderStore?.ordersLoading" :ordersList="orderStore?.ordersList" :rol="rol"/>
+    
+    <!-- Contenedor con resultados -->
+    <SearchResultContainer
+      :isLoading="orderStore?.ordersLoading"
+      :ordersList="orderStore?.ordersList"
+      :rol="rol"
+      :firstSearch="firstSearch"
+    />
   </v-container>
 </template>
 
@@ -39,12 +50,11 @@
 import { useRoute } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted, ref } from "vue";
-import NotFound from "../components/NotFound.vue";
-import SearchResultCard from "../components/SearchResultCard.vue";
 import SearchResultContainer from "../components/searchResultContainer.vue";
+import InputC from "../components/inputs/InputC.vue";
 
 export default {
-  components: { NotFound, SearchResultCard,SearchResultContainer },
+  components: { SearchResultContainer, InputC },
   data: () => ({
     loaded: false,
     loading: false,
@@ -67,7 +77,6 @@ export default {
         rol.value = storedRol;
       }
       orderStore.getOrders(id.value, ruta[1]);
-
     });
 
     const filterInput = (event) => {
@@ -86,7 +95,7 @@ export default {
       id,
       filterInput,
       firstSearch,
-      rol
+      rol,
     };
   },
 };
@@ -122,7 +131,5 @@ p {
   flex: 1;
 }
 
-.search-button {
-  margin-left: 8px;
-}
+
 </style>

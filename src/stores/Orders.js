@@ -62,7 +62,7 @@ export const useOrdersStore = defineStore("orders", {
     },
     async updateOrder(id, updatedData) {
       this.orderUpdateLoading = true;
-      try {
+      /* try {
         const response = await axios.put(
           `${BASE_URL}/${id}`,
           updatedData,
@@ -73,7 +73,7 @@ export const useOrdersStore = defineStore("orders", {
         console.error(error.message);
       } finally {
         this.orderUpdateLoading = false;
-      }
+      } */
     },
     async updateOrderComments(id,comments) {
       this.orders[0] = {...this.orders[0],comments:comments};

@@ -46,9 +46,6 @@
     <OrderTableFooter
       :order="orderStore?.orders[0]"
       :modificable="true"
-      :newItem="newItem"
-      :save="save"
-      :onChangeToLocalStorage="onChangeToLocalStorage"
       :_id="orderStore?.orders[0]?.id"
       :comments="orderStore?.orders[0]?.comments"
     />
@@ -104,7 +101,7 @@ export default {
   data() {
     return {
       newItem: {
-        product_id: "",
+        quantity: "",
         nbultos: 0,
         unidbultos: "",
         totalunidades: "",
@@ -139,7 +136,7 @@ export default {
         localStorage.getItem("order_line_items")
       );
       const newItem = {
-        product_id: "",
+        quantity: "",
         nbultos: 0,
         unidbultos: "",
         totalunidades: "",
