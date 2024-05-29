@@ -2,10 +2,17 @@
   <v-container class="mx-lg-16 mx-2 container">
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
-          <div @click="goBack" class="mb-3 cursor-pointer d-flex text-subtitle-1 reset-a">
-            <v-icon icon="mdi-arrow-left-bold-circle-outline" color="primary" start></v-icon>
-            <p class="text-primary" pink>Regresar</p>
-          </div>
+        <div
+          @click="goBack"
+          class="mb-3 cursor-pointer d-flex text-subtitle-1 reset-a"
+        >
+          <v-icon
+            icon="mdi-arrow-left-bold-circle-outline"
+            color="primary"
+            start
+          ></v-icon>
+          <p class="text-primary" pink>Regresar</p>
+        </div>
       </v-col>
       <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
@@ -13,7 +20,9 @@
         </v-sheet>
       </v-col>
       <v-col cols="12" md="4">
-        <h2 class="text-start text-primary">Nº de factura {{ orderStore?.orders[0]?.id }}</h2>
+        <h2 class="text-start text-primary">
+          Nº de factura {{ orderStore?.orders[0]?.id }}
+        </h2>
       </v-col>
     </v-row>
 
@@ -36,8 +45,16 @@
       </div>
       <div class="py-0 px-2">
         <div class="top-container"></div>
-        <div v-for="item in orderStore?.orders[0]?.line_items" :key="item.id" class="d-flex flex-column">
-          <DeleteTableButton :onClick="orderStore?.deleteSubproduct" :id="item.id" v-if="item?.isNew"/>
+        <div
+          v-for="item in orderStore?.orders[0]?.line_items"
+          :key="item.id"
+          class="d-flex flex-column"
+        >
+          <DeleteTableButton
+            :onClick="orderStore?.deleteSubproduct"
+            :id="item.id"
+            v-if="item?.isNew"
+          />
           <div v-else class="delete-button"></div>
         </div>
       </div>
@@ -50,8 +67,14 @@
       :comments="orderStore?.orders[0]?.comments"
     />
 
-    <div class="text-center">
-      <v-btn class="ms-2 my-6" align="center" color="primary" @click="onSaveClick">
+    <div class="text-center mt-8">
+      <v-btn
+        size="large"
+        class="px-6"
+        rounded="lg"
+        color="primary"
+        @click="onSaveClick"
+      >
         Guardar para despacho
       </v-btn>
     </div>
@@ -67,11 +90,7 @@
         >
           <template v-slot:actions>
             <RouterLink :to="{ name: 'searchOrder' }">
-              <v-btn
-                class="ms-auto"
-                text="Ok"
-                @click="dialog = false"
-              ></v-btn>
+              <v-btn class="ms-auto" text="Ok" @click="dialog = false"></v-btn>
             </RouterLink>
           </template>
         </v-card>
@@ -105,7 +124,7 @@ export default {
         nbultos: 0,
         unidbultos: "",
         totalunidades: "",
-        varios:"",
+        varios: "",
         name: "",
         price: "",
         input: true,
@@ -140,7 +159,7 @@ export default {
         nbultos: 0,
         unidbultos: "",
         totalunidades: "",
-        varios:"",
+        varios: "",
         name: "",
         price: "",
         input: true,
@@ -161,22 +180,21 @@ export default {
       const localStorageParsed = JSON.parse(
         localStorage.getItem("order_line_items")
       );
-      if(e.target.name == "nbultos")
-
-      if (!localStorageParsed) {
-        localStorage.setItem(
-          "order_line_items",
-          JSON.stringify({ [idasd]: orderStore?.orders[0] })
-        );
-      } else {
-        localStorage.setItem(
-          "order_line_items",
-          JSON.stringify({
-            ...localStorageParsed,
-            [idasd]: orderStore?.orders[0],
-          })
-        );
-      }
+      if (e.target.name == "nbultos")
+        if (!localStorageParsed) {
+          localStorage.setItem(
+            "order_line_items",
+            JSON.stringify({ [idasd]: orderStore?.orders[0] })
+          );
+        } else {
+          localStorage.setItem(
+            "order_line_items",
+            JSON.stringify({
+              ...localStorageParsed,
+              [idasd]: orderStore?.orders[0],
+            })
+          );
+        }
     };
 
     const onSaveClick = () => {
@@ -212,7 +230,7 @@ export default {
       save,
       onChangeToLocalStorage,
       onSaveClick,
-      goBack
+      goBack,
     };
   },
 };
@@ -260,13 +278,12 @@ a:active {
   justify-content: center;
   align-items: center;
 }
-.table-container{
-  width: 95%
+.table-container {
+  width: 95%;
 }
 
-.sad{
-/*   padding-right: 28px; */
+.sad {
+  /*   padding-right: 28px; */
   width: 105%;
 }
-
 </style>

@@ -3,51 +3,56 @@
     <v-row align-center class="pa-6" no-gutters>
       <v-col cols="8">
         <v-sheet class="bg-transparent">
-          <h1>Entregado</h1>
+          <h1 class="text-primary text-uppercase">Entregado</h1>
         </v-sheet>
       </v-col>
     </v-row>
 
-    <v-card class="ms-2 my-5 pl-3 pt-4 pb-6 tarjeta" elevation="2">
-      <v-row align-center class="pa-2" no-gutters>
-        <v-col cols="6" md="4">
-          <h3 class="text-start text-primary">
-            Nombre: {{ orderStore?.orders[0]?.id }}
-          </h3>
+    <v-card class="ms-2 my-5 pl-3 pt-4 pb-6 align-center rounded-xl">
+      <v-row class="pa-2 align-center justify-space-between " no-gutters>
+        <v-col lg="4" md="4" sm="6" class="d-flex justify-lg-center justify-sm-start">
+          <span class="font-weight-bold text-h6 text-primary"
+            >Nombre: {{ orderStore?.orders[0]?.id }}</span
+          >
         </v-col>
-        <v-col cols="6" md="4">
-          <h3 class="text-start text-primary">
-            Factura# {{ orderStore?.orders[0]?.id }}
-          </h3>
+        <v-col lg="4" md="4" sm="6" class="d-flex justify-lg-center justify-sm-start">
+          <span class="font-weight-bold text-h6 text-primary"
+            >Factura #{{ orderStore?.orders[0]?.id }}</span
+          >
         </v-col>
-        <v-col cols="6" md="4">
-          <h3 class="text-start text-primary">
-            Documento: {{ orderStore?.orders[0]?.id }}
-          </h3>
+        <v-col lg="4" md="4" sm="6" class="d-flex justify-lg-center justify-sm-start pt-lg-0 pt-sm-4">
+          <span class="font-weight-bold text-h6 text-primary"
+            >Documento: {{ orderStore?.orders[0]?.id }}</span
+          >
         </v-col>
       </v-row>
     </v-card>
 
-    <v-card class="ms-2 pa-3 tarjeta" elevation="2">
-      <v-row align-center class="pa-2" no-gutters>
-        <v-col cols="20">
+    <v-card
+      flat
+      class="mt-5 ms-2 pa-9 rounded-xl flat border-primary border-opacity-100 border-sm"
+    >
+      <v-row class="pa-2 justify-center" no-gutters>
+        <v-col lg="3" md="6" sm="12">
           <v-file-input
+            class=" text-primary text-opacity-100 font-weight-black"
             hide-details
             label="Subir comprobante de entrega"
-            bg-color="primary"
-            color="white"
-            class="font-weight-black"
+            prepend-icon="mdi-upload"
+            bg-color="white"
+            color="primary"
+            variant="plain"
+            accept="image/*,.pdf"
           ></v-file-input>
         </v-col>
       </v-row>
     </v-card>
     <div class="text-center mt-8">
       <v-btn
-        class="ms-2 my-6"
+        
         align-center
         color="primary"
         @click="dialog = true"
-        height="56"
       >
         Guardar
       </v-btn>
@@ -119,9 +124,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.text-order {
-  font-size: 20px;
-  font-weight: 600;
-}
-</style>
+
+

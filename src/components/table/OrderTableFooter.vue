@@ -1,6 +1,7 @@
 <template>
-  <v-row class="align-start ms-2" no-gutters>
+  <v-row no-gutters>
     <v-col cols="6">
+      <!-- Observaciones -->
       <v-card
         class="pa-2 datos border-md border-primary border-opacity-50"
         height="100px"
@@ -31,14 +32,16 @@
       </v-card>
     </v-col>
     <v-col cols="5" offset="1">
+      
+      <!-- Totales N Bultos -->
       <v-card
         class="pa-2 mb-2 datos align-center border-md border-primary border-opacity-50"
-        height="45px"
         flat
+        height="47px"
       >
         <v-row>
           <v-col cols="8" md="8" class="border-e-sm">
-            <span class="bold-text">Totales Nº de bultos </span>
+            <span class="ml-2 bold-text">Totales Nº de bultos </span>
           </v-col>
           <v-col cols="4" md="4" class="border-e-sm">
             <span>{{ order?.totalBultos }}</span>
@@ -46,31 +49,31 @@
         </v-row>
       </v-card>
 
+      <!-- Total caja de varios -->
       <v-card
         class="pa-2 datos align-center border-md border-primary border-opacity-50"
-        height="45px"
         flat
+        height="47px"
+
       >
-        <v-row class="align-center">
+        <v-row class="align-center" >
           <v-col cols="8" md="8" class="border-e-sm">
-            <span class="bold-text">Total cajas de varios </span>
+            <span class="ml-2 bold-text">Total cajas de varios </span>
           </v-col>
           <v-col cols="4" md="4" class="border-e-sm">
-            <v-textarea
-              class="align-center"
+            <v-text-field
               v-if="modificable"
               @input="onChangeTotalBoxes"
               @keypress="onlyNumbers($event)"
               :id="_id"
               name="totalVariousBoxes"
-              hide-details="auto"
               variant="plain"
-              no-resize
-              rows="2"
+              hide-details="auto"
+              class="mb-4"
             />
-            <v-card-text v-else class="mt-n4 ml-n4">{{
+            <span v-else>{{
               order?.totalVariousBoxes
-            }}</v-card-text>
+            }}</span>
           </v-col>
         </v-row>
       </v-card>
