@@ -9,6 +9,10 @@
   :prepend-inner-icon="prependInnerIcon"
   :variant="variant"
   @click:append-inner="visibles = !visibles"
+  @input="input"
+  :v-model="vModel"
+
+
   ></v-text-field>
 </template>
 
@@ -30,7 +34,9 @@ export default {
     "visible",
     "prependInnerIcon",
     "variant",
-    "onClick"
+    "vModel",
+    "onClick",
+    "input"
   ],
   setup() {
     let visibles = ref(false);

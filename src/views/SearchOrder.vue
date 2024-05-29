@@ -1,41 +1,43 @@
 <template>
-  <v-container class="mx-lg-16 mx-2  container">
+  <v-container class="mx-lg-16 mx-2 container">
     <v-sheet class="py-6 px-2 bg-transparent">
       <h1>Busqueda de Pedidos</h1>
     </v-sheet>
 
     <!-- Tarjeta Busqueda de pedidos -->
-    <v-card class="ms-2 my-4 pa-4 tarjeta">
-      <v-row no-gutters class="pa-2 ">
-        <v-col lg="11" md="10" class="d-flex justify-center">
-          <InputC
-            :vModel="id"
-            hide-details
-            appendInnerIcon="mdi-magnify"
-            label="Buscar"
-            variant="outlined"
-            height="56"
-            class="search-input"
-            type="text"
-            :input="filterInput"
-            :onlyNumber="true"
-            :isSearch="true"
-          />
-        </v-col>
-        <v-col lg="1" md="2" class="d-flex justify-center">
-          <v-btn
-          color="primary"
-          :loading="loading"
-          @click="orderSearch"
-          height="56"
-          class="ml-2"
-          >
-          Buscar
-        </v-btn>
-        </v-col>
-      </v-row>
-    </v-card>
-    
+    <form @submit.prevent="orderSearch">
+      <v-card class="ms-2 my-4 pa-4 tarjeta">
+        <v-row no-gutters class="pa-2">
+          <v-col lg="11" md="10" class="d-flex justify-center">
+            <InputC
+              :vModel="id"
+              hide-details
+              appendInnerIcon="mdi-magnify"
+              label="Buscar"
+              variant="outlined"
+              height="56"
+              class="search-input"
+              type="text"
+              :input="filterInput"
+              :onlyNumber="true"
+              :isSearch="true"
+            />
+          </v-col>
+          <v-col lg="1" md="2" class="d-flex justify-center">
+            <v-btn
+              color="primary"
+              type="submit"
+              hide-details
+              height="56"
+              class="ml-2"
+            >
+              Buscar
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card>
+    </form>
+
     <!-- Contenedor con resultados -->
     <SearchResultContainer
       :isLoading="orderStore?.ordersLoading"
@@ -55,13 +57,6 @@ import InputC from "../components/inputs/InputC.vue";
 
 export default {
   components: { SearchResultContainer, InputC },
-  data: () => ({
-    loaded: false,
-    loading: false,
-    inputValue: "",
-    searchResults: null,
-  }),
-
   setup() {
     const orderStore = useOrdersStore();
     const route = useRoute();
@@ -72,7 +67,7 @@ export default {
     const rol = ref("");
 
     onMounted(() => {
-      const storedRol = sessionStorage.getItem("rol");
+      const storedRol = localStorage.getItem("rol");
       if (storedRol) {
         rol.value = storedRol;
       }
@@ -130,6 +125,4 @@ p {
 .search-input {
   flex: 1;
 }
-
-
 </style>
