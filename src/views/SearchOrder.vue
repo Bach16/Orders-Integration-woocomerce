@@ -7,16 +7,18 @@
     <v-card class="ms-2 my-4 pa-4 tarjeta" elevation="2">
       <v-row align-center justify="center" class="pa-2 no-gutters">
         <v-col cols="12" md="8" class="d-flex justify-center">
-          <v-text-field
-            v-model="id"
+          <InputC
+            :vModel="id"
             hide-details
-            append-inner-icon="mdi-magnify"
+            appendInnerIcon="mdi-magnify"
             label="Buscar"
             variant="outlined"
             height="56"
             class="search-input"
             type="text"
-            @input="filterInput"
+            :input="filterInput"
+            :onlyNumber="true"
+            :isSearch="true"
           />
           <v-btn
             color="primary"
@@ -31,7 +33,12 @@
       </v-row>
     </v-card>
 
-    <SearchResultContainer :isLoading="orderStore?.ordersLoading" :ordersList="orderStore?.ordersList" :rol="rol"/>
+    <SearchResultContainer
+      :isLoading="orderStore?.ordersLoading"
+      :ordersList="orderStore?.ordersList"
+      :rol="rol"
+      :firstSearch="firstSearch"
+    />
   </v-container>
 </template>
 
@@ -42,9 +49,10 @@ import { onMounted, ref } from "vue";
 import NotFound from "../components/NotFound.vue";
 import SearchResultCard from "../components/SearchResultCard.vue";
 import SearchResultContainer from "../components/searchResultContainer.vue";
+import InputC from "../components/inputs/InputC.vue";
 
 export default {
-  components: { NotFound, SearchResultCard,SearchResultContainer },
+  components: { NotFound, SearchResultCard, SearchResultContainer, InputC },
   data: () => ({
     loaded: false,
     loading: false,
@@ -67,7 +75,6 @@ export default {
         rol.value = storedRol;
       }
       orderStore.getOrders(id.value, ruta[1]);
-
     });
 
     const filterInput = (event) => {
@@ -86,7 +93,7 @@ export default {
       id,
       filterInput,
       firstSearch,
-      rol
+      rol,
     };
   },
 };

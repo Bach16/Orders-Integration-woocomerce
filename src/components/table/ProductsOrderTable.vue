@@ -50,13 +50,13 @@
               <v-text-field
                 @input="onChangeToLocalStorage"
                 @keypress="onlyNumbers($event)"
-                name="product_id"
-                v-model="element.product_id"
+                name="quantity"
+                v-model="element.quantity"
                 hide-details="auto"
                 variant="plain"
               ></v-text-field>
             </td>
-            <td class="border-e-sm" v-else>{{ element.product_id }}</td>
+            <td class="border-e-sm" v-else>{{ element.quantity }}</td>
 
             <!-- N de Bultos -->
             <td class="border-e-sm" v-if="modificable">
@@ -138,7 +138,7 @@
       <tbody v-else>
         <tr v-for="element in order?.line_items" :key="element.name">
           <!-- Cantidad -->
-          <td class="border-e-sm">{{ element.product_id }}</td>
+          <td class="border-e-sm">{{ element.quantity }}</td>
 
           <!-- N de Bultos -->
           <td class="border-e-sm">{{ element.nbultos }}</td>
