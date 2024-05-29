@@ -4,9 +4,10 @@
     hide-details
     label="Subir comprobante de entrega"
     bg-color="primary"
-    color="white"
     class="font-weight-black"
     height="36"
+    variant="solo"
+    accept="image/*,.pdf"
   ></v-file-input>
   <RouterLink
     v-else

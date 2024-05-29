@@ -3,10 +3,17 @@
     <div id="printMe">
       <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
         <v-col cols="12">
-            <div @click="goBack" class="mb-3 d-flex text-subtitle-1 cursor-pointer reset-a d-print-none">
-              <v-icon icon="mdi-arrow-left-bold-circle-outline" color="primary" start></v-icon>
-              <p class="text-primary">Regresar</p>
-            </div>
+          <div
+            @click="goBack"
+            class="mb-3 d-flex text-subtitle-1 cursor-pointer reset-a d-print-none"
+          >
+            <v-icon
+              icon="mdi-arrow-left-bold-circle-outline"
+              color="primary"
+              start
+            ></v-icon>
+            <p class="text-primary">Regresar</p>
+          </div>
         </v-col>
         <v-col cols="12" md="8">
           <v-sheet class="bg-transparent">
@@ -14,22 +21,48 @@
           </v-sheet>
         </v-col>
         <v-col cols="12" md="4">
-          <h2 class="text-start text-primary">Nº de factura {{ orderStore?.orders[0]?.id }}</h2>
+          <h2 class="text-start text-primary">
+            Nº de factura {{ orderStore?.orders[0]?.id }}
+          </h2>
         </v-col>
       </v-row>
 
       <OrderInfo :order="orderStore?.orders[0]" />
 
       <!-- Tabla -->
-      <ProductsOrderTableSkeleton :modificable="false" v-if="orderStore?.ordersLoading" />
-      <ProductsOrderTable v-else :order="orderStore?.orders[0]" :modificable="false" />
+      <ProductsOrderTableSkeleton
+        :modificable="false"
+        v-if="orderStore?.ordersLoading"
+      />
+      <ProductsOrderTable
+        v-else
+        :order="orderStore?.orders[0]"
+        :modificable="false"
+      />
       <OrderTableFooter :order="orderStore?.orders[0]" :modificable="false" />
     </div>
 
-    <div class="text-center">
-      <v-btn class="ms-2 my-6" align-center color="primary" @click="onSaveClick">
-        Guardar para entregar
-      </v-btn>
+    <div class="mt-8">
+      <v-row no-gutters>
+        <v-col class="d-flex justify-end">
+          <v-btn
+            size="large"
+            class="px-6 mr-2"
+            rounded="lg"
+            color="primary"
+            @click="onSaveClick"
+          >
+            Guardar para entregar
+          </v-btn>
+        </v-col>
+        <v-col >
+          <v-btn size="large"
+            class="px-6 ml-2"
+            rounded="lg"color="primary" @click="print">
+            Imprimir guia
+          </v-btn>
+        </v-col>
+      </v-row>
     </div>
 
     <!-- Alerta -->
@@ -42,7 +75,12 @@
           title="Despacho guardado"
         >
           <template v-slot:actions>
-            <RouterLink :to="{ name: 'searchOrder', params: { id: orderStore?.orders[0]?.id } }">
+            <RouterLink
+              :to="{
+                name: 'searchOrder',
+                params: { id: orderStore?.orders[0]?.id },
+              }"
+            >
               <v-btn class="ms-auto" text="Ok" @click="dialog = false"></v-btn>
             </RouterLink>
           </template>
@@ -50,18 +88,19 @@
       </v-dialog>
       <!-- <v-btn class="ms-2 my-6" align-center color="primary" @click="print">
         Imprimir guia
-      </v-btn> -->  <!-- no borrar porfi -->
+      </v-btn> -->
+      <!-- no borrar porfi -->
     </div>
   </v-container>
 </template>
 
 <script>
-import OrderInfo from '../components/table/OrderInfo.vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useOrdersStore } from '../stores/Orders';
-import { onMounted, ref } from 'vue';
-import ProductsOrderTable from '../components/table/ProductsOrderTable.vue';
-import OrderTableFooter from '../components/table/OrderTableFooter.vue';
+import OrderInfo from "../components/table/OrderInfo.vue";
+import { useRoute, useRouter } from "vue-router";
+import { useOrdersStore } from "../stores/Orders";
+import { onMounted, ref } from "vue";
+import ProductsOrderTable from "../components/table/ProductsOrderTable.vue";
+import OrderTableFooter from "../components/table/OrderTableFooter.vue";
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
 
 export default {
@@ -69,22 +108,22 @@ export default {
     OrderInfo,
     ProductsOrderTable,
     OrderTableFooter,
-    ProductsOrderTableSkeleton
+    ProductsOrderTableSkeleton,
   },
   methods: {
     print() {
       // Pass the element id here
-      this.$htmlToPaper('printMe');
-    }
+      this.$htmlToPaper("printMe");
+    },
   },
 
   setup() {
     const route = useRoute();
     const router = useRouter();
     const orderStore = useOrdersStore();
-    const dialog = ref(false); 
+    const dialog = ref(false);
     const body = {
-      status: "completed"
+      status: "completed",
     };
     const goBack = () => {
       router.go(-1);
@@ -94,7 +133,7 @@ export default {
 
     const saveOrder = () => {
       orderStore.updateOrder(idasd, orderStore.orders[0]);
-      dialog.value = true; 
+      dialog.value = true;
     };
 
     const onSaveClick = () => {
@@ -114,9 +153,9 @@ export default {
       orderStore,
       dialog,
       onSaveClick,
-      goBack
+      goBack,
     };
-  }
+  },
 };
 </script>
 

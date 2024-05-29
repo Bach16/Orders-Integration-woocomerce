@@ -6,8 +6,8 @@
 
     <!-- Tarjeta Busqueda de pedidos -->
     <form @submit.prevent="orderSearch">
-    <v-card class="ms-2 my-4 pa-4 tarjeta">
-      <v-row no-gutters class="pa-2">
+      <v-card class="ms-2 my-4 pa-4 tarjeta">
+        <v-row no-gutters class="pa-2">
           <v-col lg="11" md="10" class="d-flex justify-center">
             <InputC
               :vModel="id"
@@ -26,8 +26,8 @@
           <v-col lg="1" md="2" class="d-flex justify-center">
             <v-btn
               color="primary"
-              :loading="loading"
               type="submit"
+              hide-details
               height="56"
               class="ml-2"
             >
@@ -57,10 +57,6 @@ import InputC from "../components/inputs/InputC.vue";
 
 export default {
   components: { SearchResultContainer, InputC },
-  data: () => ({
-    loading: false,
-  }),
-
   setup() {
     const orderStore = useOrdersStore();
     const route = useRoute();

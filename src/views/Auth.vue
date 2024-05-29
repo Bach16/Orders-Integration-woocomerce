@@ -4,14 +4,19 @@
       <v-row no-gutters class="card2">
         <v-col>
           <v-card class="rounded-xl pa-16">
-              <h1 class="font-weight-bold text-primary text-uppercase">
-                Inicio de Sesión
-              </h1>
+            <h1 class="font-weight-bold text-primary text-uppercase">
+              Inicio de Sesión
+            </h1>
             <form @submit.prevent="login">
               <v-row>
                 <v-col cols="12">
-                  {{ console.log(authStore?.error)}}
-                  <h4 v-if="authStore?.error == 403" class="text-red-lighten-1 font-weight-light text-subtitle-2 mb-1">Nombre de usuario o contraseña incorrectos</h4>
+                  {{ console.log(authStore?.error) }}
+                  <h4
+                    v-if="authStore?.error == 403"
+                    class="text-red-lighten-1 font-weight-light text-subtitle-2 mb-1"
+                  >
+                    Nombre de usuario o contraseña incorrectos
+                  </h4>
                   <h2 class="text-primary font-weight-bold mb-1">Usuario</h2>
                   <InputC
                     :vModel="inputs?.user"
@@ -21,9 +26,9 @@
                     prependInnerIcon="mdi-account-circle"
                     variant="outlined"
                     :input="userInput"
-                    />
-                    <h2 class="text-primary font-weight-bold mb-1">Contraseña</h2>
-                    <InputPassword
+                  />
+                  <h2 class="text-primary font-weight-bold mb-1">Contraseña</h2>
+                  <InputPassword
                     :vModel="inputs?.password"
                     classs="mb-2"
                     density="compact"
@@ -33,10 +38,8 @@
                     :input="passwordInput"
                   />
                   <v-card-actions class="d-flex justify-center">
-                    <!--                     <RouterLink :to="{ name: 'searchOrder' }">
- -->
                     <v-btn
-                    v-if="authStore?.isLoading"
+                      v-if="authStore?.isLoading"
                       hide-details
                       class="px-8 rounded-lg loading-button"
                       size="large"
@@ -46,19 +49,16 @@
                       Iniciar Sesión...
                     </v-btn>
                     <v-btn
-                    v-else
+                      v-else
                       hide-details
                       class="px-8 rounded-lg"
                       color="primary"
                       size="large"
                       type="submit"
                       variant="flat"
-                      
                     >
                       Iniciar Sesión
                     </v-btn>
-                    <!--                     </RouterLink>
- -->
                   </v-card-actions>
                 </v-col>
               </v-row>
@@ -80,17 +80,17 @@ import { useRouter } from "vue-router";
 export default {
   components: { InputC, InputPassword },
   setup() {
-    const router = useRouter()
+    const router = useRouter();
     const authStore = useAuthStore();
     let inputs = ref({
       user: "",
       password: "",
     });
     const login = () => {
-      const redirect = ()=>{
-        router.push('/searchOrder')
-      }
-      authStore.login(inputs.value.user, inputs.value.password,redirect);
+      const redirect = () => {
+        router.push("/searchOrder");
+      };
+      authStore.login(inputs.value.user, inputs.value.password, redirect);
     };
     const userInput = (event) => {
       inputs.value.user = event.target.value;
@@ -99,14 +99,14 @@ export default {
       inputs.value.password = event.target.value;
     };
     onMounted(() => {
-      authStore.error = 0
+      authStore.error = 0;
     });
     return {
       login,
       inputs,
       userInput,
       passwordInput,
-      authStore
+      authStore,
     };
   },
 };
