@@ -1,13 +1,14 @@
 <template>
-  <div v-if="isLoading">Loading...</div>
+  <v-container class="py-6 px-2">
+  <div v-if="isLoading" class="px-4">Cargando...</div>
   <div v-else-if="!isLoading && ordersList?.length" class="ms-2 list-container">
-    <v-sheet class="pa-6 mt-3 bg-transparent">
+    <v-sheet class="mb-1 bg-transparent">
       <h2 v-if="rol=='bodeguero'">Pedidos para el dia de hoy</h2>
       <h2 v-if="rol=='gerente'">Despachos para el dia de hoy</h2>
       <h2 v-if="rol=='conductor'">Lista de pedidos entregados</h2>
     </v-sheet>
     <v-row>
-      <v-col cols="12" md="6" lg="6" v-for="item in ordersList" :key="item.id">
+      <v-col  md="6" lg="6" v-for="item in ordersList" :key="item.id">
         <SearchResultCard
           v-if="rol == 'bodeguero'"
           route="preparationOrder"
@@ -34,6 +35,7 @@
     </v-row>
   </div>
   <div v-else-if="firstSearch"><NotFound /></div>
+</v-container>
 </template>
 <script>
 import NotFound from "./NotFound.vue";
