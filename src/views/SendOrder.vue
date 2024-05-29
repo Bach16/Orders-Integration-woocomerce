@@ -42,12 +42,12 @@
       <OrderTableFooter :order="orderStore?.orders[0]" :modificable="false" />
     </div>
 
-    <div class="text-center mt-8">
-      <v-row class="justify-center" no-gutters>
-        <v-col cols="3">
+    <div class="mt-8">
+      <v-row no-gutters>
+        <v-col class="d-flex justify-end">
           <v-btn
             size="large"
-            class="px-6"
+            class="px-6 mr-2"
             rounded="lg"
             color="primary"
             @click="onSaveClick"
@@ -55,9 +55,9 @@
             Guardar para entregar
           </v-btn>
         </v-col>
-        <v-col cols="3">
+        <v-col >
           <v-btn size="large"
-            class="px-6"
+            class="px-6 ml-2"
             rounded="lg"color="primary" @click="print">
             Imprimir guia
           </v-btn>
