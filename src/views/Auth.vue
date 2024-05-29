@@ -56,7 +56,7 @@ import InputPassword from "../components/inputs/InputPassword.vue";
 
 sessionStorage.setItem(
   "rol",
-  "bodeguero"
+  "gerente"
 ); /* cambiar para ver los distintos flujos (conductor - bodeguero - gerente) */
 export default {
   components: { InputC, InputPassword },
