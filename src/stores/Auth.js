@@ -28,7 +28,6 @@ export const useAuthStore = defineStore("auth", {
         const tokenResponse = await axios.post(
           `http://test.local/wp-json/jwt-auth/v1/token?username=${user}&password=${password}`
         );
-        console.log(tokenResponse.data);
         localStorage.setItem("token", tokenResponse.data.token);
 
         // Fetch user details
