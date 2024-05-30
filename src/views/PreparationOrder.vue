@@ -172,10 +172,10 @@ export default {
       if (!isSave) {
         orderStore?.orders[0]?.line_items.push({ ...newItem });
       }
-      if (isSave) {
-        orderStore.updateOrder(idasd, orderStore.orders[0]); // Simulamos una actualización del pedido
-        dialog.value = true; // Actualizar el estado del diálogo
-      }
+      
+            orderStore.updateOrder(idasd, { status: "completed" }); // Simulamos una actualización del pedido
+/*             orderStore.updateOrder(idasd, { }); // Simulamos una actualización del pedido
+ */       dialog.value = false; // Actualizar el estado del diálogo
     };
 
     const onChangeToLocalStorage = (e) => {
