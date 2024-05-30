@@ -1,5 +1,6 @@
 <template>
-  <v-card
+  <!-- Agregar nueva fila -->
+  <!-- <v-card
     v-if="modificable"
     flat
     class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md"
@@ -12,7 +13,7 @@
       start
       @click="callModifyObject"
     ></v-icon>
-  </v-card>
+  </v-card> -->
 
   <v-card class="my-6 ms-2 datos" flat>
     <v-table class="tabla border-primary border-opacity-50 border-md">
@@ -20,8 +21,7 @@
         <tr>
           <th class="border-e-sm border-b-md font-weight-bold">Cantidad</th>
           <th class="border-e-sm border-b-md font-weight-bold">
-            N de <br />
-            bultos
+            N de <br />bultos
           </th>
           <th class="border-e-sm border-b-md font-weight-bold">
             Unidades <br />por bulto
@@ -43,7 +43,7 @@
         </tr>
       </thead>
 
-      <!-- <draggable
+      <!--       <draggable
         v-if="modificable"
         :list="order?.line_items"
         tag="tbody"
@@ -51,13 +51,13 @@
         animation="200"
         ghost-class="drag-ghost"
         handle=".drag-handle"
-      >
+        >
         <template #item="{ element, index }">
           <tr :key="String(element.id)" class="drag-handle"> -->
 
       <!-- Tabla sin draggable -->
       <tbody v-if="modificable">
-        <tr tr v-for="element in order?.line_items" :key="element.id">
+        <tr v-for="element in order?.line_items" :key="element.id">
           
           <!-- Cantidad -->
           <td class="border-e-sm" v-if="element.input">
@@ -146,12 +146,8 @@
         </tr>
       </tbody>
 
-
-      <!--     </template>
-      </draggable> -->
-
       <tbody v-else>
-        <tr v-for="element in order?.line_items" :key="element.name">
+        <tr v-for="element in order?.line_items" :key="element.id">
           <!-- Cantidad -->
           <td class="border-e-sm">{{ element.quantity }}</td>
 
@@ -226,17 +222,21 @@ export default {
 <style>
 .drag-ghost {
   opacity: 0.035;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Agrega un sombreado a la fila arrastrada */
-  border: 2px solid #ddd; /* Añade un borde alrededor de la fila arrastrada */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Agrega un sombreado a la fila arrastrada */
+  border: 2px solid #ddd;
+  /* Añade un borde alrededor de la fila arrastrada */
   background-color: rgb(0, 68, 255);
 }
 
 .drag-handle {
-  cursor: move !important; /* Forzar cursor a icono de movimiento */
+  cursor: move !important;
+  /* Forzar cursor a icono de movimiento */
 }
 
 .drag-handle:active {
-  cursor: move !important; /* Asegurar que el icono de movimiento se muestra mientras se arrastra */
+  cursor: move !important;
+  /* Asegurar que el icono de movimiento se muestra mientras se arrastra */
 }
 
 /* Aplicar a todo el componente draggable para asegurar que no parpadee el cursor */
@@ -249,11 +249,13 @@ export default {
 .fade-leave-active {
   transition: all 0.3s ease;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
   transform: translateY(20px);
 }
+
 .tabla {
   width: 100%;
 }

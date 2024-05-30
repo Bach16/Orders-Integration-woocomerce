@@ -60,7 +60,6 @@
           />
           <div v-else >
             <AddRowButton :index="index" :save="save" />
-           <!--  <v-btn icon="mdi-plus" start @click="newRow(index)"></v-btn> -->
           </div>
         </div>
       </div>
@@ -279,7 +278,7 @@ a:active {
 }
 
 .top-container {
-  height: 10.4rem;
+  height: 5.1rem;
 }
 
 .delete-button {
