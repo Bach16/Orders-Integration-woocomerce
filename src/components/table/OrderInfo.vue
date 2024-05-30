@@ -38,28 +38,7 @@
           <span class="ml-4">{{ order?.billing?.address_1 }}</span>
         </v-col>
 
-        <!-- Administrador de contrato -->
-        <v-col cols="12" md="4" class="px-3 py-3 border-t-sm border-e-sm">
-          <span class="bold-text">Administrador de contrato: </span>
-          <span v-if="isResponsive"><br /></span>
-          <span>{{ order?.billing?.first_name + " " + order?.billing?.last_name}}</span>
-        </v-col>
-
-
-        <!-- E-mail -->
-        <v-col cols="6" md="4" class="px-3 py-3 border-t-sm border-e-sm">
-          <span class="bold-text">E-mail: </span>
-          <span v-if="isResponsive"><br></span>
-          <span>{{ truncateText(order?.billing?.email) }}</span>
-        </v-col>
-
-        <!-- Telefono -->
-        <v-col cols="6" md="4" class="px-3 py-3 border-t-sm ">
-          <span class="bold-text">Telefono: </span>
-          <span v-if="isResponsive"><br></span>
-          <span>{{ order?.billing?.phone }}</span>
-        </v-col>
-
+       
         <!-- Bodeguero -->
         <v-col cols="12" md="4" class="px-3 pt-3 pb-4 border-t-sm border-e-sm">
           <span class="bold-text">Bodeguero: </span>

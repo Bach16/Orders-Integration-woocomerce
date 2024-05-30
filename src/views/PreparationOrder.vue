@@ -55,7 +55,9 @@
             :id="item.id"
             v-if="item?.isNew"
           />
-          <div v-else class="delete-button"></div>
+          <div v-else class="delete-button">
+            <v-icon class="del-button" icon="mdi-plus" start></v-icon>
+          </div>
         </div>
       </div>
     </div>

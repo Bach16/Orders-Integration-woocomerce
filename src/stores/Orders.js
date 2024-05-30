@@ -7,7 +7,9 @@ const AUTH_HEADER = {
     Authorization:
       "Basic " +
       btoa(
-        `${import.meta.env.VITE_ECOMMERCE_USERNAME}:${import.meta.env.VITE_ECOMMERCE_PASSWORD}`
+        `${import.meta.env.VITE_ECOMMERCE_USERNAME}:${
+          import.meta.env.VITE_ECOMMERCE_PASSWORD
+        }`
       ),
   },
 };
@@ -22,16 +24,21 @@ export const useOrdersStore = defineStore("orders", {
   }),
   actions: {
     async getOrders(id, path) {
+      console.log(id);
       this.ordersLoading = true;
       try {
         const localStorageParsed = JSON.parse(
           localStorage.getItem("order_line_items")
         );
-        const url = id.length ? `${BASE_URL}?include=${id}` : BASE_URL;
+        const url = id.length ? `${BASE_URL}?include=${id}` : `${BASE_URL}?per_page=100`;
         let response = await axios.get(url, AUTH_HEADER);
 
         if (response.data[0]?.line_items) {
-          response.data[0].line_items = response.data[0]?.line_items.map((e) => {return { ...e, checked: false };})
+          response.data[0].line_items = response.data[0]?.line_items.map(
+            (e) => {
+              return { ...e, checked: false };
+            }
+          );
         }
 
         if (path === "searchOrder") {
@@ -42,15 +49,17 @@ export const useOrdersStore = defineStore("orders", {
           if (id in localStorageParsed) {
             response.data[0] = localStorageParsed[id];
           } else {
-            localStorage.setItem(
-              "order_line_items",
-              JSON.stringify({
-                ...localStorageParsed,
-                [id]: response.data[0],
-              })
-            );
+            if (!!id) {
+              localStorage.setItem(
+                "order_line_items",
+                JSON.stringify({
+                  ...localStorageParsed,
+                  [id]: response.data[0],
+                })
+              );
+            }
           }
-          return this.orders = response.data
+          return (this.orders = response.data);
         } else {
           this.orders = response.data;
         }
@@ -75,14 +84,19 @@ export const useOrdersStore = defineStore("orders", {
         this.orderUpdateLoading = false;
       } */
     },
-    async updateOrderComments(id,comments) {
-      this.orders[0] = {...this.orders[0],comments:comments};
+    async updateOrderComments(id, comments) {
+      this.orders[0] = { ...this.orders[0], comments: comments };
     },
-    async updateOrderTotalBoxes(id,totalNumber) {
-      this.orders[0] = {...this.orders[0],totalVariousBoxes:parseInt(totalNumber)};
+    async updateOrderTotalBoxes(id, totalNumber) {
+      this.orders[0] = {
+        ...this.orders[0],
+        totalVariousBoxes: parseInt(totalNumber),
+      };
     },
     deleteSubproduct(id) {
-      this.orders[0].line_items = this.orders[0]?.line_items.filter(e=>{return e.id !== id})
+      this.orders[0].line_items = this.orders[0]?.line_items.filter((e) => {
+        return e.id !== id;
+      });
     },
   },
 });

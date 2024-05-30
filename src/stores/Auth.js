@@ -26,13 +26,13 @@ export const useAuthStore = defineStore("auth", {
       try {
         // Request for the JWT token
         const tokenResponse = await axios.post(
-          `http://test.local/wp-json/jwt-auth/v1/token?username=${user}&password=${password}`
+          `${import.meta.env.VITE_JWT_URL}?username=${user}&password=${password}`
         );
         localStorage.setItem("token", tokenResponse.data.token);
 
         // Fetch user details
         const userResponse = await axios.get(
-          "http://test.local/wp-json/wp/v2/users/me?context=edit",
+          `${import.meta.env.VITE_WORDPRESS_USER_URL}?context=edit`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
