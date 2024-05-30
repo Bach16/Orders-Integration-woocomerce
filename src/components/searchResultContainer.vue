@@ -2,7 +2,7 @@
   <v-container class="py-6 px-2">
   <div v-if="isLoading" class="px-4">Cargando...</div>
   <div v-else-if="!isLoading && ordersList?.length" class="ms-2 list-container">
-    <v-sheet class="mb-1 bg-transparent">
+    <v-sheet class="mb-6 bg-transparent">
       <h2 v-if="!!(!isLoading && ordersList?.length) && !!firstSearch">Resultados de busqueda</h2>
       <h2 v-else-if="rol=='bodeguero'">Pedidos para el dia de hoy</h2>
       <h2 v-else-if="rol=='logistica'">Despachos para el dia de hoy</h2>

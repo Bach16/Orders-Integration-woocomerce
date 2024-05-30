@@ -1,5 +1,5 @@
 <template>
-  <v-card class="my-4 pa-3 tarjeta">
+  <v-card class="mb-1 pa-3 tarjeta">
     <v-row class="pa-2 align-center" no-gutters>
       <v-col cols="4">
         <p>Factura #{{ id }}</p>

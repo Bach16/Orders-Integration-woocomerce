@@ -4,7 +4,7 @@
       <v-row no-gutters class="card2">
         <v-col>
           <v-card class="rounded-xl pa-16">
-            <h1 class="font-weight-bold text-primary text-uppercase">
+            <h1 class="font-weight-bold mb-6 text-center text-primary text-uppercase">
               Inicio de Sesión
             </h1>
             <form @submit.prevent="login">
