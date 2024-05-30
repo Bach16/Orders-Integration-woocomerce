@@ -43,20 +43,24 @@
           :onChangeToLocalStorage="onChangeToLocalStorage"
         />
       </div>
+
+      <!-- Boton eliminar -->
       <div class="py-0 px-2">
         <div class="top-container"></div>
         <div
-          v-for="item in orderStore?.orders[0]?.line_items"
+          v-for="item,index in orderStore?.orders[0]?.line_items"
           :key="item.id"
           class="d-flex flex-column"
         >
+
           <DeleteTableButton
             :onClick="orderStore?.deleteSubproduct"
             :id="item.id"
             v-if="item?.isNew"
           />
-          <div v-else class="delete-button">
-            <v-icon class="del-button" icon="mdi-plus" start></v-icon>
+          <div v-else >
+            <AddRowButton :index="index" :save="save" />
+           <!--  <v-btn icon="mdi-plus" start @click="newRow(index)"></v-btn> -->
           </div>
         </div>
       </div>
@@ -110,6 +114,8 @@ import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted, watch, ref } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
+import AddRowButton from "../components/buttons/AddRowButton.vue"
+
 
 export default {
   components: {
@@ -118,6 +124,7 @@ export default {
     OrderTableFooter,
     ProductsOrderTableSkeleton,
     DeleteTableButton,
+    AddRowButton
   },
   data() {
     return {
@@ -152,7 +159,7 @@ export default {
       orderStore.updateOrder(idasd.value, body);
     };
 
-    const save = (isSave) => {
+    const save = (isSave,index) => {
       const localStorageParsed = JSON.parse(
         localStorage.getItem("order_line_items")
       );
@@ -170,7 +177,7 @@ export default {
         id: String(Date.now()).slice(-7),
       };
       if (!isSave) {
-        orderStore?.orders[0]?.line_items.push({ ...newItem });
+        orderStore?.orders[0]?.line_items.splice(index+ 1, 0, newItem);
       }
       if (isSave) {
         orderStore.updateOrder(idasd, orderStore.orders[0]); // Simulamos una actualización del pedido
@@ -202,6 +209,7 @@ export default {
     const onSaveClick = () => {
       save(true);
     };
+
 
     onMounted(() => {
       if (orderStore?.orders[0]?.id !== route.params.id) {
@@ -280,6 +288,7 @@ a:active {
   justify-content: center;
   align-items: center;
 }
+
 .table-container {
   width: 95%;
 }

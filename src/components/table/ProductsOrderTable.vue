@@ -19,11 +19,20 @@
       <thead>
         <tr>
           <th class="border-e-sm border-b-md font-weight-bold">Cantidad</th>
-          <th class="border-e-sm border-b-md font-weight-bold"> N de <br /> bultos </th>
-          <th class="border-e-sm border-b-md font-weight-bold">Unidades <br />por bulto</th>
-          <th class="border-e-sm border-b-md font-weight-bold">Total de <br />unidades</th>
+          <th class="border-e-sm border-b-md font-weight-bold">
+            N de <br />
+            bultos
+          </th>
+          <th class="border-e-sm border-b-md font-weight-bold">
+            Unidades <br />por bulto
+          </th>
+          <th class="border-e-sm border-b-md font-weight-bold">
+            Total de <br />unidades
+          </th>
           <th class="border-e-sm border-b-md font-weight-bold">Varios</th>
-          <th class="border-e-sm border-b-md font-weight-bold">Descripcion del producto</th>
+          <th class="border-e-sm border-b-md font-weight-bold">
+            Descripcion del producto
+          </th>
           <th class="border-b-md font-weight-bold">Supervisado</th>
           <th
             v-if="!modificable"
@@ -33,8 +42,8 @@
           </th>
         </tr>
       </thead>
-      
-      <draggable
+
+      <!-- <draggable
         v-if="modificable"
         :list="order?.line_items"
         tag="tbody"
@@ -44,96 +53,102 @@
         handle=".drag-handle"
       >
         <template #item="{ element, index }">
-          <tr :key="String(element.id)" class="drag-handle">
-            <!-- Cantidad -->
-            <td class="border-e-sm" v-if="element.input">
-              <v-text-field
-                @input="onChangeToLocalStorage"
-                @keypress="onlyNumbers($event)"
-                name="quantity"
-                v-model="element.quantity"
-                hide-details="auto"
-                variant="plain"
-              ></v-text-field>
-            </td>
-            <td class="border-e-sm" v-else>{{ element.quantity }}</td>
+          <tr :key="String(element.id)" class="drag-handle"> -->
 
-            <!-- N de Bultos -->
-            <td class="border-e-sm" v-if="modificable">
-              <v-text-field
-                @input="onChangeToLocalStorage"
-                @keypress="onlyNumbers($event)"
-                name="nbultos"
-                v-model="element.nbultos"
-                hide-details="auto"
-                variant="plain"
-              ></v-text-field>
-            </td>
+      <!-- Tabla sin draggable -->
+      <tbody v-if="modificable">
+        <tr tr v-for="element in order?.line_items" :key="element.id">
+          
+          <!-- Cantidad -->
+          <td class="border-e-sm" v-if="element.input">
+            <v-text-field
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="quantity"
+              v-model="element.quantity"
+              hide-details="auto"
+              variant="plain"
+            ></v-text-field>
+          </td>
+          <td class="border-e-sm" v-else>{{ element.quantity }}</td>
 
-            <!-- Unidades por bulto -->
-            <td class="border-e-sm" v-if="modificable">
-              <v-text-field
-                @input="onChangeToLocalStorage"
-                @keypress="onlyNumbers($event)"
-                name="unidbultos"
-                v-model="element.unidbultos"
-                hide-details="auto"
-                variant="plain"
-              ></v-text-field>
-            </td>
-            
+          <!-- N de Bultos -->
+          <td class="border-e-sm" v-if="modificable">
+            <v-text-field
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="nbultos"
+              v-model="element.nbultos"
+              hide-details="auto"
+              variant="plain"
+            ></v-text-field>
+          </td>
 
-            <!-- Total de unidades -->
-            <td class="border-e-sm" v-if="modificable">
-              <v-text-field
-                @input="onChangeToLocalStorage"
-                @keypress="onlyNumbers($event)"
-                name="totalunidades"
-                v-model="element.totalunidades"
-                hide-details="auto"
-                variant="plain"
-              ></v-text-field>
-            </td>
-           <!--  <td class="border-e-sm" v-else>{{ element.quantity }}</td> -->
+          <!-- Unidades por bulto -->
+          <td class="border-e-sm" v-if="modificable">
+            <v-text-field
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="unidbultos"
+              v-model="element.unidbultos"
+              hide-details="auto"
+              variant="plain"
+            ></v-text-field>
+          </td>
 
-           <!-- Varios -->
-            <td class="border-e-sm" v-if="modificable">
-              <v-text-field
-                @input="onChangeToLocalStorage"
-                @keypress="onlyNumbers($event)"
-                name="varios"
-                v-model="element.varios"
-                hide-details="auto"
-                variant="plain"
-              ></v-text-field>
-            </td>
+          <!-- Total de unidades -->
+          <td class="border-e-sm" v-if="modificable">
+            <v-text-field
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="totalunidades"
+              v-model="element.totalunidades"
+              hide-details="auto"
+              variant="plain"
+            ></v-text-field>
+          </td>
 
-            <!-- Descripcion -->
-            <td class="border-e-sm" v-if="element.input">
-              <v-text-field
-                @input="onChangeToLocalStorage"
-                name="name"
-                v-model="element.name"
-                hide-details="auto"
-                variant="plain"
-              ></v-text-field>
-            </td>
-            <td class="border-e-sm" v-else>{{ element.name }}</td>
+          <!-- Varios -->
+          <td class="border-e-sm" v-if="modificable">
+            <v-text-field
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="varios"
+              v-model="element.varios"
+              hide-details="auto"
+              variant="plain"
+            ></v-text-field>
+          </td>
 
-            <!-- Supervisado -->
-            <td v-if="element.input">
-              <v-text-field
-                @input="onChangeToLocalStorage"
-                name="price"
-                v-model="element.price"
-                hide-details="auto"
-                variant="plain"
-              ></v-text-field>
-            </td>
-            <td v-else>{{ element.price }}</td>
-          </tr>
-        </template>
-      </draggable>
+          <!-- Descripcion -->
+          <td class="border-e-sm" v-if="element.input">
+            <v-text-field
+              @input="onChangeToLocalStorage"
+              name="name"
+              v-model="element.name"
+              hide-details="auto"
+              variant="plain"
+            ></v-text-field>
+          </td>
+          <td class="border-e-sm" v-else>{{ element.name }}</td>
+
+          <!-- Supervisado -->
+          <td v-if="element.input">
+            <v-text-field
+              @input="onChangeToLocalStorage"
+              name="price"
+              v-model="element.price"
+              hide-details="auto"
+              variant="plain"
+            ></v-text-field>
+          </td>
+          <td v-else>{{ element.price }}</td>
+        </tr>
+      </tbody>
+
+
+      <!--     </template>
+      </draggable> -->
 
       <tbody v-else>
         <tr v-for="element in order?.line_items" :key="element.name">
@@ -151,7 +166,7 @@
 
           <!-- Varios -->
           <td class="border-e-sm">{{ element.varios }}</td>
-          
+
           <!-- Descripcion -->
           <td class="border-e-sm">{{ element.name }}</td>
 

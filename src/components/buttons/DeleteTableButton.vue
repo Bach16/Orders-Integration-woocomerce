@@ -1,6 +1,6 @@
 <template>
   <div @click="onClick(id)" class="delete-button">
-    <v-icon class="del-button" icon="mdi-delete" start></v-icon>
+    <v-icon class="del-button text-primary" icon="mdi-delete" start></v-icon>
   </div>
 </template>
 
