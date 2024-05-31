@@ -52,14 +52,5 @@ import { useOrdersStore } from "../stores/Orders";
 export default {
   components: { NotFound, SearchResultCard },
   props: ["isLoading", "ordersList", "rol", "firstSearch"],
-  setup() {
-    let file = ref("");
-    const orderStore = useOrdersStore();
-    
-    return {
-      file,
-      orderStore,
-    };
-  },
 };
 </script>

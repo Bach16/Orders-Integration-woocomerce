@@ -1,5 +1,8 @@
 <template>
   <v-container class="mx-lg-16 mx-2 container">
+    <!-- Banner de sesión -->
+    <SessionBanner :username="username" @logout="logout" />
+
     <v-sheet class="py-6 px-2 bg-transparent">
       <h1>Busqueda de Pedidos</h1>
     </v-sheet>
@@ -54,9 +57,9 @@ import { useOrdersStore } from "../stores/Orders";
 import { onMounted, ref } from "vue";
 import SearchResultContainer from "../components/searchResultContainer.vue";
 import InputC from "../components/inputs/InputC.vue";
-
+import SessionBanner from "../components/buttons/SessionBanner.vue";
 export default {
-  components: { SearchResultContainer, InputC },
+  components: { SearchResultContainer, InputC, SessionBanner },
   setup() {
     const orderStore = useOrdersStore();
     const route = useRoute();
@@ -124,5 +127,10 @@ p {
 
 .search-input {
   flex: 1;
+}
+
+.session-banner {
+  padding: 10px;
+  text-align: center;
 }
 </style>

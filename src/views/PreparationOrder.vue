@@ -134,7 +134,7 @@ export default {
         totalunidades: "",
         varios: "",
         name: "",
-        price: "",
+        supervisado: "",
         input: true,
         checked: false,
         isNew: true,
@@ -169,7 +169,7 @@ export default {
         totalunidades: "",
         varios: "",
         name: "",
-        price: "",
+        supervisado: "",
         input: true,
         checked: false,
         isNew: true,
@@ -181,7 +181,7 @@ export default {
       
             orderStore.updateOrder(idasd, { status: "completed" }); // Simulamos una actualización del pedido
 /*             orderStore.updateOrder(idasd, { }); // Simulamos una actualización del pedido
- */       dialog.value = false; // Actualizar el estado del diálogo
+ */       dialog.value = true; // Actualizar el estado del diálogo
     };
 
     const onChangeToLocalStorage = (e) => {

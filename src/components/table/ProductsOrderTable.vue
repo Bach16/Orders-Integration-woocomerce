@@ -58,7 +58,6 @@
       <!-- Tabla sin draggable -->
       <tbody v-if="modificable">
         <tr v-for="element in order?.line_items" :key="element.id">
-          
           <!-- Cantidad -->
           <td class="border-e-sm" v-if="element.input">
             <v-text-field
@@ -133,44 +132,45 @@
           <td class="border-e-sm" v-else>{{ element.name }}</td>
 
           <!-- Supervisado -->
-          <td v-if="element.input">
+          <td v-if="modificable">
             <v-text-field
               @input="onChangeToLocalStorage"
-              name="price"
-              v-model="element.price"
+              @keypress="onlyNumbers($event)"
+              name="supervisado"
+              v-model="element.supervisado"
               hide-details="auto"
               variant="plain"
             ></v-text-field>
           </td>
-          <td v-else>{{ element.price }}</td>
+          <td v-else>{{ element.supervisado }}</td>
         </tr>
       </tbody>
 
       <tbody v-else>
         <tr v-for="element in order?.line_items" :key="element.id">
           <!-- Cantidad -->
-          <td class="border-e-sm">{{ element.quantity }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.quantity }}</td>
 
           <!-- N de Bultos -->
-          <td class="border-e-sm">{{ element.nbultos }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.nbultos }}</td>
 
           <!-- Unidades por bulto -->
-          <td class="border-e-sm">{{ element.unidbultos }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.unidbultos }}</td>
 
           <!-- Total de unidades -->
-          <td class="border-e-sm">{{ element.totalunidades }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.totalunidades }}</td>
 
           <!-- Varios -->
-          <td class="border-e-sm">{{ element.varios }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.varios }}</td>
 
           <!-- Descripcion -->
-          <td class="border-e-sm">{{ element.name }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.name }}</td>
 
           <!-- Supervisado -->
-          <td class="border-e-sm">{{ element.price }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.supervisado }}</td>
 
           <!-- Listo -->
-          <td>
+          <td class="border-e-sm border-b-sm">
             <v-checkbox v-model="element.checked" hide-details></v-checkbox>
           </td>
         </tr>
