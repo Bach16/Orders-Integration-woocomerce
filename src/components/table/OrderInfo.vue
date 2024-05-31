@@ -6,7 +6,7 @@
         <v-col cols="12" md="12" class="px-3 pt-4 pb-3">
           <span class="bold-text">Razón social: </span>
           <!-- Mantener el texto "Razón social" en la parte superior y aplicar el salto de línea en el modo responsive -->
-          <span class="ml-4">{{ order?.billing?.company }}</span>
+          <span class="ml-4">{{ order?.billing?.company }} </span>
         </v-col>
 
         <!-- Provincia -->
@@ -35,7 +35,7 @@
         <v-col cols="12" md="12" class="px-3 py-3 border-t-sm">
           <span class="bold-text">Direccion: </span>
           <span v-if="isResponsive"><br /></span>
-          <span class="ml-4">{{ order?.billing?.address_1 }}</span>
+          <span class="ml-4">{{ order?.billing?.address_1 }} {{ order?.billing?.address_2 }}</span>
         </v-col>
 
        
@@ -45,8 +45,6 @@
           <span v-if="isResponsive"><br></span>
           <span>{{ "Nombre bodeguero" }}</span>
         </v-col>
-
-
 
         <!-- E-mail -->
         <v-col cols="6" md="4" class="px-3 pt-3 pb-4 border-t-sm border-e-sm">

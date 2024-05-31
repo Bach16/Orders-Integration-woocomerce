@@ -26,11 +26,19 @@ export const useOrdersStore = defineStore("orders", {
     async getOrders(id, path) {
       console.log(id);
       this.ordersLoading = true;
+      function getCurrentFormattedDate() {
+        const now = new Date();
+        const Time = new Date(
+          now.getTime()
+        );
+        return `${Time.toISOString().slice(0,-14)}T05:00:00Z`;
+      }
+      console.log(getCurrentFormattedDate());
       try {
         const localStorageParsed = JSON.parse(
           localStorage.getItem("order_line_items")
         );
-        const url = id.length ? `${BASE_URL}?include=${id}` : `${BASE_URL}?per_page=100`;
+        const url = id.length ? `${BASE_URL}?include=${id}` : `${BASE_URL}?per_page=100&after=${getCurrentFormattedDate()}&status=completed`;
         let response = await axios.get(url, AUTH_HEADER);
 
         if (response.data[0]?.line_items) {
@@ -71,7 +79,7 @@ export const useOrdersStore = defineStore("orders", {
     },
     async updateOrder(id, updatedData) {
       this.orderUpdateLoading = true;
-      /* try {
+      try {
         const response = await axios.put(
           `${BASE_URL}/${id}`,
           updatedData,
@@ -82,7 +90,7 @@ export const useOrdersStore = defineStore("orders", {
         console.error(error.message);
       } finally {
         this.orderUpdateLoading = false;
-      } */
+      }
     },
     async updateOrderComments(id, comments) {
       this.orders[0] = { ...this.orders[0], comments: comments };
