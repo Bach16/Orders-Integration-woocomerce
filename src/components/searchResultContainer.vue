@@ -5,7 +5,7 @@
       v-else-if="!isLoading && ordersList?.length"
       class="ms-2 list-container"
     >
-      <v-sheet class="mb-1 bg-transparent">
+      <v-sheet class="mb-6 bg-transparent">
         <h2 v-if="!!(!isLoading && ordersList?.length) && !!firstSearch">
           Resultados de busqueda
         </h2>

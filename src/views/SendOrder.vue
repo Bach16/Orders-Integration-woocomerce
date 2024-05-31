@@ -98,7 +98,7 @@
 import OrderInfo from "../components/table/OrderInfo.vue";
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import ProductsOrderTable from "../components/table/ProductsOrderTable.vue";
 import OrderTableFooter from "../components/table/OrderTableFooter.vue";
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
@@ -135,6 +135,19 @@ export default {
       orderStore.updateOrder(idasd, orderStore.orders[0]);
       dialog.value = true;
     };
+    watch(
+      () => orderStore.orders,
+      (orders) => {
+        localStorage.setItem(
+          "order_line_items",
+          JSON.stringify({
+            ...JSON.parse(localStorage.getItem("order_line_items")),
+            [idasd]: orders[0],
+          })
+        );
+      },
+      { deep: true }
+    );
 
     const onSaveClick = () => {
       saveOrder();
