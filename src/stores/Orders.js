@@ -78,6 +78,7 @@ export const useOrdersStore = defineStore("orders", {
       }
     },
     async updateOrder(id, updatedData) {
+      console.log(updatedData);
       this.orderUpdateLoading = true;
       try {
         const response = await axios.put(

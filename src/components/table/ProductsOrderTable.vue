@@ -77,7 +77,7 @@
               @input="onChangeToLocalStorage"
               @keypress="onlyNumbers($event)"
               name="nbultos"
-              v-model="element.nbultos"
+              v-model="element.meta_data[0].value"
               hide-details="auto"
               variant="plain"
             ></v-text-field>
@@ -89,7 +89,7 @@
               @input="onChangeToLocalStorage"
               @keypress="onlyNumbers($event)"
               name="unidbultos"
-              v-model="element.unidbultos"
+              v-model="element.meta_data[1].value"
               hide-details="auto"
               variant="plain"
             ></v-text-field>
@@ -101,7 +101,7 @@
               @input="onChangeToLocalStorage"
               @keypress="onlyNumbers($event)"
               name="totalunidades"
-              v-model="element.totalunidades"
+              v-model="element.meta_data[2].value"
               hide-details="auto"
               variant="plain"
             ></v-text-field>
@@ -113,7 +113,7 @@
               @input="onChangeToLocalStorage"
               @keypress="onlyNumbers($event)"
               name="varios"
-              v-model="element.varios"
+              v-model="element.meta_data[3].value"
               hide-details="auto"
               variant="plain"
             ></v-text-field>
@@ -137,7 +137,7 @@
               @input="onChangeToLocalStorage"
               @keypress="onlyLetters($event)"
               name="supervisado"
-              v-model="element.supervised"
+              v-model="element.meta_data[4].value"
               hide-details="auto"
               variant="plain"
             ></v-text-field>
@@ -152,22 +152,22 @@
           <td class="border-e-sm border-b-sm">{{ element.quantity }}</td>
 
           <!-- N de Bultos -->
-          <td class="border-e-sm border-b-sm">{{ element.nbultos }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.meta_data[0].nbultos }}</td>
 
           <!-- Unidades por bulto -->
-          <td class="border-e-sm border-b-sm">{{ element.unidbultos }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.meta_data[1].unidbultos }}</td>
 
           <!-- Total de unidades -->
-          <td class="border-e-sm border-b-sm">{{ element.totalunidades }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.meta_data[2].totalunidades }}</td>
 
           <!-- Varios -->
-          <td class="border-e-sm border-b-sm">{{ element.varios }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.meta_data[3].varios }}</td>
 
           <!-- Descripcion -->
           <td class="border-e-sm border-b-sm">{{ element.name }}</td>
 
           <!-- Supervisado -->
-          <td class="border-e-sm border-b-sm">{{ element.supervised }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.meta_data[4].supervised }}</td>
 
           <!-- Listo -->
           <td class="border-e-sm border-b-sm">
@@ -187,7 +187,7 @@ import { useOrdersStore } from "../../stores/Orders";
 const orderStore = useOrdersStore();
 
 export default {
-  props: ["order", "modificable", "newItem", "save", "onChangeToLocalStorage"],
+  props: ["order", "modificable", "save", "onChangeToLocalStorage"],
   setup() {
     watch(
       () => orderStore.orders,
