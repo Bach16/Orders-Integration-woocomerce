@@ -2,8 +2,15 @@
   <v-container class="mx-lg-16 mx-2 container">
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
-        <div @click="goBack" class="mb-3 cursor-pointer d-flex text-subtitle-1 reset-a">
-          <v-icon icon="mdi-arrow-left-bold-circle-outline" color="primary" start></v-icon>
+        <div
+          @click="goBack"
+          class="mb-3 cursor-pointer d-flex text-subtitle-1 reset-a"
+        >
+          <v-icon
+            icon="mdi-arrow-left-bold-circle-outline"
+            color="primary"
+            start
+          ></v-icon>
           <p class="text-primary">Regresar</p>
         </div>
       </v-col>
@@ -22,18 +29,33 @@
     <OrderInfo :order="orderStore?.orders[0]" />
 
     <!-- Tabla -->
-    <ProductsOrderTableSkeleton :modificable="true" v-if="orderStore?.ordersLoading" />
+    <ProductsOrderTableSkeleton
+      :modificable="true"
+      v-if="orderStore?.ordersLoading"
+    />
     <div class="d-flex table-wrapper" v-else>
       <div class="table-container">
-        <ProductsOrderTable :order="orderStore?.orders[0]" :modificable="true" :newItem="newItem" :save="save"
-          :onChangeToLocalStorage="onChangeToLocalStorage" />
+        <ProductsOrderTable
+          :order="orderStore?.orders[0]"
+          :modificable="true"
+          :save="save"
+          :onChangeToLocalStorage="onChangeToLocalStorage"
+        />
       </div>
 
       <!-- Boton eliminar -->
       <div class="py-0 px-2">
         <div class="top-container"></div>
-        <div v-for="item, index in orderStore?.orders[0]?.line_items" :key="item.id" class="d-flex flex-column">
-          <DeleteTableButton :onClick="orderStore?.deleteSubproduct" :id="item.id" v-if="item?.isNew" />
+        <div
+          v-for="(item, index) in orderStore?.orders[0]?.line_items"
+          :key="item.id"
+          class="d-flex flex-column"
+        >
+          <DeleteTableButton
+            :onClick="orderStore?.deleteSubproduct"
+            :id="item.id"
+            v-if="!item?.total"
+          />
           <div v-else>
             <AddRowButton :index="index" :save="save" />
           </div>
@@ -41,11 +63,21 @@
       </div>
     </div>
 
-    <OrderTableFooter :order="orderStore?.orders[0]" :modificable="true" :_id="orderStore?.orders[0]?.id"
-      :comments="orderStore?.orders[0]?.comments" />
+    <OrderTableFooter
+      :order="orderStore?.orders[0]"
+      :modificable="true"
+      :_id="orderStore?.orders[0]?.id"
+      :comments="orderStore?.orders[0]?.comments"
+    />
 
     <div class="text-center mt-8">
-      <v-btn size="large" class="px-6" rounded="lg" color="primary" @click="onSaveClick">
+      <v-btn
+        size="large"
+        class="px-6"
+        rounded="lg"
+        color="primary"
+        @click="onSaveClick"
+      >
         Guardar para despacho
       </v-btn>
     </div>
@@ -53,8 +85,12 @@
     <!-- Alerta de pedido actualizado -->
     <div class="text-center pa-4">
       <v-dialog v-model="dialog" width="auto">
-        <v-card max-width="400" prepend-icon="mdi-content-save"
-          text="La preparación del pedido ha sido guardada exitosamente." title="Preparación guardada">
+        <v-card
+          max-width="400"
+          prepend-icon="mdi-content-save"
+          text="La preparación del pedido ha sido guardada exitosamente."
+          title="Preparación guardada"
+        >
           <template v-slot:actions>
             <RouterLink :to="{ name: 'searchOrder' }">
               <v-btn class="ms-auto" text="Ok" @click="dialog = false"></v-btn>
@@ -84,24 +120,7 @@ export default {
     OrderTableFooter,
     ProductsOrderTableSkeleton,
     DeleteTableButton,
-    AddRowButton
-  },
-  data() {
-    return {
-      newItem: {
-        quantity: "",
-        nbultos: 0,
-        unidbultos: "",
-        totalunidades: "",
-        varios: "",
-        name: "",
-        supervised: "",
-        input: true,
-        checked: false,
-        isNew: true,
-        id: String(Date.now()).slice(-7),
-      },
-    };
+    AddRowButton,
   },
   setup() {
     const orderStore = useOrdersStore();
@@ -115,57 +134,131 @@ export default {
     };
 
     const save = (isSave, index) => {
-  const newItem = {
-    quantity: "",
-    nbultos: 0,
-    unidbultos: "",
-    totalunidades: "",
-    varios: "",
-    name: "",
-    supervised: "",
-    input: true,
-    checked: false,
-    isNew: true,
-    id: String(Date.now()).slice(-7),
-  };
+      const localStorageData = JSON.parse(
+        localStorage.getItem("order_line_items")
+      );
+     /*  const newItem = {
+        quantity: "",
+        nbultos: 0,
+        unidbultos: "",
+        totalunidades: "",
+        varios: "",
+        name: "",
+        supervised: "",
+        input: true,
+        checked: false,
+        isNew: true,
+      }; */
+      const newItem = {
+            id: parseInt(String(Date.now()).slice(-7)),
+            name: "",
+            quantity: 12,
+            meta_data: [
+                {
+                    id: 165,
+                    key: "nbultos",
+                    value: "",
+                    display_key: "nbultos",
+                    display_value: ""
+                },
+                {
+                    id: 170,
+                    key: "unidbultos",
+                    value: "",
+                    display_key: "unidbultos",
+                    display_value: ""
+                },
+                {
+                    id: 176,
+                    key: "totalunidades",
+                    value: "",
+                    display_key: "totalunidades",
+                    display_value: ""
+                },
+                {
+                    id: 177,
+                    key: "varios",
+                    value: "",
+                    display_key: "varios",
+                    display_value: ""
+                },
+                {
+                    id: 185,
+                    key: "supervised",
+                    value: "",
+                    display_key: "supervised",
+                    display_value: ""
+                }
+            ],
+        }
 
-  // Insertar un nuevo elemento si no se está guardando
-  if (!isSave) {
-    orderStore?.orders[0]?.line_items.splice(index + 1, 0, newItem);
-  }
+      /* const saveMetadataLocalStorage = () => {
+        orderStore.orders[0].line_items.map((e) => {
+          return e.meta_data.map((i) => {
+            return { ...i, display_value: "input", value: "input" };
+          })[0];
+        });
+      }; */
 
-  const orderId = route.params.id;
-  const localStorageData = JSON.parse(localStorage.getItem("order_line_items"));
+      // Insertar un nuevo elemento si no se está guardando
+      if (!isSave) {
+        return orderStore?.orders[0]?.line_items.splice(index + 1, 0, newItem);
+      }
 
-  // Verificar si hay datos válidos en el localStorage
-  if (localStorageData && localStorageData[orderId] && localStorageData[orderId].line_items) {
-    const orderToUpdate = {
-      ...orderStore.orders[0], // Copiar todos los campos de la orden actual
-      line_items: localStorageData[orderId].line_items // Reemplazar solo los line_items
+      const orderId = route.params.id;
+      console.log(localStorageData, index);
+      // Verificar si hay datos válidos en el localStorage
+      if (
+        true
+        /* localStorageData &&
+        localStorageData[orderId] &&
+        localStorageData[orderId].line_items */
+      ) {
+        const ajassa =localStorageData[orderId].line_items.map((e) => {
+          return {
+            id: e.id,
+            meta_data:e.meta_data,
+          };
+        });
+        const newArrayProducts = {
+          line_items: ajassa
+        };
+        console.log(newArrayProducts);
+        const orderToUpdate = {
+          ...orderStore.orders[0], // Copiar todos los campos de la orden actual.
+          line_items: newArrayProducts, // Reemplazar solo los line_items
+        };
+
+        // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
+        orderStore.updateOrder(idasd, newArrayProducts);
+        console.log("entro");
+      } else {
+        // Si no hay datos válidos en el localStorage, simplemente actualizar el estado de la orden
+        orderStore.updateOrder(idasd, { status: "completed" });
+      }
+
+      dialog.value = true;
     };
 
-    // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
-    orderStore.updateOrder(idasd, orderToUpdate);
-  } else {
-    // Si no hay datos válidos en el localStorage, simplemente actualizar el estado de la orden
-    orderStore.updateOrder(idasd, { status: "completed" });
-  }
-
-  dialog.value = true;
-};
-
-
     const onChangeToLocalStorage = (e) => {
-      const localStorageParsed = JSON.parse(localStorage.getItem("order_line_items"));
+      const localStorageParsed = JSON.parse(
+        localStorage.getItem("order_line_items")
+      );
       const id = route.params.id;
       if (e.target.name === "nbultos") {
         if (!localStorageParsed) {
-          localStorage.setItem("order_line_items", JSON.stringify({ [id]: orderStore?.orders[0] }));
+          localStorage.setItem(
+            "order_line_items",
+            JSON.stringify({ [id]: orderStore?.orders[0] })
+          );
         } else {
-          localStorage.setItem("order_line_items", JSON.stringify({
-            ...localStorageParsed,
-            [id]: orderStore?.orders[0],
-          }));
+          localStorage.setItem(
+            "order_line_items",
+            JSON.stringify({
+              ...localStorageParsed,
+              [id]: orderStore?.orders[0],
+            })
+          );
         }
       }
     };
