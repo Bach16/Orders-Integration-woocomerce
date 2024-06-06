@@ -21,7 +21,7 @@
         <tr>
           <th class="border-e-sm border-b-md font-weight-bold">Cantidad</th>
           <th class="border-e-sm border-b-md font-weight-bold">
-            N de <br />bultos
+            N• de <br />bultos
           </th>
           <th class="border-e-sm border-b-md font-weight-bold">
             Unidades <br />por bulto
@@ -135,14 +135,14 @@
           <td v-if="modificable">
             <v-text-field
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="onlyLetters($event)"
               name="supervisado"
-              v-model="element.supervisado"
+              v-model="element.supervised"
               hide-details="auto"
               variant="plain"
             ></v-text-field>
           </td>
-          <td v-else>{{ element.supervisado }}</td>
+          <td v-else>{{ element.supervised }}</td>
         </tr>
       </tbody>
 
@@ -167,7 +167,7 @@
           <td class="border-e-sm border-b-sm">{{ element.name }}</td>
 
           <!-- Supervisado -->
-          <td class="border-e-sm border-b-sm">{{ element.supervisado }}</td>
+          <td class="border-e-sm border-b-sm">{{ element.supervised }}</td>
 
           <!-- Listo -->
           <td class="border-e-sm border-b-sm">
@@ -208,6 +208,12 @@ export default {
   methods: {
     callModifyObject() {
       this.save();
+    },
+    onlyLetters(event) {
+      const charCode = event.which ? event.which : event.keyCode;
+      if ((charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122)) {
+        event.preventDefault();
+      }
     },
     onlyNumbers(event) {
       const charCode = event.charCode ? event.charCode : event.keyCode;

@@ -31,7 +31,7 @@ export const useOrdersStore = defineStore("orders", {
         const Time = new Date(
           now.getTime()
         );
-        return `${Time.toISOString().slice(0,-14)}T05:00:00Z`;
+        return `${Time.toISOString().slice(0,-14)}T00:00:00Z`;
       }
       console.log(getCurrentFormattedDate());
       try {
