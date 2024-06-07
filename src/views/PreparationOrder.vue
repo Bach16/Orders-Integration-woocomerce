@@ -57,7 +57,7 @@
             v-if="!item?.total"
           />
           <div v-else>
-            <AddRowButton :index="index" :save="save" />
+            <AddRowButton :index="index" :save="save" :id="item.id" />
           </div>
         </div>
       </div>
@@ -133,11 +133,12 @@ export default {
       router.go(-1);
     };
 
-    const save = (isSave, index) => {
+    const save = (isSave, index, id) => {
+      console.log(id);
       const localStorageData = JSON.parse(
         localStorage.getItem("order_line_items")
       );
-     /*  const newItem = {
+      /*  const newItem = {
         quantity: "",
         nbultos: 0,
         unidbultos: "",
@@ -150,47 +151,34 @@ export default {
         isNew: true,
       }; */
       const newItem = {
-            id: parseInt(String(Date.now()).slice(-7)),
-            name: "",
-            quantity: 12,
-            meta_data: [
-                {
-                    id: 165,
-                    key: "nbultos",
-                    value: "",
-                    display_key: "nbultos",
-                    display_value: ""
-                },
-                {
-                    id: 170,
-                    key: "unidbultos",
-                    value: "",
-                    display_key: "unidbultos",
-                    display_value: ""
-                },
-                {
-                    id: 176,
-                    key: "totalunidades",
-                    value: "",
-                    display_key: "totalunidades",
-                    display_value: ""
-                },
-                {
-                    id: 177,
-                    key: "varios",
-                    value: "",
-                    display_key: "varios",
-                    display_value: ""
-                },
-                {
-                    id: 185,
-                    key: "supervised",
-                    value: "",
-                    display_key: "supervised",
-                    display_value: ""
-                }
-            ],
-        }
+        idParent: id,
+        id: parseInt(String(Date.now()).slice(-7)),
+        name: "",
+        input: true,
+        quantity: "",
+        meta_data: [
+          {
+            key: "nbultos",
+            value: "",
+          },
+          {
+            key: "unidbultos",
+            value: "",
+          },
+          {
+            key: "totalunidades",
+            value: "",
+          },
+          {
+            key: "varios",
+            value: "",
+          },
+          {
+            key: "supervised",
+            value: "",
+          },
+        ],
+      };
 
       /* const saveMetadataLocalStorage = () => {
         orderStore.orders[0].line_items.map((e) => {
@@ -214,20 +202,46 @@ export default {
         localStorageData[orderId] &&
         localStorageData[orderId].line_items */
       ) {
-        const ajassa =localStorageData[orderId].line_items.map((e) => {
+        const newArray = localStorageData[orderId].line_items.filter((e) => {
+          return !!e.idParent;
+        });
+        const wocommerceProductsArray = localStorageData[
+          orderId
+        ].line_items.filter((e) => {
+          return !e.idParent;
+        });
+        wocommerceProductsArray.map((e) => {
           return {
-            id: e.id,
-            meta_data:e.meta_data,
+            value: (e.meta_data[5].value = newArray.filter((i) => {
+              return i.idParent == e.id;
+            })),
           };
         });
+
+        const orderToUpdate = localStorageData[orderId].line_items.map((e) => {
+          return {
+            id: e.id,
+            meta_data: e.meta_data,
+          };
+        });
+        const superArray = orderToUpdate.filter((e) => {
+          return !!e.meta_data[5];
+        });
+        const superArrays = superArray.map((e) => {
+          return {
+            id: e.id,
+            meta_data: [{
+              key: e.meta_data[5].key,
+              value: e.meta_data[5].value,
+            }]
+          };
+        });
+        
+
         const newArrayProducts = {
-          line_items: ajassa
+          line_items: superArrays,
         };
         console.log(newArrayProducts);
-        const orderToUpdate = {
-          ...orderStore.orders[0], // Copiar todos los campos de la orden actual.
-          line_items: newArrayProducts, // Reemplazar solo los line_items
-        };
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
         orderStore.updateOrder(idasd, newArrayProducts);
