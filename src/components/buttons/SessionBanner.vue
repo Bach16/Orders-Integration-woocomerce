@@ -10,16 +10,8 @@
   
   <script>
   export default {
-    props: {
-      username: String,
-      email: String
-    },
-    methods: {
-      logout() {
-        // Implementa aquí la lógica para cerrar la sesión del usuario
-        this.$emit('logout');
-      }
-    }
+    props: ["logout"]
+    
   };
   </script>
   
