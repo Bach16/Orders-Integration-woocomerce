@@ -1,7 +1,7 @@
 <template>
   <v-container class="mx-lg-16 mx-2 container">
     <!-- Banner de sesión -->
-    <SessionBanner :username="username" @logout="logout" />
+    <SessionBanner :username="username" :logout="logout" />
 
     <v-sheet class="py-6 px-2 bg-transparent">
       <h1>Busqueda de Pedidos</h1>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted, ref } from "vue";
 import SearchResultContainer from "../components/searchResultContainer.vue";
@@ -64,6 +64,7 @@ export default {
     const orderStore = useOrdersStore();
     const route = useRoute();
     const ruta = route?.path?.split("/");
+    const router = useRouter()
 
     const id = ref("");
     let firstSearch = ref(false);
@@ -86,6 +87,12 @@ export default {
       firstSearch.value = true;
       orderStore.getOrders(id.value, ruta[1]);
     };
+    const logout = () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("rol");
+      localStorage.removeItem("order_line_items");
+      router.push("/");
+    };
 
     return {
       orderSearch,
@@ -94,6 +101,7 @@ export default {
       filterInput,
       firstSearch,
       rol,
+      logout
     };
   },
 };
