@@ -153,22 +153,22 @@
 
           <!-- N de Bultos -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[0].nbultos }}
+            {{ element.meta_data[0].value }}
           </td>
 
           <!-- Unidades por bulto -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[1].unidbultos }}
+            {{ element.meta_data[1].value }}
           </td>
 
           <!-- Total de unidades -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[2].totalunidades }}
+            {{ element.meta_data[2].value }}
           </td>
 
           <!-- Varios -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[3].varios }}
+            {{ element.meta_data[3].value }}
           </td>
 
           <!-- Descripcion -->
@@ -176,12 +176,13 @@
 
           <!-- Supervisado -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[4].supervised }}
+            {{ element.meta_data[4].value }}
           </td>
 
           <!-- Listo -->
           <td class="border-e-sm border-b-sm">
-            <v-checkbox v-model="element.checked" hide-details></v-checkbox>
+            {{ console.log(element.meta_data[6].value)}}
+            <v-checkbox v-model="element.meta_data[6].value" hide-details></v-checkbox>
           </td>
         </tr>
       </tbody>

@@ -14,17 +14,22 @@ const AUTH_HEADER = {
   },
 };
 function processLineItems(lineItems) {
-  console.log(lineItems);
   // Resultado final
   const result = [];
   
   // Mapa para almacenar los productos por su id
   const itemMap = new Map();
+  
+  // Conjunto para rastrear los IDs de los productos ya añadidos
+  const addedIds = new Set();
 
   // Recorremos los line_items para crear un mapa y colocar los productos en el resultado
   lineItems.forEach(item => {
       itemMap.set(item.id, item);
-      result.push(item);
+      if (!addedIds.has(item.id)) {
+          result.push(item);
+          addedIds.add(item.id);
+      }
   });
 
   // Recorremos nuevamente para buscar los subProducts y reubicarlos
@@ -36,10 +41,15 @@ function processLineItems(lineItems) {
               subProducts.forEach(subProduct => {
                   const parent = itemMap.get(subProduct.idParent);
                   if (parent) {
-                      // Encontramos el producto padre y lo agregamos después de este
-                      const parentIndex = result.indexOf(parent);
-                      if (parentIndex !== -1) {
-                          result.splice(parentIndex + 1, 0, subProduct);
+                      // Verificar si el subproducto ya ha sido añadido
+                      if (!addedIds.has(subProduct.id)) {
+                          // Encontramos el producto padre y lo agregamos después de este
+                          const parentIndex = result.indexOf(parent);
+                          if (parentIndex !== -1) {
+                              result.splice(parentIndex + 1, 0, subProduct);
+                              // Marcar el subproducto como añadido
+                              addedIds.add(subProduct.id);
+                          }
                       }
                   }
               });
@@ -80,9 +90,11 @@ export const useOrdersStore = defineStore("orders", {
         if (response.data[0]?.line_items) {
           response.data[0].line_items = response.data[0]?.line_items.map(
             (e) => {
-              return { ...e, checked: false };
+              return { ...e, meta_data: {...e.meta_data,6:{...e.meta_data[6],value:!!e.meta_data[6].value
+                }} };
             }
           );
+          console.log(response.data[0].line_items);
         }
 
         if (path === "searchOrder") {
