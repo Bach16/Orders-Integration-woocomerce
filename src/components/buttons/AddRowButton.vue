@@ -1,15 +1,15 @@
 <template>
-    <div @click="addRow(index)" class="delete-button">
+    <div @click="addRow(index,id)" class="delete-button">
       <v-icon class="del-button text-primary" icon="mdi-plus-circle" start></v-icon>
     </div>
   </template>
   
   <script>
   export default {
-    props: ["index","save"],
+    props: ["index","save","id"],
     methods: {
-        addRow(index){
-            this.save(false,index);
+        addRow(index,id){
+            this.save(false,index,id);
         }
     }
   };
