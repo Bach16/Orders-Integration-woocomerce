@@ -1,9 +1,9 @@
 <template>
-  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md">
+ <!--  <v-card v-if="modificable"  flat class="ms-2 my-6 pa-4 datos align-center border-primary border-opacity-50 border-md">
     <p class="font-weight-bold"> Agregar una fila </p>
     <v-spacer />
     <v-icon icon="mdi-plus-circle-outline" color="primary" start  @click="callModifyObject"></v-icon>
-  </v-card>
+  </v-card> -->
 
   <v-card class="my-6 ms-2 datos" flat>
     <v-table class="tabla border-primary border-opacity-50 border-md">

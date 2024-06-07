@@ -152,22 +152,32 @@
           <td class="border-e-sm border-b-sm">{{ element.quantity }}</td>
 
           <!-- N de Bultos -->
-          <td class="border-e-sm border-b-sm">{{ element.meta_data[0].nbultos }}</td>
+          <td class="border-e-sm border-b-sm">
+            {{ element.meta_data[0].nbultos }}
+          </td>
 
           <!-- Unidades por bulto -->
-          <td class="border-e-sm border-b-sm">{{ element.meta_data[1].unidbultos }}</td>
+          <td class="border-e-sm border-b-sm">
+            {{ element.meta_data[1].unidbultos }}
+          </td>
 
           <!-- Total de unidades -->
-          <td class="border-e-sm border-b-sm">{{ element.meta_data[2].totalunidades }}</td>
+          <td class="border-e-sm border-b-sm">
+            {{ element.meta_data[2].totalunidades }}
+          </td>
 
           <!-- Varios -->
-          <td class="border-e-sm border-b-sm">{{ element.meta_data[3].varios }}</td>
+          <td class="border-e-sm border-b-sm">
+            {{ element.meta_data[3].varios }}
+          </td>
 
           <!-- Descripcion -->
           <td class="border-e-sm border-b-sm">{{ element.name }}</td>
 
           <!-- Supervisado -->
-          <td class="border-e-sm border-b-sm">{{ element.meta_data[4].supervised }}</td>
+          <td class="border-e-sm border-b-sm">
+            {{ element.meta_data[4].supervised }}
+          </td>
 
           <!-- Listo -->
           <td class="border-e-sm border-b-sm">
@@ -180,30 +190,26 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
-import draggable from "vuedraggable";
+import { onMounted, watch } from "vue";
 import { useOrdersStore } from "../../stores/Orders";
-
-const orderStore = useOrdersStore();
 
 export default {
   props: ["order", "modificable", "save", "onChangeToLocalStorage"],
   setup() {
+    const orderStore = useOrdersStore();
     watch(
       () => orderStore.orders,
       (orders) => {
         orders[0].totalBultos = orders[0]?.line_items?.reduce((total, item) => {
-          if (parseInt(item.nbultos)) {
-            return total + parseInt(item.nbultos);
+          if (parseInt(item.meta_data[0].value)) {
+            return total + parseInt(item.meta_data[0].value);
           }
           return total + 0;
         }, 0);
       },
       { deep: true }
     );
-  },
-  components: {
-    draggable,
+    
   },
   methods: {
     callModifyObject() {
@@ -211,7 +217,10 @@ export default {
     },
     onlyLetters(event) {
       const charCode = event.which ? event.which : event.keyCode;
-      if ((charCode < 65 || charCode > 90) && (charCode < 97 || charCode > 122)) {
+      if (
+        (charCode < 65 || charCode > 90) &&
+        (charCode < 97 || charCode > 122)
+      ) {
         event.preventDefault();
       }
     },

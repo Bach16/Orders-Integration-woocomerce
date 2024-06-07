@@ -100,6 +100,7 @@ export default {
       orderStore.updateOrderComments(parseInt(e.target.id), e.target.value);
     };
     const onChangeTotalBoxes = (e) => {
+      console.log(e.target.value);
       orderStore.updateOrderTotalBoxes(parseInt(e.target.id), e.target.value);
     };
 
