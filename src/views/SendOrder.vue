@@ -55,10 +55,14 @@
             Guardar para entregar
           </v-btn>
         </v-col>
-        <v-col >
-          <v-btn size="large"
+        <v-col>
+          <v-btn
+            size="large"
             class="px-6 ml-2"
-            rounded="lg"color="primary" @click="print">
+            rounded="lg"
+            color="primary"
+            @click="print"
+          >
             Imprimir guia
           </v-btn>
         </v-col>
@@ -132,7 +136,18 @@ export default {
     const ruta = route?.path?.split("/");
 
     const saveOrder = () => {
-      orderStore.updateOrder(idasd, orderStore.orders[0]);
+      const newReqBody = orderStore.orders[0].line_items.map((e) => {
+        return {
+          id: e.id,
+          meta_data: [
+            {
+              key: e.meta_data[6].key,
+              value: e.meta_data[6].value,
+            },
+          ],
+        };
+      });
+      orderStore.updateOrder(idasd, {line_items:newReqBody});
       dialog.value = true;
     };
     watch(

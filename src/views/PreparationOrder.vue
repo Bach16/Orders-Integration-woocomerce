@@ -177,6 +177,10 @@ export default {
             key: "supervised",
             value: "",
           },
+          {
+            key: "revisado",
+            value: false,
+          },
         ],
       };
 
