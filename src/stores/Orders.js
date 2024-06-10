@@ -13,23 +13,23 @@ const AUTH_HEADER = {
       ),
   },
 };
+
 function processLineItems(lineItems) {
+  console.log(lineItems);
   // Resultado final
   const result = [];
-  
+
   // Mapa para almacenar los productos por su id
   const itemMap = new Map();
-  
-  // Conjunto para rastrear los IDs de los productos ya añadidos
-  const addedIds = new Set();
+
+  // Conjunto para rastrear los IDs de los productos ya agregados a result
+  const addedProductIds = new Set();
 
   // Recorremos los line_items para crear un mapa y colocar los productos en el resultado
   lineItems.forEach(item => {
       itemMap.set(item.id, item);
-      if (!addedIds.has(item.id)) {
-          result.push(item);
-          addedIds.add(item.id);
-      }
+      result.push(item);
+      addedProductIds.add(item.id); // Agregamos el ID del producto al conjunto
   });
 
   // Recorremos nuevamente para buscar los subProducts y reubicarlos
@@ -39,16 +39,14 @@ function processLineItems(lineItems) {
           if (meta.key === 'subProducts' && Array.isArray(meta.value)) {
               const subProducts = meta.value;
               subProducts.forEach(subProduct => {
-                  const parent = itemMap.get(subProduct.idParent);
-                  if (parent) {
-                      // Verificar si el subproducto ya ha sido añadido
-                      if (!addedIds.has(subProduct.id)) {
+                  if (!addedProductIds.has(subProduct.id)) {
+                      const parent = itemMap.get(subProduct.idParent);
+                      if (parent) {
                           // Encontramos el producto padre y lo agregamos después de este
                           const parentIndex = result.indexOf(parent);
                           if (parentIndex !== -1) {
                               result.splice(parentIndex + 1, 0, subProduct);
-                              // Marcar el subproducto como añadido
-                              addedIds.add(subProduct.id);
+                              addedProductIds.add(subProduct.id); // Marcamos el subproducto como agregado
                           }
                       }
                   }
@@ -59,6 +57,9 @@ function processLineItems(lineItems) {
 
   return result;
 }
+
+
+
 
 export const useOrdersStore = defineStore("orders", {
   state: () => ({
@@ -90,8 +91,8 @@ export const useOrdersStore = defineStore("orders", {
           console.log(response.data);
           response.data[0].line_items = response.data[0]?.line_items.map(
             (e) => {
-              return { ...e, meta_data: {...e.meta_data,6:{...e.meta_data[6],value:!!e.meta_data[6].value
-                }} };
+              return {  ...e, checked: false
+                 };
             }
           );
           console.log(response.data[0].line_items);
