@@ -94,7 +94,7 @@ export default {
 
     const orderSearch = () => {
       firstSearch.value = true;
-      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"));
+      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"),true);
     };
     const logout = () => {
       localStorage.removeItem("token");
