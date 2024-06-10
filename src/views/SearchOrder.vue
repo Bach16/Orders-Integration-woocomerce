@@ -64,7 +64,7 @@ export default {
     const orderStore = useOrdersStore();
     const route = useRoute();
     const ruta = route?.path?.split("/");
-    const router = useRouter()
+    const router = useRouter();
 
     const id = ref("");
     let firstSearch = ref(false);
@@ -76,6 +76,15 @@ export default {
         rol.value = storedRol;
       }
       orderStore.getOrders(id.value, ruta[1]);
+      if (
+        (localStorage.getItem("rol") == "logistica" ||
+          localStorage.getItem("rol") == "bodeguero" ||
+          localStorage.getItem("rol") == "conductor") &&
+        localStorage.getItem("rol").length
+      )
+        return;
+      else return router.push("/");
+      
     });
 
     const filterInput = (event) => {
@@ -101,7 +110,7 @@ export default {
       filterInput,
       firstSearch,
       rol,
-      logout
+      logout,
     };
   },
 };
