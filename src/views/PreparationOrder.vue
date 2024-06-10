@@ -2,17 +2,7 @@
   <v-container class="mx-lg-16 mx-2 container">
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
-        <div
-          @click="goBack"
-          class="mb-3 cursor-pointer d-flex text-subtitle-1 reset-a"
-        >
-          <v-icon
-            icon="mdi-arrow-left-bold-circle-outline"
-            color="primary"
-            start
-          ></v-icon>
-          <p class="text-primary">Regresar</p>
-        </div>
+        <GoBackButton />
       </v-col>
       <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
@@ -112,6 +102,7 @@ import { useOrdersStore } from "../stores/Orders";
 import { onMounted, watch, ref } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
 import AddRowButton from "../components/buttons/AddRowButton.vue";
+import GoBackButton from "../components/buttons/GoBackButton.vue"
 
 export default {
   components: {
@@ -121,6 +112,7 @@ export default {
     ProductsOrderTableSkeleton,
     DeleteTableButton,
     AddRowButton,
+    GoBackButton
   },
   setup() {
     const orderStore = useOrdersStore();
@@ -128,10 +120,6 @@ export default {
     const router = useRouter();
     const dialog = ref(false);
     const idasd = route.params.id;
-
-    const goBack = () => {
-      router.go(-1);
-    };
 
     const save = (isSave, index, id) => {
       console.log(id);
@@ -177,10 +165,10 @@ export default {
             key: "supervised",
             value: "",
           },
-          /* {
+          {
             key: "revisado",
             value: false,
-          }, */
+          },
         ],
       };
 
@@ -216,7 +204,7 @@ export default {
         });
         wocommerceProductsArray.map((e) => {
           return {
-            value: (e.meta_data[5].value = newArray.filter((i) => {
+            value: (e.meta_data[6].value = newArray.filter((i) => {
               return i.idParent == e.id;
             })),
           };
@@ -229,21 +217,51 @@ export default {
           };
         });
         const superArray = orderToUpdate.filter((e) => {
-          return !!e.meta_data[5];
+          return !!e.meta_data[6];
         });
         const superArrays = superArray.map((e) => {
           return {
             id: e.id,
-            meta_data: [{
-              key: e.meta_data[5].key,
-              value: e.meta_data[5].value,
-            }]
+            meta_data: [
+              {
+                key: e.meta_data[0].key,
+                value: e.meta_data[0].value,
+              },
+              {
+                key: e.meta_data[1].key,
+                value: e.meta_data[1].value,
+              },
+              {
+                key: e.meta_data[2].key,
+                value: e.meta_data[2].value,
+              },
+              {
+                key: e.meta_data[3].key,
+                value: e.meta_data[3].value,
+              },
+              {
+                key: e.meta_data[4].key,
+                value: e.meta_data[4].value,
+              },
+              {
+                key: e.meta_data[5].key,
+                value: e.meta_data[5].value,
+              },
+              {
+                key: e.meta_data[6].key,
+                value: e.meta_data[6].value,
+              },
+            ],
           };
         });
-        
-
         const newArrayProducts = {
           line_items: superArrays,
+          meta_data: [
+            {
+              key: "estado_orden",
+              value: "preparado",
+            },
+          ],
         };
         console.log(newArrayProducts);
 
@@ -286,10 +304,15 @@ export default {
     };
 
     onMounted(() => {
+      if (!localStorage.getItem("rol").length) {
+        return router.push("/");
+      } else if (localStorage.getItem("rol") !== "bodeguero") {
+        return router.push("/searchOrder");
+      }
       if (orderStore?.orders[0]?.id !== route.params.id) {
         const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id, route.path.split("/")[1]);
+          orderStore.getOrders(id, route.path.split("/")[1],localStorage.getItem("rol"));
         }
       }
     });
@@ -315,7 +338,6 @@ export default {
       save,
       onChangeToLocalStorage,
       onSaveClick,
-      goBack,
     };
   },
 };
