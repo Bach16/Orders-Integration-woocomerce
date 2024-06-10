@@ -22,10 +22,14 @@ function processLineItems(lineItems) {
   // Mapa para almacenar los productos por su id
   const itemMap = new Map();
 
+  // Conjunto para rastrear los IDs de los productos ya agregados a result
+  const addedProductIds = new Set();
+
   // Recorremos los line_items para crear un mapa y colocar los productos en el resultado
   lineItems.forEach(item => {
       itemMap.set(item.id, item);
       result.push(item);
+      addedProductIds.add(item.id); // Agregamos el ID del producto al conjunto
   });
 
   // Recorremos nuevamente para buscar los subProducts y reubicarlos
@@ -35,12 +39,15 @@ function processLineItems(lineItems) {
           if (meta.key === 'subProducts' && Array.isArray(meta.value)) {
               const subProducts = meta.value;
               subProducts.forEach(subProduct => {
-                  const parent = itemMap.get(subProduct.idParent);
-                  if (parent) {
-                      // Encontramos el producto padre y lo agregamos después de este
-                      const parentIndex = result.indexOf(parent);
-                      if (parentIndex !== -1) {
-                          result.splice(parentIndex + 1, 0, subProduct);
+                  if (!addedProductIds.has(subProduct.id)) {
+                      const parent = itemMap.get(subProduct.idParent);
+                      if (parent) {
+                          // Encontramos el producto padre y lo agregamos después de este
+                          const parentIndex = result.indexOf(parent);
+                          if (parentIndex !== -1) {
+                              result.splice(parentIndex + 1, 0, subProduct);
+                              addedProductIds.add(subProduct.id); // Marcamos el subproducto como agregado
+                          }
                       }
                   }
               });
@@ -50,6 +57,9 @@ function processLineItems(lineItems) {
 
   return result;
 }
+
+
+
 
 export const useOrdersStore = defineStore("orders", {
   state: () => ({
