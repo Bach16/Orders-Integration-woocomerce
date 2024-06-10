@@ -137,14 +137,14 @@ export default {
 
     const saveOrder = () => {
       const aja = orderStore.orders[0].line_items.filter((e) => {
-          return !e.idParent;
-        })
-        console.log(aja);
+        return !e.idParent;
+      });
+      console.log(aja);
 
-
-      const ajasa =  aja.map(e=>{return{
-        id:e.id,
-        meta_data:[
+      const ajasa = aja.map((e) => {
+        return {
+          id: e.id,
+          meta_data: [
             {
               key: e.meta_data[5].key,
               value: e.meta_data[5].value,
@@ -153,13 +153,19 @@ export default {
               key: e.meta_data[6].key,
               value: e.meta_data[6].value,
             },
-          ]
-      }})
+          ],
+        };
+      });
       const body = {
-        line_items:ajasa
+        line_items: ajasa,
+        meta_data: [
+          {
+            key: "estado_orden",
+            value: "despachado",
+          },
+        ],
       };
-      console.log(ajasa);
-      orderStore.updateOrder(idasd, body); 
+      orderStore.updateOrder(idasd, body);
       /* const newReqBody = orderStore.orders[0].line_items.map((e) => {
         return {
           id: e.id,

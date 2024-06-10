@@ -228,11 +228,9 @@ export default {
             meta_data: e.meta_data,
           };
         });
-        console.log(orderToUpdate);
         const superArray = orderToUpdate.filter((e) => {
           return !!e.meta_data[6];
         });
-        console.log(superArray);
         const superArrays = superArray.map((e) => {
           return {
             id: e.id,
@@ -268,10 +266,14 @@ export default {
             ],
           };
         });
-        console.log(superArrays);
-        
         const newArrayProducts = {
           line_items: superArrays,
+          meta_data: [
+            {
+              key: "estado_orden",
+              value: "preparado",
+            },
+          ],
         };
         console.log(newArrayProducts);
 
