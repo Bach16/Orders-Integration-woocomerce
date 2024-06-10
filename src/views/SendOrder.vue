@@ -136,7 +136,30 @@ export default {
     const ruta = route?.path?.split("/");
 
     const saveOrder = () => {
-      orderStore.updateOrder(idasd, orderStore.orders[0]);
+      const aja = orderStore.orders[0].line_items.filter((e) => {
+          return !e.idParent;
+        })
+        console.log(aja);
+
+
+      const ajasa =  aja.map(e=>{return{
+        id:e.id,
+        meta_data:[
+            {
+              key: e.meta_data[5].key,
+              value: e.meta_data[5].value,
+            },
+            {
+              key: e.meta_data[6].key,
+              value: e.meta_data[6].value,
+            },
+          ]
+      }})
+      const body = {
+        line_items:ajasa
+      };
+      console.log(ajasa);
+      orderStore.updateOrder(idasd, body); 
       /* const newReqBody = orderStore.orders[0].line_items.map((e) => {
         return {
           id: e.id,
