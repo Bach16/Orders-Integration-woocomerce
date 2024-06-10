@@ -3,17 +3,7 @@
     <div id="printMe">
       <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
         <v-col cols="12">
-          <div
-            @click="goBack"
-            class="mb-3 d-flex text-subtitle-1 cursor-pointer reset-a d-print-none"
-          >
-            <v-icon
-              icon="mdi-arrow-left-bold-circle-outline"
-              color="primary"
-              start
-            ></v-icon>
-            <p class="text-primary">Regresar</p>
-          </div>
+          <GoBackButton />
         </v-col>
         <v-col cols="12" md="8">
           <v-sheet class="bg-transparent">
@@ -106,6 +96,8 @@ import { onMounted, ref, watch } from "vue";
 import ProductsOrderTable from "../components/table/ProductsOrderTable.vue";
 import OrderTableFooter from "../components/table/OrderTableFooter.vue";
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
+import GoBackButton from "../components/buttons/GoBackButton.vue"
+
 
 export default {
   components: {
@@ -113,6 +105,7 @@ export default {
     ProductsOrderTable,
     OrderTableFooter,
     ProductsOrderTableSkeleton,
+    GoBackButton
   },
   methods: {
     print() {
