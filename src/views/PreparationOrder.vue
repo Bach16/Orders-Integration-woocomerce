@@ -228,13 +228,39 @@ export default {
             meta_data: e.meta_data,
           };
         });
+        console.log(orderToUpdate);
         const superArray = orderToUpdate.filter((e) => {
           return !!e.meta_data[6];
         });
+        console.log(superArray);
         const superArrays = superArray.map((e) => {
           return {
             id: e.id,
             meta_data: [
+              {
+                key: e.meta_data[0].key,
+                value: e.meta_data[0].value,
+              },
+              {
+                key: e.meta_data[1].key,
+                value: e.meta_data[1].value,
+              },
+              {
+                key: e.meta_data[2].key,
+                value: e.meta_data[2].value,
+              },
+              {
+                key: e.meta_data[3].key,
+                value: e.meta_data[3].value,
+              },
+              {
+                key: e.meta_data[4].key,
+                value: e.meta_data[4].value,
+              },
+              {
+                key: e.meta_data[5].key,
+                value: e.meta_data[5].value,
+              },
               {
                 key: e.meta_data[6].key,
                 value: e.meta_data[6].value,
@@ -242,7 +268,8 @@ export default {
             ],
           };
         });
-
+        console.log(superArrays);
+        
         const newArrayProducts = {
           line_items: superArrays,
         };
