@@ -136,7 +136,8 @@ export default {
     const ruta = route?.path?.split("/");
 
     const saveOrder = () => {
-      const newReqBody = orderStore.orders[0].line_items.map((e) => {
+      orderStore.updateOrder(idasd, orderStore.orders[0]);
+      /* const newReqBody = orderStore.orders[0].line_items.map((e) => {
         return {
           id: e.id,
           meta_data: [
@@ -147,7 +148,7 @@ export default {
           ],
         };
       });
-      orderStore.updateOrder(idasd, {line_items:newReqBody});
+      orderStore.updateOrder(idasd, {line_items:newReqBody}); */
       dialog.value = true;
     };
     watch(

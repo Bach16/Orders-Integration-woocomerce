@@ -180,10 +180,14 @@
           </td>
 
           <!-- Listo -->
-          <td class="border-e-sm border-b-sm">
+          <!-- <td class="border-e-sm border-b-sm">
             {{ console.log(element.meta_data[6].value)}}
             <v-checkbox v-model="element.meta_data[6].value" hide-details></v-checkbox>
+          </td> -->
+          <td class="border-e-sm border-b-sm">
+            <v-checkbox v-model="element.checked" hide-details></v-checkbox>
           </td>
+
         </tr>
       </tbody>
     </v-table>
