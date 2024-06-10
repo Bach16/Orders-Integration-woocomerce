@@ -1,6 +1,10 @@
 <template>
   <v-container class="mx-lg-16 mx-2 container">
     <v-row align-center class="pa-6" no-gutters>
+      <v-col cols="12">
+        <GoBackButton />
+      </v-col>
+
       <v-col cols="8">
         <v-sheet class="bg-transparent">
           <h1 class="text-primary text-uppercase">Entregado</h1>
@@ -87,11 +91,14 @@
 import { useRoute } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted } from "vue";
+import GoBackButton from "../components/buttons/GoBackButton.vue"
+
 
 export default {
+  components: {
+    GoBackButton
+  },
   data: () => ({
-    loaded: false,
-    loading: false,
     dialog: false,
   }),
   setup() {
@@ -111,16 +118,7 @@ export default {
       orderStore,
     };
   },
-  methods: {
-    onClick() {
-      this.loading = true;
 
-      setTimeout(() => {
-        this.loading = false;
-        this.loaded = true;
-      }, 2000);
-    },
-  },
 };
 </script>
 
