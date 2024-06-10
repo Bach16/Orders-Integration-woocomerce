@@ -1,8 +1,12 @@
 
 @media print {
   body * {
-      font-size: 13px !important;
+      font-size: 12px !important;
   }
+
+  /* @page {
+    size: landscape 
+  } */
 
 
 }
