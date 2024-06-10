@@ -2,17 +2,7 @@
   <v-container class="mx-lg-16 mx-2 container">
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
-        <div
-          @click="goBack"
-          class="mb-3 cursor-pointer d-flex text-subtitle-1 reset-a"
-        >
-          <v-icon
-            icon="mdi-arrow-left-bold-circle-outline"
-            color="primary"
-            start
-          ></v-icon>
-          <p class="text-primary">Regresar</p>
-        </div>
+        <GoBackButton />
       </v-col>
       <v-col cols="12" md="8">
         <v-sheet class="bg-transparent">
@@ -112,6 +102,7 @@ import { useOrdersStore } from "../stores/Orders";
 import { onMounted, watch, ref } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
 import AddRowButton from "../components/buttons/AddRowButton.vue";
+import GoBackButton from "../components/buttons/GoBackButton.vue"
 
 export default {
   components: {
@@ -121,6 +112,7 @@ export default {
     ProductsOrderTableSkeleton,
     DeleteTableButton,
     AddRowButton,
+    GoBackButton
   },
   setup() {
     const orderStore = useOrdersStore();
@@ -128,10 +120,6 @@ export default {
     const router = useRouter();
     const dialog = ref(false);
     const idasd = route.params.id;
-
-    const goBack = () => {
-      router.go(-1);
-    };
 
     const save = (isSave, index, id) => {
       console.log(id);
@@ -350,7 +338,6 @@ export default {
       save,
       onChangeToLocalStorage,
       onSaveClick,
-      goBack,
     };
   },
 };

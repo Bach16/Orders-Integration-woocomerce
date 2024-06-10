@@ -1,20 +1,14 @@
 <template>
   <v-container class="mx-lg-16 mx-2 container">
     <div id="printMe">
-      <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
+      <v-row
+        class="ms-2 my-6 align-center justify-start align-center"
+        no-gutters
+      >
         <v-col cols="12">
-          <div
-            @click="goBack"
-            class="mb-3 d-flex text-subtitle-1 cursor-pointer reset-a d-print-none"
-          >
-            <v-icon
-              icon="mdi-arrow-left-bold-circle-outline"
-              color="primary"
-              start
-            ></v-icon>
-            <p class="text-primary">Regresar</p>
-          </div>
+          <GoBackButton />
         </v-col>
+   
         <v-col cols="12" md="8">
           <v-sheet class="bg-transparent">
             <h1 class="text-primary text-uppercase">Despacho de Pedido</h1>
@@ -42,10 +36,12 @@
       <OrderTableFooter :order="orderStore?.orders[0]" :modificable="false" />
     </div>
 
-    <div class="mt-8">
+    <div class="mt-8 d-print-none">
       <v-row no-gutters>
+        
         <v-col class="d-flex justify-end">
           <v-btn
+            width="290px"
             size="large"
             class="px-6 mr-2"
             rounded="lg"
@@ -55,28 +51,31 @@
             Guardar para entregar
           </v-btn>
         </v-col>
-        <v-col>
+
+        <v-col class="d-flex justify-start">
           <v-btn
             size="large"
-            class="px-6 ml-2"
+            width="290px"
+            class="px-6 ml-2 "
             rounded="lg"
             color="primary"
             @click="print"
           >
             Imprimir guia
           </v-btn>
-        </v-col>
+        </v-col> 
       </v-row>
     </div>
 
     <!-- Alerta -->
-    <div class="text-center pa-4">
+    <div class="text-center pa-4 d-print-none">
       <v-dialog v-model="dialog" width="auto">
         <v-card
           max-width="400"
           prepend-icon="mdi-content-save"
-          text="El despacho ha sido guardado exitosamente."
+          text="El despacho ha sido guardado exitosamente. Recuerda imprimir tu guía."
           title="Despacho guardado"
+          class="d-print-none"
         >
           <template v-slot:actions>
             <RouterLink
@@ -85,8 +84,17 @@
                 params: { id: orderStore?.orders[0]?.id },
               }"
             >
-              <v-btn class="ms-auto" text="Ok" @click="dialog = false"></v-btn>
+              <v-btn
+                class="ms-auto pl-6 font-weight-bold"
+                text="Salir"
+                @click="dialog = false"
+              ></v-btn>
             </RouterLink>
+            <v-btn
+              class="ms-auto pr-6 font-weight-bold"
+              text="Regresar"
+              @click="dialog = false"
+            ></v-btn>
           </template>
         </v-card>
       </v-dialog>
@@ -106,6 +114,7 @@ import { onMounted, ref, watch } from "vue";
 import ProductsOrderTable from "../components/table/ProductsOrderTable.vue";
 import OrderTableFooter from "../components/table/OrderTableFooter.vue";
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
+import GoBackButton from "../components/buttons/GoBackButton.vue";
 
 export default {
   components: {
@@ -113,6 +122,7 @@ export default {
     ProductsOrderTable,
     OrderTableFooter,
     ProductsOrderTableSkeleton,
+    GoBackButton,
   },
   methods: {
     print() {
@@ -134,6 +144,11 @@ export default {
     };
     const idasd = route.params.id;
     const ruta = route?.path?.split("/");
+
+    const toPrint = () => {
+      dialog.value = false;
+      print();
+    };
 
     const saveOrder = () => {
       const aja = orderStore.orders[0].line_items.filter((e) => {
@@ -218,6 +233,7 @@ export default {
       dialog,
       onSaveClick,
       goBack,
+      toPrint,
     };
   },
 };
