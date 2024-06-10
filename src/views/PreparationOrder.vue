@@ -304,10 +304,15 @@ export default {
     };
 
     onMounted(() => {
+      if (!localStorage.getItem("rol").length) {
+        return router.push("/");
+      } else if (localStorage.getItem("rol") !== "bodeguero") {
+        return router.push("/searchOrder");
+      }
       if (orderStore?.orders[0]?.id !== route.params.id) {
         const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id, route.path.split("/")[1]);
+          orderStore.getOrders(id, route.path.split("/")[1],localStorage.getItem("rol"));
         }
       }
     });

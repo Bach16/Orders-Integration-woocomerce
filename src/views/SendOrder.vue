@@ -154,7 +154,6 @@ export default {
       const aja = orderStore.orders[0].line_items.filter((e) => {
         return !e.idParent;
       });
-      console.log(aja);
 
       const ajasa = aja.map((e) => {
         return {
@@ -214,10 +213,17 @@ export default {
     };
 
     onMounted(() => {
+      if(!localStorage.getItem("rol").length){
+
+        return router.push("/");
+      } else if (localStorage.getItem("rol") !== "logistica"){
+        return router.push("/searchOrder");
+
+      }
       if (orderStore?.orders[0]?.id !== route.params.id) {
         const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id, ruta[1]);
+          orderStore.getOrders(id, ruta[1],localStorage.getItem("rol"));
         }
       }
     });
