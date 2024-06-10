@@ -75,7 +75,7 @@ export default {
       if (storedRol) {
         rol.value = storedRol;
       }
-      orderStore.getOrders(id.value, ruta[1]);
+      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"));
       if (
         (localStorage.getItem("rol") == "logistica" ||
           localStorage.getItem("rol") == "bodeguero" ||
@@ -94,7 +94,7 @@ export default {
 
     const orderSearch = () => {
       firstSearch.value = true;
-      orderStore.getOrders(id.value, ruta[1]);
+      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"));
     };
     const logout = () => {
       localStorage.removeItem("token");

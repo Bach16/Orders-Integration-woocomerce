@@ -120,7 +120,7 @@ export default {
       onMounted(() => {
         const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id);
+          orderStore.getOrders(id,localStorage.getItem("rol"));
         }
       });
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="session-banner">
       <div class="welcome-text">
-        <span>Bienvenido Bodeguero</span>
+        <span>Bienvenido {{rol}}</span>
       </div>
       <!-- Icono de cerrar sesión -->
       <v-icon @click="logout">mdi-logout</v-icon>
@@ -10,7 +10,13 @@
   
   <script>
   export default {
-    props: ["logout"]
+    props: ["logout"],
+    setup(){
+      const rol = localStorage.getItem("rol")
+      return{
+        rol
+      }
+    }
     
   };
   </script>

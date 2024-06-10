@@ -324,7 +324,7 @@ export default {
       if (orderStore?.orders[0]?.id !== route.params.id) {
         const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id, route.path.split("/")[1]);
+          orderStore.getOrders(id, route.path.split("/")[1],localStorage.getItem("rol"));
         }
       }
     });

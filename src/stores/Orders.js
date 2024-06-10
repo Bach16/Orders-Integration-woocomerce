@@ -67,7 +67,7 @@ export const useOrdersStore = defineStore("orders", {
     orderStatus: null,
   }),
   actions: {
-    async getOrders(id, path) {
+    async getOrders(id, path,rol) {
       console.log(id);
       this.ordersLoading = true;
       function getCurrentFormattedDate() {
@@ -93,7 +93,13 @@ export const useOrdersStore = defineStore("orders", {
         }
 
         if (path === "searchOrder") {
-          this.ordersList = response.data;
+          let filt = "completado"
+          if(rol == "logistica") filt="preparado" 
+          if(rol == "conductor") filt="despachado"  
+
+          const ordersToRender = response?.data?.filter(e=>{return !!e.meta_data[1] && e.meta_data[1].value == filt})
+          console.log(ordersToRender,filt);
+          this.ordersList = ordersToRender;
         }
 
         const asddsa = processLineItems([
