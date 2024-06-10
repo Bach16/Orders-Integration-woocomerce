@@ -177,10 +177,10 @@ export default {
             key: "supervised",
             value: "",
           },
-          /* {
+          {
             key: "revisado",
             value: false,
-          }, */
+          },
         ],
       };
 
@@ -216,7 +216,7 @@ export default {
         });
         wocommerceProductsArray.map((e) => {
           return {
-            value: (e.meta_data[5].value = newArray.filter((i) => {
+            value: (e.meta_data[6].value = newArray.filter((i) => {
               return i.idParent == e.id;
             })),
           };
@@ -229,18 +229,19 @@ export default {
           };
         });
         const superArray = orderToUpdate.filter((e) => {
-          return !!e.meta_data[5];
+          return !!e.meta_data[6];
         });
         const superArrays = superArray.map((e) => {
           return {
             id: e.id,
-            meta_data: [{
-              key: e.meta_data[5].key,
-              value: e.meta_data[5].value,
-            }]
+            meta_data: [
+              {
+                key: e.meta_data[6].key,
+                value: e.meta_data[6].value,
+              },
+            ],
           };
         });
-        
 
         const newArrayProducts = {
           line_items: superArrays,

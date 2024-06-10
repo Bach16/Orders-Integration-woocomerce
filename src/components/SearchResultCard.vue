@@ -5,7 +5,6 @@
         <p>Factura #{{ id }}</p>
       </v-col>
       <v-col cols="8" class="d-flex justify-center justify-md-end">
-        {{ console.log(status) }}
         <h5 v-if="status == 'uploading'" class="edit-button" id="loaded-text">
           Archivo cargado 👍
         </h5>

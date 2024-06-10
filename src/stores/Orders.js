@@ -26,40 +26,37 @@ function processLineItems(lineItems) {
   const addedProductIds = new Set();
 
   // Recorremos los line_items para crear un mapa y colocar los productos en el resultado
-  lineItems.forEach(item => {
-      itemMap.set(item.id, item);
-      result.push(item);
-      addedProductIds.add(item.id); // Agregamos el ID del producto al conjunto
+  lineItems.forEach((item) => {
+    itemMap.set(item.id, item);
+    result.push(item);
+    addedProductIds.add(item.id); // Agregamos el ID del producto al conjunto
   });
 
   // Recorremos nuevamente para buscar los subProducts y reubicarlos
-  lineItems.forEach(item => {
-      const metaData = item.meta_data || [];
-      metaData.forEach(meta => {
-          if (meta.key === 'subProducts' && Array.isArray(meta.value)) {
-              const subProducts = meta.value;
-              subProducts.forEach(subProduct => {
-                  if (!addedProductIds.has(subProduct.id)) {
-                      const parent = itemMap.get(subProduct.idParent);
-                      if (parent) {
-                          // Encontramos el producto padre y lo agregamos después de este
-                          const parentIndex = result.indexOf(parent);
-                          if (parentIndex !== -1) {
-                              result.splice(parentIndex + 1, 0, subProduct);
-                              addedProductIds.add(subProduct.id); // Marcamos el subproducto como agregado
-                          }
-                      }
-                  }
-              });
+  lineItems.forEach((item) => {
+    const metaData = item.meta_data || [];
+    metaData.forEach((meta) => {
+      if (meta.key === "subProducts" && Array.isArray(meta.value)) {
+        const subProducts = meta.value;
+        subProducts.forEach((subProduct) => {
+          if (!addedProductIds.has(subProduct.id)) {
+            const parent = itemMap.get(subProduct.idParent);
+            if (parent) {
+              // Encontramos el producto padre y lo agregamos después de este
+              const parentIndex = result.indexOf(parent);
+              if (parentIndex !== -1) {
+                result.splice(parentIndex + 1, 0, subProduct);
+                addedProductIds.add(subProduct.id); // Marcamos el subproducto como agregado
+              }
+            }
           }
-      });
+        });
+      }
+    });
   });
 
   return result;
 }
-
-
-
 
 export const useOrdersStore = defineStore("orders", {
   state: () => ({
@@ -75,32 +72,46 @@ export const useOrdersStore = defineStore("orders", {
       this.ordersLoading = true;
       function getCurrentFormattedDate() {
         const now = new Date();
-        const Time = new Date(
-          now.getTime()
-        );
-        return `${Time.toISOString().slice(0,-14)}T00:00:00Z`;
+        const Time = new Date(now.getTime());
+        return `${Time.toISOString().slice(0, -14)}T00:00:00Z`;
       }
       console.log(getCurrentFormattedDate());
       try {
         const localStorageParsed = JSON.parse(
           localStorage.getItem("order_line_items")
         );
-        const url = id.length ? `${BASE_URL}?include=${id}` : `${BASE_URL}?per_page=100&after=${getCurrentFormattedDate()}&status=completed`;
+        const url = id.length
+          ? `${BASE_URL}?include=${id}`
+          : `${BASE_URL}?per_page=100&after=${getCurrentFormattedDate()}&status=completed`;
         let response = await axios.get(url, AUTH_HEADER);
         if (response.data[0]?.line_items) {
-          console.log(response.data);
           response.data[0].line_items = response.data[0]?.line_items.map(
             (e) => {
-              return {  ...e, checked: false
-                 };
+              return { ...e, checked: false };
             }
           );
-          console.log(response.data[0].line_items);
         }
 
         if (path === "searchOrder") {
           this.ordersList = response.data;
         }
+
+        const asddsa = processLineItems([
+          {
+            ...response.data[0],
+            line_items: response?.data[0]?.line_items?.map((e) => {
+              return {
+                ...e,
+                meta_data: e.meta_data.map((i) => {
+                  if (i.value == "1") {
+                    return { ...i, value: true,display_value:true };
+                  }else return i
+                }),
+              };
+            }),
+          },
+        ]);
+
 
         if (localStorageParsed) {
           if (id in localStorageParsed) {
@@ -116,11 +127,16 @@ export const useOrdersStore = defineStore("orders", {
               );
             }
           }
-            this.orders = response.data
-          return this.orders[0].line_items = processLineItems(response.data[0].line_items)
+          
+          this.orders = asddsa;
+          return (this.orders[0].line_items = processLineItems(
+            response.data[0].line_items
+          ));
         } else {
-          this.orders = response.data;
-          this.orders[0].line_items = processLineItems(response.data[0].line_items);
+          this.orders = asddsa;
+          this.orders[0].line_items = processLineItems(
+            asddsa[0].line_items
+          );
         }
       } catch (error) {
         console.error(error);
@@ -129,8 +145,8 @@ export const useOrdersStore = defineStore("orders", {
       }
     },
     async updateOrder(id, updatedData) {
-/*       console.log(updatedData);
- */      this.orderUpdateLoading = true;
+      /*       console.log(updatedData);
+       */ this.orderUpdateLoading = true;
       try {
         const response = await axios.put(
           `${BASE_URL}/${id}`,
