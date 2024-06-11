@@ -2,8 +2,8 @@
   <v-card class="px-3 tarjeta" flat>
     <v-row class="align-center" no-gutters>
       <v-col cols="4">
-        <p class="font-weight-bold text-h6">Factura #{{ id }}</p>
-        <p class="text-subtitle-1">Modificado por ultima vez #{{ id }}</p>
+        <p class="font-weight-bold text-primary text-h6">Factura #{{ id }}</p>
+        <p class="text-subtitle-1">Modificado por ultima vez: {{ id }}</p>
 
       </v-col>
       <v-col cols="8" class="d-flex justify-center justify-md-end">

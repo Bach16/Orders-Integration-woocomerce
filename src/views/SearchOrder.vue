@@ -42,12 +42,20 @@
     </form>
 
     <!-- Contenedor con resultados -->
-    <SearchResultContainer
+    <SearchResultTabs
       :isLoading="orderStore?.ordersLoading"
       :ordersList="orderStore?.ordersList"
       :rol="rol"
       :firstSearch="firstSearch"
     />
+
+    <!-- Contenedor con resultados -->
+    <!-- <SearchResultContainer
+      :isLoading="orderStore?.ordersLoading"
+      :ordersList="orderStore?.ordersList"
+      :rol="rol"
+      :firstSearch="firstSearch"
+    /> -->
   </v-container>
 </template>
 
@@ -58,8 +66,9 @@ import { onMounted, ref } from "vue";
 import SearchResultContainer from "../components/searchResultContainer.vue";
 import InputC from "../components/inputs/InputC.vue";
 import SessionBanner from "../components/buttons/SessionBanner.vue";
+import SearchResultTabs from "../components/SearchResultTabs.vue";
 export default {
-  components: { SearchResultContainer, InputC, SessionBanner },
+  components: { SearchResultContainer, SearchResultTabs, InputC, SessionBanner },
   setup() {
     const orderStore = useOrdersStore();
     const route = useRoute();
