@@ -14,6 +14,18 @@ const AUTH_HEADER = {
   },
 };
 
+function TotalNbultosSum(array){
+  console.log(array);
+  const result = array?.reduce((total, item) => {
+    if (parseInt(item.meta_data[0].value)) {
+      return total + parseInt(item.meta_data[0].value);
+    }
+    return total + 0;
+  }, 0);
+  console.log(result);
+  return result
+}
+
 function processLineItems(lineItems) {
   console.log(lineItems);
   // Resultado final
@@ -107,16 +119,18 @@ export const useOrdersStore = defineStore("orders", {
             this.ordersList = ordersToRender;
           }
         }
+        
 
         const asddsa = processLineItems([
           {
             ...response.data[0],
             line_items: response?.data[0]?.line_items?.map((e) => {
+              if(e.meta_data[5] == "1") e.meta_data[5] = true
               return {
                 ...e,
                 meta_data: e.meta_data.map((i) => {
                   if (i.value == "1") {
-                    return { ...i, value: true, display_value: true };
+                    return { ...i };
                   } else return i;
                 }),
               };
@@ -138,15 +152,16 @@ export const useOrdersStore = defineStore("orders", {
               );
             }
           }
-
           this.orders = asddsa;
-          return (this.orders[0].line_items = processLineItems(
+          this.orders[0].line_items = processLineItems(
             response.data[0].line_items
-          ));
+          )
         } else {
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(asddsa[0].line_items);
+          console.log(this.orders[0]);
         }
+        this.orders[0].meta_data[2].value = TotalNbultosSum(processLineItems(asddsa[0].line_items));
       } catch (error) {
         console.error(error);
       } finally {
@@ -173,10 +188,7 @@ export const useOrdersStore = defineStore("orders", {
       this.orders[0] = { ...this.orders[0], comments: comments };
     },
     async updateOrderTotalBoxes(id, totalNumber) {
-      this.orders[0] = {
-        ...this.orders[0],
-        totalVariousBoxes: parseInt(totalNumber),
-      };
+      this.orders[0].meta_data[3] = {...this.orders[0].meta_data[3],value:parseInt(totalNumber)}
     },
     deleteSubproduct(id) {
       this.orders[0].line_items = this.orders[0]?.line_items.filter((e) => {
