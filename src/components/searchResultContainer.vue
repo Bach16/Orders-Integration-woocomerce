@@ -1,6 +1,6 @@
 <template>
   
-  <v-card class="mt-8" >
+  <v-container class="mt-2">
     <div v-if="isLoading" class="px-4">Cargando...</div>
     <div
       v-else-if="!isLoading && ordersList?.length"
@@ -15,7 +15,7 @@
         <h2 v-else-if="rol == 'conductor'">Lista de pedidos entregados</h2>
       </v-sheet> -->
       <v-row>
-        <v-col md="12" lg="12" v-for="item in ordersList" :key="item.id">
+        <v-col md="12" lg="12" sm="12" v-for="item in ordersList" :key="item.id">
           <SearchResultCard
             v-if="rol == 'bodeguero'"
             route="preparationOrder"
@@ -42,7 +42,7 @@
       </v-row>
     </div>
     <div v-else><NotFound /></div>
-  </v-card>
+  </v-container>
   </template>
 <script>
 import { ref } from "vue";
