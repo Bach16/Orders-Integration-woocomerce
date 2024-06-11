@@ -8,7 +8,7 @@
     </v-sheet>
 
     <!-- Tarjeta Busqueda de pedidos -->
-    <form @submit.prevent="orderSearch">
+    <form @submit.prevent="orderSearch" @keyup.enter="orderSearch">
       <v-card class="ms-2 my-4 pa-4 tarjeta">
         <v-row no-gutters class="pa-2">
           <v-col lg="11" md="10" class="d-flex justify-center">
@@ -94,7 +94,7 @@ export default {
 
     const orderSearch = () => {
       firstSearch.value = true;
-      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"));
+      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"),true);
     };
     const logout = () => {
       localStorage.removeItem("token");

@@ -44,7 +44,7 @@
             <span class="ml-2 bold-text">Totales Nº de bultos </span>
           </v-col>
           <v-col cols="4" md="4" class="border-e-sm">
-            <span>{{ order?.totalBultos }}</span>
+            <span>{{ order?.meta_data[2].value }}</span>
           </v-col>
         </v-row>
       </v-card>
@@ -72,7 +72,7 @@
               class="mb-4"
             />
             <span v-else>{{
-              order?.totalVariousBoxes
+              order?.meta_data[3].value
             }}</span>
           </v-col>
         </v-row>

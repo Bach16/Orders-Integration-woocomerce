@@ -206,7 +206,7 @@ export default {
     watch(
       () => orderStore.orders,
       (orders) => {
-        orders[0].totalBultos = orders[0]?.line_items?.reduce((total, item) => {
+        orders[0].meta_data[2].value = orders[0]?.line_items?.reduce((total, item) => {
           if (parseInt(item.meta_data[0].value)) {
             return total + parseInt(item.meta_data[0].value);
           }
