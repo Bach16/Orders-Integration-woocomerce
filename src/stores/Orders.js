@@ -67,7 +67,7 @@ export const useOrdersStore = defineStore("orders", {
     orderStatus: null,
   }),
   actions: {
-    async getOrders(id, path,rol) {
+    async getOrders(id, path, rol, isSearch) {
       console.log(id);
       this.ordersLoading = true;
       function getCurrentFormattedDate() {
@@ -93,13 +93,19 @@ export const useOrdersStore = defineStore("orders", {
         }
 
         if (path === "searchOrder") {
-          let filt = "completado"
-          if(rol == "logistica") filt="preparado" 
-          if(rol == "conductor") filt="despachado"  
+          if (isSearch) {
+            this.ordersList = response.data;
+          } else {
+            let filt = "completado";
+            if (rol == "logistica") filt = "preparado";
+            if (rol == "conductor") filt = "despachado";
 
-          const ordersToRender = response?.data?.filter(e=>{return !!e.meta_data[1] && e.meta_data[1].value == filt})
-          console.log(ordersToRender,filt);
-          this.ordersList = ordersToRender;
+            const ordersToRender = response?.data?.filter((e) => {
+              return !!e.meta_data[1] && e.meta_data[1].value == filt;
+            });
+            console.log(ordersToRender, filt);
+            this.ordersList = ordersToRender;
+          }
         }
 
         const asddsa = processLineItems([
@@ -110,14 +116,13 @@ export const useOrdersStore = defineStore("orders", {
                 ...e,
                 meta_data: e.meta_data.map((i) => {
                   if (i.value == "1") {
-                    return { ...i, value: true,display_value:true };
-                  }else return i
+                    return { ...i, value: true, display_value: true };
+                  } else return i;
                 }),
               };
             }),
           },
         ]);
-
 
         if (localStorageParsed) {
           if (id in localStorageParsed) {
@@ -133,16 +138,14 @@ export const useOrdersStore = defineStore("orders", {
               );
             }
           }
-          
+
           this.orders = asddsa;
           return (this.orders[0].line_items = processLineItems(
             response.data[0].line_items
           ));
         } else {
           this.orders = asddsa;
-          this.orders[0].line_items = processLineItems(
-            asddsa[0].line_items
-          );
+          this.orders[0].line_items = processLineItems(asddsa[0].line_items);
         }
       } catch (error) {
         console.error(error);
