@@ -125,7 +125,7 @@ export const useOrdersStore = defineStore("orders", {
           {
             ...response.data[0],
             line_items: response?.data[0]?.line_items?.map((e) => {
-              if(e.meta_data[5] == "1") e.meta_data[5] = true
+              if(e.meta_data[5].value == "1") e.meta_data[5].value = true
               return {
                 ...e,
                 meta_data: e.meta_data.map((i) => {
