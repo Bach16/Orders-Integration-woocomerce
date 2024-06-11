@@ -179,7 +179,9 @@ export default {
           },
         ],
       };
-      orderStore.updateOrder(idasd, body);
+      const res = orderStore.updateOrder(idasd, body);
+      res.then((r)=>{localStorage.removeItem("order_line_items");})
+
       /* const newReqBody = orderStore.orders[0].line_items.map((e) => {
         return {
           id: e.id,
