@@ -216,6 +216,7 @@ export default {
             meta_data: e.meta_data,
           };
         });
+        console.log(localStorageData[orderId].meta_data[2],localStorageData[orderId].meta_data[3]);
         const superArray = orderToUpdate.filter((e) => {
           return !!e.meta_data[6];
         });
@@ -263,16 +264,18 @@ export default {
             },
           ],
         };
+        if(localStorageData[orderId].meta_data[2].value !== null) newArrayProducts.meta_data.push(localStorageData[orderId].meta_data[2])
+        if(localStorageData[orderId].meta_data[3].value !== null) newArrayProducts.meta_data.push(localStorageData[orderId].meta_data[3])
         console.log(newArrayProducts);
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
-        orderStore.updateOrder(idasd, newArrayProducts);
-        console.log("entro");
+        const res = orderStore.updateOrder(idasd, newArrayProducts);
+        res.then((r)=>{localStorage.removeItem("order_line_items");})
       } else {
         // Si no hay datos válidos en el localStorage, simplemente actualizar el estado de la orden
         orderStore.updateOrder(idasd, { status: "completed" });
       }
-
+      
       dialog.value = true;
     };
 
