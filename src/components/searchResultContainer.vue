@@ -1,11 +1,11 @@
 <template>
-  <v-container class="py-6 px-2">
+  <v-card class="pa-6 mt-12 bg-white tarjeta">
     <div v-if="isLoading" class="px-4">Cargando...</div>
     <div
       v-else-if="!isLoading && ordersList?.length"
-      class="ms-2 list-container"
+      class=" list-container"
     >
-      <v-sheet class="mb-6 bg-transparent">
+      <v-sheet class="mb-6 px-2 bg-transparent">
         <h2 v-if="!!(!isLoading && ordersList?.length) && !!firstSearch">
           Resultados de busqueda
         </h2>
@@ -41,7 +41,7 @@
       </v-row>
     </div>
     <div v-else><NotFound /></div>
-  </v-container>
+  </v-card>
 </template>
 <script>
 import { ref } from "vue";

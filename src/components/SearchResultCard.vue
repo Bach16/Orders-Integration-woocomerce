@@ -1,8 +1,10 @@
 <template>
-  <v-card class="mb-1 pa-3 tarjeta">
-    <v-row class="pa-2 align-center" no-gutters>
+  <v-card class="px-3 tarjeta" flat>
+    <v-row class="align-center" no-gutters>
       <v-col cols="4">
-        <p>Factura #{{ id }}</p>
+        <p class="font-weight-bold text-h6">Factura #{{ id }}</p>
+        <p class="text-subtitle-1">Modificado por ultima vez #{{ id }}</p>
+
       </v-col>
       <v-col cols="8" class="d-flex justify-center justify-md-end">
         <h5 v-if="status == 'uploading'" class="edit-button" id="loaded-text">
@@ -20,6 +22,7 @@
           />
         </div>
       </v-col>
+      <v-divider class="mt-6"></v-divider>
     </v-row>
   </v-card>
 </template>
