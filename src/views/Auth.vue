@@ -6,7 +6,7 @@
           <v-img
             class="mx-auto my-10"
             max-width="150"
-            src="../src/assets/budak-logo-box.svg"
+            :src="require('@/src/assets/budak-logo-box.svg')"
           ></v-img>
           <v-card class="rounded-xl pa-16">
             <h1
