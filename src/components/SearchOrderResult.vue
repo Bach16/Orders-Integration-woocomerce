@@ -8,7 +8,7 @@
       </v-col>
       <v-col class="d-flex justify-end">
         <span
-          class="text-primary cursor-pointer text-decoration-underline"
+          class="mr-6 text-primary cursor-pointer font-weight-medium text-decoration-underline"
           @click="callModifyObject"
         >
           Mostrar ordenes de hoy
@@ -29,14 +29,14 @@
         <SearchResultCard
           v-if="rol == 'bodeguero'"
           route="preparationOrder"
-          content="Preparar pedido"
+          content="Preparar orden"
           :id="item.id"
           :params="item.id"
         />
         <SearchResultCard
           v-if="rol == 'logistica'"
           route="sendOrder"
-          content="Despachar pedido"
+          content="Despachar orden"
           :id="item.id"
           :params="item.id"
         />

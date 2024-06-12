@@ -1,52 +1,57 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 w-60 justify-center container" >
+  <v-container class="mx-lg-16 mx-2 w-60 justify-center container">
     <!-- Banner de sesión -->
     <SessionBanner :username="username" :logout="logout" />
 
-    <hr>
-
-    <v-sheet class="py-4 px-2 bg-transparent">
+    <!-- <v-sheet class="py-4 px-2 bg-transparent">  
       <h2>Busqueda de Pedidos</h2>
-    </v-sheet>
+    </v-sheet> -->
 
     <!-- Tarjeta Busqueda de pedidos -->
     <form @submit.prevent="orderSearch" @keyup.enter="orderSearch">
-      <v-card class="pa-4 mt-4 tarjeta">
+      <div class="pa-4 tarjeta-search bg-white">
         <v-row no-gutters class="pa-2">
-          <v-col lg="11" md="10" class="d-flex justify-center">
+          <v-col lg="11" md="10" class="d-flex justify-center ">
             <InputC
-              :vModel="id"
+              :vModel="id" 
               hide-details
-              appendInnerIcon="mdi-magnify"
-              label="Buscar"
-              variant="outlined"
+              variant="plain"
+              placeholder="Ingresa el número de orden"
               height="56"
-              class="search-input"
+              class="search-input border-sm px-4"
               type="text"
               :input="filterInput"
               :onlyNumber="true"
               :isSearch="true"
             />
           </v-col>
-          <v-col lg="1" md="2" class="d-flex justify-center">
+          <v-col lg="1" md="2" class="d-flex justify-start">
             <v-btn
+              class="rounded-0"
+              icon="mdi-magnify"
               color="primary"
               type="submit"
               hide-details
               height="56"
-              class="ml-2"
+              width="56"
             >
-              Buscar
             </v-btn>
           </v-col>
         </v-row>
-      </v-card>
+      </div>
     </form>
 
-    <SearchOrderResult v-if="firstSearch" :isLoading="orderStore?.ordersLoading" :firstSearch="firstSearch" :ordersList="orderStore?.SearchOrder" :rol="rol" :changeSerchVisibility="changeSerchVisibility"/>
+    <SearchOrderResult
+      v-if="firstSearch"
+      :isLoading="orderStore?.ordersLoading"
+      :firstSearch="firstSearch"
+      :ordersList="orderStore?.SearchOrder"
+      :rol="rol"
+      :changeSerchVisibility="changeSerchVisibility"
+    />
     <!-- Contenedor con resultados -->
     <SearchResultTabs
-    v-else
+      v-else
       :isLoading="orderStore?.ordersLoading"
       :ordersList="orderStore?.ordersList"
       :rol="rol"
@@ -73,7 +78,7 @@ import SearchResultTabs from "../components/SearchResultTabs.vue";
 import SearchOrderResult from "../components/SearchOrderResult.vue";
 
 export default {
-  components: {SearchOrderResult, SearchResultTabs, InputC, SessionBanner },
+  components: { SearchOrderResult, SearchResultTabs, InputC, SessionBanner },
   setup() {
     const orderStore = useOrdersStore();
     const route = useRoute();
@@ -89,7 +94,11 @@ export default {
       if (storedRol) {
         rol.value = storedRol;
       }
-      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol")).then(()=>{orderStore.chanceTabOrder()})
+      orderStore
+        .getOrders(id.value, ruta[1], localStorage.getItem("rol"))
+        .then(() => {
+          orderStore.chanceTabOrder();
+        });
       if (
         (localStorage.getItem("rol") == "logistica" ||
           localStorage.getItem("rol") == "bodeguero" ||
@@ -98,7 +107,6 @@ export default {
       )
         return;
       else return router.push("/");
-      
     });
 
     const filterInput = (event) => {
@@ -108,12 +116,16 @@ export default {
 
     const orderSearch = () => {
       firstSearch.value = true;
-      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"),true);
-      };
-      const changeSerchVisibility = ()=>{
+      orderStore.getOrders(
+        id.value,
+        ruta[1],
+        localStorage.getItem("rol"),
+        true
+      );
+    };
+    const changeSerchVisibility = () => {
       firstSearch.value = false;
-
-    }
+    };
     const logout = () => {
       localStorage.removeItem("token");
       localStorage.removeItem("rol");
@@ -160,7 +172,14 @@ p {
   justify-content: center;
   border-radius: 10px;
 }
-.w-60{
+
+.tarjeta-search {
+  display: flex;
+  justify-content: center;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.w-60 {
   width: 65%;
 }
 @media only screen and (max-width: 768px) {
@@ -174,6 +193,7 @@ p {
   }
 }
 .search-input {
+  background-color: #fafafa;
   flex: 1;
 }
 
@@ -184,8 +204,8 @@ p {
 
 hr {
   border: none;
-    border-top: 1px solid #263e8d42;
-    margin: 10px 5px;
-    width: 100%;
+  border-top: 1px solid #263e8d42;
+  margin: 10px 5px;
+  width: 100%;
 }
 </style>

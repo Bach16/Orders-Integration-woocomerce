@@ -10,23 +10,24 @@
         <h2 v-if="!!(!isLoading && ordersList?.length) && !!firstSearch">
           Resultados de busqueda
         </h2>
-        <h2 v-else-if="rol == 'bodeguero'">Pedidos para el dia de hoy</h2>
+        <h2 v-else-if="rol == 'bodeguero'">Ordenes para el dia de hoy</h2>
         <h2 v-else-if="rol == 'logistica'">Despachos para el dia de hoy</h2>
-        <h2 v-else-if="rol == 'conductor'">Lista de pedidos entregados</h2>
+        <h2 v-else-if="rol == 'conductor'">Lista de Ordenes entregadas</h2>
       </v-sheet> -->
       <v-row>
         <v-col md="12" lg="12" sm="12" v-for="item in ordersList" :key="item.id">
           <SearchResultCard
             v-if="rol == 'bodeguero'"
             route="preparationOrder"
-            content="Preparar pedido"
+            content="Preparar orden"
             :id="item.id"
             :params="item.id"
+            :date="item.date_created"
           />
           <SearchResultCard
             v-if="rol == 'logistica'"
             route="sendOrder"
-            content="Despachar pedido"
+            content="Despachar orden"
             :id="item.id"
             :params="item.id"
           />

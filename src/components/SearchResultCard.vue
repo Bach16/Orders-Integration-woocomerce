@@ -3,8 +3,9 @@
     <v-row class="align-center" no-gutters>
       <v-col cols="4">
         <p class="font-weight-bold text-primary text-h6">Orden #{{ id }}</p>
-        <p class="text-subtitle-1">Modificado por ultima vez: {{ id }}</p>
-
+        <p class="text-subtitle-1">
+          Creada el: {{ formatDate(date.slice(0, -9).replaceAll("-", "/")) }}
+        </p>
       </v-col>
       <v-col cols="8" class="d-flex justify-center justify-md-end">
         <h5 v-if="status == 'uploading'" class="edit-button" id="loaded-text">
@@ -34,7 +35,22 @@ import { useOrdersStore } from "../stores/Orders";
 
 export default {
   components: { SearchCardButton },
-  props: ["route", "id", "content", "params", "isDriver", "onChange", "status"],
+  props: [
+    "route",
+    "id",
+    "content",
+    "params",
+    "isDriver",
+    "onChange",
+    "status",
+    "date",
+  ],
+  methods: {
+    formatDate: (dateStr) => {
+      const [year, month, day] = dateStr.split("/");
+      return `${day}/${month}/${year}`;
+    },
+  },
   setup() {
     const status = ref("initial"); // Possible values: 'initial', 'uploading', 'uploaded'
 
@@ -57,7 +73,6 @@ export default {
 </script>
 
 <style>
-
 .edit-button {
   display: flex;
   align-items: center;
