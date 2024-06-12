@@ -315,4 +315,9 @@ a:active {
     width: 85%;
   }
 }
+@media only screen and (max-width: 1400px) {
+  .w-60 {
+    width: 80%;
+  }
+}
 </style>
