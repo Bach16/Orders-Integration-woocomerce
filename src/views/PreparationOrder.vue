@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 container">
+  <v-container class="w-60 mx-lg-16 mx-2 container">
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <GoBackButton />
@@ -122,7 +122,6 @@ export default {
     const idasd = route.params.id;
 
     const save = (isSave, index, id) => {
-      console.log(id);
       const localStorageData = JSON.parse(
         localStorage.getItem("order_line_items")
       );
@@ -186,7 +185,6 @@ export default {
       }
 
       const orderId = route.params.id;
-      console.log(localStorageData, index);
       // Verificar si hay datos válidos en el localStorage
       if (
         true
@@ -216,10 +214,7 @@ export default {
             meta_data: e.meta_data,
           };
         });
-        console.log(
-          localStorageData[orderId].meta_data[2],
-          localStorageData[orderId].meta_data[3]
-        );
+        
         const superArray = orderToUpdate.filter((e) => {
           return !!e.meta_data[6];
         });
@@ -275,7 +270,6 @@ export default {
           newArrayProducts.meta_data.push(
             localStorageData[orderId].meta_data[3]
           );
-        console.log(newArrayProducts);
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
         const res = orderStore.updateOrder(idasd, newArrayProducts);
@@ -398,5 +392,18 @@ a:active {
 
 .table-wrapper {
   width: 105%;
+}
+.w-60{
+  width: 65%;
+}
+@media only screen and (max-width: 768px) {
+  .w-60 {
+    width: 85%;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .w-60 {
+    width: 80%;
+  }
 }
 </style>

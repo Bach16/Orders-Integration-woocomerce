@@ -6,12 +6,8 @@
     :hide-details="hideDetails"
     :class="classs"
     :rules="!isSearch? [rules.required] : undefined"
-    :density="density"
     :placeholder="placeholder"
-    :prepend-inner-icon="innerIcon"
-    :append-inner-icon="appendInnerIcon"
     :variant="variant"
-    :label="label"
     :height="height"
     @keypress="onlyNumber ? onlyNumbers($event) : undefined"
   ></v-text-field>
