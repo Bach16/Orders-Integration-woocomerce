@@ -77,7 +77,7 @@ export default {
       if (storedRol) {
         rol.value = storedRol;
       }
-      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"),true);
+      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"));
       if (
         (localStorage.getItem("rol") == "logistica" ||
           localStorage.getItem("rol") == "bodeguero" ||
