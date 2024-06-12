@@ -153,30 +153,91 @@
 
           <!-- N de Bultos -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[0].value }}
+            <v-text-field
+            v-if="!disabled"
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="nbultos"
+              v-model="element.meta_data[0].value"
+              hide-details="auto"
+              variant="plain"
+              :disabled=disabled
+            ></v-text-field>
+            <span v-else>{{ element.meta_data[0].value}}</span>
           </td>
 
           <!-- Unidades por bulto -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[1].value }}
+            <v-text-field
+            v-if="!disabled"
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="unidbultos"
+              v-model="element.meta_data[1].value"
+              hide-details="auto"
+              variant="plain"
+              :disabled=disabled
+            ></v-text-field>
+            <span v-else>{{ element.meta_data[1].value}}</span>
           </td>
 
           <!-- Total de unidades -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[2].value }}
+            <v-text-field
+            v-if="!disabled"
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="totalunidades"
+              v-model="element.meta_data[2].value"
+              hide-details="auto"
+              variant="plain"
+              :disabled=disabled
+            ></v-text-field>
+            <span v-else>{{ element.meta_data[2].value}}</span>
           </td>
 
           <!-- Varios -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[3].value }}
+            <v-text-field
+            v-if="!disabled"
+              @input="onChangeToLocalStorage"
+              @keypress="onlyNumbers($event)"
+              name="varios"
+              v-model="element.meta_data[3].value"
+              hide-details="auto"
+              variant="plain"
+              :disabled=disabled
+            ></v-text-field>
+            <span v-else>{{ element.meta_data[3].value}}</span>
           </td>
 
           <!-- Descripcion -->
-          <td class="border-e-sm border-b-sm">{{ element.name }}</td>
+          <td class="border-e-sm border-b-sm">
+            <v-text-field
+            v-if="!disabled"
+              @input="onChangeToLocalStorage"
+              name="name"
+              v-model="element.name"
+              hide-details="auto"
+              variant="plain"
+              :disabled=disabled
+            ></v-text-field>
+            <span v-else>{{ element.name}}</span>
+          </td>
 
           <!-- Supervisado -->
           <td class="border-e-sm border-b-sm">
-            {{ element.meta_data[4].value }}
+            <v-text-field
+            v-if="!disabled"
+              @input="onChangeToLocalStorage"
+              @keypress="onlyLetters($event)"
+              name="supervisado"
+              v-model="element.meta_data[4].value"
+              hide-details="auto"
+              variant="plain"
+              :disabled=disabled
+            ></v-text-field>
+            <span v-else>{{ element.meta_data[4].value}}</span>
           </td>
 
           <!-- Listo -->
@@ -186,9 +247,11 @@
           </td> -->
 
           <td class="border-e-sm border-b-sm">
-            <v-checkbox v-model="element.meta_data[5].value" hide-details></v-checkbox>
+            <v-checkbox
+              v-model="element.meta_data[5].value"
+              hide-details
+            ></v-checkbox>
           </td>
-
         </tr>
       </tbody>
     </v-table>
@@ -200,22 +263,24 @@ import { onMounted, watch } from "vue";
 import { useOrdersStore } from "../../stores/Orders";
 
 export default {
-  props: ["order", "modificable", "save", "onChangeToLocalStorage"],
+  props: ["order", "modificable", "save", "onChangeToLocalStorage", "disabled"],
   setup() {
     const orderStore = useOrdersStore();
     watch(
       () => orderStore.orders,
       (orders) => {
-        orders[0].meta_data[2].value = orders[0]?.line_items?.reduce((total, item) => {
-          if (parseInt(item.meta_data[0].value)) {
-            return total + parseInt(item.meta_data[0].value);
-          }
-          return total + 0;
-        }, 0);
+        orders[0].meta_data[2].value = orders[0]?.line_items?.reduce(
+          (total, item) => {
+            if (parseInt(item.meta_data[0].value)) {
+              return total + parseInt(item.meta_data[0].value);
+            }
+            return total + 0;
+          },
+          0
+        );
       },
       { deep: true }
     );
-    
   },
   methods: {
     callModifyObject() {

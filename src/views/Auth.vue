@@ -3,8 +3,15 @@
     <div class="login">
       <v-row no-gutters class="card2">
         <v-col>
+          <v-img
+            class="mx-auto my-10"
+            max-width="150"
+            src="../src/assets/budak-logo-box.svg"
+          ></v-img>
           <v-card class="rounded-xl pa-16">
-            <h1 class="font-weight-bold mb-6 text-center text-primary text-uppercase">
+            <h1
+              class="font-weight-bold mb-6 text-center text-primary text-uppercase"
+            >
               Inicio de Sesión
             </h1>
             <form @submit.prevent="login">

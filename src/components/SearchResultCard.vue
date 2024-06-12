@@ -2,7 +2,7 @@
   <v-card class="mb-1 pa-3 tarjeta">
     <v-row class="pa-2 align-center" no-gutters>
       <v-col cols="4">
-        <p>Factura #{{ id }}</p>
+        <p>Orden #{{ id }}</p>
       </v-col>
       <v-col cols="8" class="d-flex justify-center justify-md-end">
         <h5 v-if="status == 'uploading'" class="edit-button" id="loaded-text">
