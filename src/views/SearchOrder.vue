@@ -3,8 +3,10 @@
     <!-- Banner de sesión -->
     <SessionBanner :username="username" :logout="logout" />
 
-    <v-sheet class="py-6 px-2 bg-transparent">
-      <h1>Busqueda de Pedidos</h1>
+    <hr>
+
+    <v-sheet class="py-4 px-2 bg-transparent">
+      <h2>Busqueda de Pedidos</h2>
     </v-sheet>
 
     <!-- Tarjeta Busqueda de pedidos -->
@@ -158,5 +160,12 @@ p {
 .session-banner {
   padding: 10px;
   text-align: center;
+}
+
+hr {
+  border: none;
+    border-top: 1px solid #263e8d42;
+    margin: 10px 5px;
+    width: 100%;
 }
 </style>

@@ -11,7 +11,7 @@
       </v-col>
       <v-col cols="12" md="4">
         <h2 class="text-start text-primary">
-          Nº de factura {{ orderStore?.orders[0]?.id }}
+          Nº de Orden {{ orderStore?.orders[0]?.id }}
         </h2>
       </v-col>
     </v-row>
@@ -102,7 +102,7 @@ import { useOrdersStore } from "../stores/Orders";
 import { onMounted, watch, ref } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
 import AddRowButton from "../components/buttons/AddRowButton.vue";
-import GoBackButton from "../components/buttons/GoBackButton.vue"
+import GoBackButton from "../components/buttons/GoBackButton.vue";
 
 export default {
   components: {
@@ -112,7 +112,7 @@ export default {
     ProductsOrderTableSkeleton,
     DeleteTableButton,
     AddRowButton,
-    GoBackButton
+    GoBackButton,
   },
   setup() {
     const orderStore = useOrdersStore();
@@ -216,7 +216,10 @@ export default {
             meta_data: e.meta_data,
           };
         });
-        console.log(localStorageData[orderId].meta_data[2],localStorageData[orderId].meta_data[3]);
+        console.log(
+          localStorageData[orderId].meta_data[2],
+          localStorageData[orderId].meta_data[3]
+        );
         const superArray = orderToUpdate.filter((e) => {
           return !!e.meta_data[6];
         });
@@ -264,18 +267,26 @@ export default {
             },
           ],
         };
-        if(localStorageData[orderId].meta_data[2].value !== null) newArrayProducts.meta_data.push(localStorageData[orderId].meta_data[2])
-        if(localStorageData[orderId].meta_data[3].value !== null) newArrayProducts.meta_data.push(localStorageData[orderId].meta_data[3])
+        if (localStorageData[orderId].meta_data[2].value !== null)
+          newArrayProducts.meta_data.push(
+            localStorageData[orderId].meta_data[2]
+          );
+        if (localStorageData[orderId].meta_data[3].value !== null)
+          newArrayProducts.meta_data.push(
+            localStorageData[orderId].meta_data[3]
+          );
         console.log(newArrayProducts);
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
         const res = orderStore.updateOrder(idasd, newArrayProducts);
-        res.then((r)=>{localStorage.removeItem("order_line_items");})
+        res.then((r) => {
+          localStorage.removeItem("order_line_items");
+        });
       } else {
         // Si no hay datos válidos en el localStorage, simplemente actualizar el estado de la orden
         orderStore.updateOrder(idasd, { status: "completed" });
       }
-      
+
       dialog.value = true;
     };
 
@@ -315,7 +326,11 @@ export default {
       if (orderStore?.orders[0]?.id !== route.params.id) {
         const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id, route.path.split("/")[1],localStorage.getItem("rol"));
+          orderStore.getOrders(
+            id,
+            route.path.split("/")[1],
+            localStorage.getItem("rol")
+          );
         }
       }
     });

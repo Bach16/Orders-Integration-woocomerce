@@ -8,7 +8,7 @@
         <v-col cols="12">
           <GoBackButton />
         </v-col>
-   
+
         <v-col cols="12" md="8">
           <v-sheet class="bg-transparent">
             <h1 class="text-primary text-uppercase">Despacho de Pedido</h1>
@@ -32,14 +32,27 @@
         v-else
         :order="orderStore?.orders[0]"
         :modificable="false"
+        :disabled="isDisabled"
       />
       <OrderTableFooter :order="orderStore?.orders[0]" :modificable="false" />
     </div>
 
     <div class="mt-8 d-print-none">
       <v-row no-gutters>
-        
-        <v-col class="d-flex justify-end">
+        <v-col class="d-flex justify-center">
+          <v-btn
+            width="290px"
+            size="large"
+            class="px-6 mr-2"
+            rounded="lg"
+            color="primary"
+            @click="onDisabledClick"
+          >
+            Editar filas
+          </v-btn>
+        </v-col>
+
+        <v-col class="d-flex justify-center">
           <v-btn
             width="290px"
             size="large"
@@ -52,18 +65,18 @@
           </v-btn>
         </v-col>
 
-        <v-col class="d-flex justify-start">
+        <v-col class="d-flex justify-center">
           <v-btn
             size="large"
             width="290px"
-            class="px-6 ml-2 "
+            class="px-6 ml-2"
             rounded="lg"
             color="primary"
             @click="print"
           >
             Imprimir guia
           </v-btn>
-        </v-col> 
+        </v-col>
       </v-row>
     </div>
 
@@ -94,6 +107,11 @@
               class="ms-auto pr-6 font-weight-bold"
               text="Regresar"
               @click="dialog = false"
+            ></v-btn>
+            <v-btn
+              class="ms-auto pr-6 font-weight-bold"
+              text="Imprimir"
+              @click="print"
             ></v-btn>
           </template>
         </v-card>
@@ -136,6 +154,7 @@ export default {
     const router = useRouter();
     const orderStore = useOrdersStore();
     const dialog = ref(false);
+    const isDisabled = ref(true);
     const body = {
       status: "completed",
     };
@@ -160,6 +179,26 @@ export default {
           id: e.id,
           meta_data: [
             {
+              key: e.meta_data[0].key,
+              value: e.meta_data[0].value,
+            },
+            {
+              key: e.meta_data[1].key,
+              value: e.meta_data[1].value,
+            },
+            {
+              key: e.meta_data[2].key,
+              value: e.meta_data[2].value,
+            },
+            {
+              key: e.meta_data[3].key,
+              value: e.meta_data[3].value,
+            },
+            {
+              key: e.meta_data[4].key,
+              value: e.meta_data[4].value,
+            },
+            {
               key: e.meta_data[5].key,
               value: e.meta_data[5].value,
             },
@@ -180,7 +219,9 @@ export default {
         ],
       };
       const res = orderStore.updateOrder(idasd, body);
-      res.then((r)=>{localStorage.removeItem("order_line_items");})
+      res.then((r) => {
+        localStorage.removeItem("order_line_items");
+      });
 
       /* const newReqBody = orderStore.orders[0].line_items.map((e) => {
         return {
@@ -212,20 +253,23 @@ export default {
 
     const onSaveClick = () => {
       saveOrder();
+      isDisabled.value = true;
+    };
+
+    const onDisabledClick = () => {
+      isDisabled.value = false;
     };
 
     onMounted(() => {
-      if(!localStorage.getItem("rol").length){
-
+      if (!localStorage.getItem("rol").length) {
         return router.push("/");
-      } else if (localStorage.getItem("rol") !== "logistica"){
+      } else if (localStorage.getItem("rol") !== "logistica") {
         return router.push("/searchOrder");
-
       }
       if (orderStore?.orders[0]?.id !== route.params.id) {
         const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id, ruta[1],localStorage.getItem("rol"));
+          orderStore.getOrders(id, ruta[1], localStorage.getItem("rol"));
         }
       }
     });
@@ -236,6 +280,8 @@ export default {
       onSaveClick,
       goBack,
       toPrint,
+      isDisabled,
+      onDisabledClick,
     };
   },
 };

@@ -77,6 +77,8 @@ export const useOrdersStore = defineStore("orders", {
     ordersList: [],
     orderUpdateLoading: false,
     orderStatus: null,
+    currentTab: "Pedidos de hoy",
+    ordersArray: []
   }),
   actions: {
     async getOrders(id, path, rol, isSearch) {
@@ -94,7 +96,8 @@ export const useOrdersStore = defineStore("orders", {
         );
         const url = id.length
           ? `${BASE_URL}?include=${id}`
-          : `${BASE_URL}?per_page=100&after=${getCurrentFormattedDate()}&status=completed`;
+          : (isSearch ? `${BASE_URL}?per_page=100&status=completed`:`${BASE_URL}?per_page=100&after=${getCurrentFormattedDate()}&status=completed`);
+
         let response = await axios.get(url, AUTH_HEADER);
         if (response.data[0]?.line_items) {
           response.data[0].line_items = response.data[0]?.line_items.map(
@@ -107,6 +110,7 @@ export const useOrdersStore = defineStore("orders", {
         if (path === "searchOrder") {
           if (isSearch) {
             this.ordersList = response.data;
+            this.ordersArray = response.data;
           } else {
             let filt = "completado";
             if (rol == "logistica") filt = "preparado";
@@ -117,6 +121,7 @@ export const useOrdersStore = defineStore("orders", {
             });
             console.log(ordersToRender, filt);
             this.ordersList = ordersToRender;
+            this.ordersArray = ordersToRender;
           }
         }
         
@@ -195,5 +200,13 @@ export const useOrdersStore = defineStore("orders", {
         return e.id !== id;
       });
     },
+    chanceTabOrder(tab) {
+      this.currentTab = tab;
+      if (tab == "Pedidos de hoy") {
+        this.ordersList = this.ordersArray.filter(() => {
+
+        })
+      }
+    }
   },
 });
