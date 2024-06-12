@@ -1,8 +1,11 @@
 <template>
-  <v-card class="mb-1 pa-3 tarjeta">
-    <v-row class="pa-2 align-center" no-gutters>
+  <v-card class="px-3 tarjeta" flat>
+    <v-row class="align-center" no-gutters>
       <v-col cols="4">
-        <p>Orden #{{ id }}</p>
+        <p class="font-weight-bold text-primary text-h6">Orden #{{ id }}</p>
+        <p class="text-subtitle-1">
+          Creada el: {{ formatDate(date) }}
+        </p>
       </v-col>
       <v-col cols="8" class="d-flex justify-center justify-md-end">
         <h5 v-if="status == 'uploading'" class="edit-button" id="loaded-text">
@@ -20,6 +23,7 @@
           />
         </div>
       </v-col>
+      <v-divider class="mt-6"></v-divider>
     </v-row>
   </v-card>
 </template>
@@ -31,7 +35,24 @@ import { useOrdersStore } from "../stores/Orders";
 
 export default {
   components: { SearchCardButton },
-  props: ["route", "id", "content", "params", "isDriver", "onChange", "status"],
+  props: [
+    "route",
+    "id",
+    "content",
+    "params",
+    "isDriver",
+    "onChange",
+    "status",
+    "date",
+  ],
+  methods: {
+    formatDate: (dateStr) => {
+      if (!dateStr) return
+      const dateStr2 = dateStr?.slice(0, -9)?.replaceAll("-", "/")
+      const [year, month, day] = dateStr2.split("/");
+      return `${day}/${month}/${year}`;
+    },
+  },
   setup() {
     const status = ref("initial"); // Possible values: 'initial', 'uploading', 'uploaded'
 
@@ -54,7 +75,6 @@ export default {
 </script>
 
 <style>
-
 .edit-button {
   display: flex;
   align-items: center;

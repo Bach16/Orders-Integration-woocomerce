@@ -16,6 +16,7 @@ const AUTH_HEADER = {
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
+    user:{},
     rol: "",
     error: 0,
     isLoading: false,
@@ -42,11 +43,11 @@ export const useAuthStore = defineStore("auth", {
 
         localStorage.setItem("rol", userResponse.data.roles[0]);
         this.rol = userResponse.data.roles[0];
+        this.user = userResponse.data;
 
         callback();
       } catch (error) {
         this.error = error.response.status
-          console.error("An error occurred:", error);
       } finally {
         this.isLoading = false;
       }
