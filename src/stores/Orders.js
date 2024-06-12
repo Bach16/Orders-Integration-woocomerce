@@ -84,6 +84,7 @@ export const useOrdersStore = defineStore("orders", {
     orderStatus: null,
     currentTab: "Pedidos de hoy",
     ordersArray: [],
+    SearchOrder: [],
   }),
   actions: {
     async getOrders(id, path, rol, isSearch) {
@@ -111,8 +112,7 @@ export const useOrdersStore = defineStore("orders", {
 
         if (path === "searchOrder") {
           if (isSearch) {
-            this.ordersList = response.data;
-            this.ordersArray = response.data;
+            this.SearchOrder = response.data;
           } else {
             let filt = "completado";
             if (rol == "logistica") filt = "preparado";

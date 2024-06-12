@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 container">
+  <v-container class="w-60 mx-lg-16 mx-2 container">
     <v-row align-center class="pa-6" no-gutters>
       <v-col cols="12">
         <GoBackButton />
@@ -139,3 +139,8 @@ export default {
 
 };
 </script>
+<style>
+.w-60{
+  width: 65%;
+}
+</style>

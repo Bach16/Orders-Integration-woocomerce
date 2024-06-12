@@ -1,6 +1,6 @@
 <template>
   <v-card class="pa-6 mt-12 bg-white search-container">
-    <v-tabs v-model="tab" bg-color="transparent" color="#263d8d">
+    <v-tabs v-model="tab" bg-color="transparent" class="border-b-sm border-black " color="#263d8d">
       {{ console.log(tab) }}
       <v-tab
         v-for="item in items"

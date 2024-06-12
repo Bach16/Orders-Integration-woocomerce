@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 container">
+  <v-container class=" w-60 mx-lg-16 mx-2 container">
     <div id="printMe">
       <v-row
         class="ms-2 my-6 align-center justify-start align-center"
@@ -306,5 +306,8 @@ a:hover {
 a:active {
   text-decoration: none;
   color: inherit;
+}
+.w-60{
+  width: 65%;
 }
 </style>

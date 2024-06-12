@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 container">
+  <v-container class="w-60 mx-lg-16 mx-2 container">
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <GoBackButton />
@@ -398,5 +398,8 @@ a:active {
 
 .table-wrapper {
   width: 105%;
+}
+.w-60{
+  width: 65%;
 }
 </style>

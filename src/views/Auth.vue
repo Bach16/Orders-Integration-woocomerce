@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2">
+  <v-container class="w-60 mx-lg-16 mx-2">
     <div class="login">
       <v-row no-gutters class="card2">
         <v-col>
@@ -134,5 +134,8 @@ export default {
 .loading-button {
   background-color: #4a5da3;
   color: #d0d4e2;
+}
+.w-60{
+  width: 65%;
 }
 </style>

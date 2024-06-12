@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 container">
+  <v-container class="mx-lg-16 mx-2 w-60 justify-center container" >
     <!-- Banner de sesión -->
     <SessionBanner :username="username" :logout="logout" />
 
@@ -43,8 +43,10 @@
       </v-card>
     </form>
 
+    <SearchOrderResult v-if="firstSearch" :isLoading="orderStore?.ordersLoading" :firstSearch="firstSearch" :ordersList="orderStore?.SearchOrder" :rol="rol" :changeSerchVisibility="changeSerchVisibility"/>
     <!-- Contenedor con resultados -->
     <SearchResultTabs
+    v-else
       :isLoading="orderStore?.ordersLoading"
       :ordersList="orderStore?.ordersList"
       :rol="rol"
@@ -65,12 +67,13 @@
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted, ref } from "vue";
-import SearchResultContainer from "../components/searchResultContainer.vue";
 import InputC from "../components/inputs/InputC.vue";
 import SessionBanner from "../components/buttons/SessionBanner.vue";
 import SearchResultTabs from "../components/SearchResultTabs.vue";
+import SearchOrderResult from "../components/SearchOrderResult.vue";
+
 export default {
-  components: { SearchResultContainer, SearchResultTabs, InputC, SessionBanner },
+  components: {SearchOrderResult, SearchResultTabs, InputC, SessionBanner },
   setup() {
     const orderStore = useOrdersStore();
     const route = useRoute();
@@ -106,7 +109,11 @@ export default {
     const orderSearch = () => {
       firstSearch.value = true;
       orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"),true);
-    };
+      };
+      const changeSerchVisibility = ()=>{
+      firstSearch.value = false;
+
+    }
     const logout = () => {
       localStorage.removeItem("token");
       localStorage.removeItem("rol");
@@ -121,6 +128,7 @@ export default {
       filterInput,
       firstSearch,
       rol,
+      changeSerchVisibility,
       logout,
     };
   },
@@ -152,7 +160,9 @@ p {
   justify-content: center;
   border-radius: 10px;
 }
-
+.w-60{
+  width: 65%;
+}
 .search-input {
   flex: 1;
 }
