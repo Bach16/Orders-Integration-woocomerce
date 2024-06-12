@@ -6,7 +6,7 @@
           <v-img
             class="mx-auto my-10"
             max-width="150"
-            :src="require('@/src/assets/budak-logo-box.svg')"
+            :src="imagen"
           ></v-img>
           <v-card class="rounded-xl pa-16">
             <h1
@@ -82,9 +82,15 @@ import InputC from "../components/inputs/InputC.vue";
 import InputPassword from "../components/inputs/InputPassword.vue";
 import { useAuthStore } from "../stores/Auth";
 import { useRouter } from "vue-router";
+import imagen from "../assets/budak-logo-box.svg"
 
 export default {
   components: { InputC, InputPassword },
+  data(){
+    return{
+      imagen
+    }
+  },
   setup() {
     const router = useRouter();
     const authStore = useAuthStore();
