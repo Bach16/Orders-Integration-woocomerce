@@ -163,6 +163,16 @@ p {
 .w-60{
   width: 65%;
 }
+@media only screen and (max-width: 768px) {
+  .w-60 {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .w-60 {
+    width: 80%;
+  }
+}
 .search-input {
   flex: 1;
 }

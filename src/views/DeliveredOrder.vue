@@ -101,12 +101,11 @@
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted } from "vue";
-import GoBackButton from "../components/buttons/GoBackButton.vue"
-
+import GoBackButton from "../components/buttons/GoBackButton.vue";
 
 export default {
   components: {
-    GoBackButton
+    GoBackButton,
   },
   data: () => ({
     dialog: false,
@@ -127,7 +126,7 @@ export default {
       onMounted(() => {
         const id = route.params.id;
         if (id) {
-          orderStore.getOrders(id,localStorage.getItem("rol"));
+          orderStore.getOrders(id, localStorage.getItem("rol"));
         }
       });
     }
@@ -136,11 +135,15 @@ export default {
       orderStore,
     };
   },
-
 };
 </script>
 <style>
-.w-60{
+.w-60 {
   width: 65%;
+}
+@media only screen and (max-width: 768px) {
+  .w-60 {
+    width: 85%;
+  }
 }
 </style>

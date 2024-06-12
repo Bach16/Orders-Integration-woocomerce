@@ -310,4 +310,9 @@ a:active {
 .w-60{
   width: 65%;
 }
+@media only screen and (max-width: 768px) {
+  .w-60 {
+    width: 85%;
+  }
+}
 </style>
