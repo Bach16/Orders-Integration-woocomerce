@@ -94,7 +94,7 @@ export const useOrdersStore = defineStore("orders", {
         );
         const url = id.length
           ? `${BASE_URL}?include=${id}`
-          : `${BASE_URL}?per_page=100&after=${getCurrentFormattedDate()}&status=completed`;
+          : (isSearch ? `${BASE_URL}?per_page=100&status=completed`:`${BASE_URL}?per_page=100&after=${getCurrentFormattedDate()}&status=completed`);
         let response = await axios.get(url, AUTH_HEADER);
         if (response.data[0]?.line_items) {
           response.data[0].line_items = response.data[0]?.line_items.map(
