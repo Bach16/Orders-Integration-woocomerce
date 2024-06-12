@@ -86,7 +86,7 @@ export default {
       if (storedRol) {
         rol.value = storedRol;
       }
-      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"));
+      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol")).then(()=>{orderStore.chanceTabOrder()})
       if (
         (localStorage.getItem("rol") == "logistica" ||
           localStorage.getItem("rol") == "bodeguero" ||

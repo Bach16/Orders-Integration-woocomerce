@@ -14,7 +14,7 @@ const AUTH_HEADER = {
   },
 };
 
-function TotalNbultosSum(array){
+function TotalNbultosSum(array) {
   console.log(array);
   const result = array?.reduce((total, item) => {
     if (parseInt(item.meta_data[0].value)) {
@@ -23,7 +23,7 @@ function TotalNbultosSum(array){
     return total + 0;
   }, 0);
   console.log(result);
-  return result
+  return result;
 }
 
 function processLineItems(lineItems) {
@@ -70,6 +70,11 @@ function processLineItems(lineItems) {
   return result;
 }
 
+function getCurrentFormattedDate() {
+  const now = new Date();
+  const Time = new Date(now.getTime());
+  return `${Time.toISOString().slice(0, -14)}T00:00:00`;
+}
 export const useOrdersStore = defineStore("orders", {
   state: () => ({
     orders: [],
@@ -78,25 +83,22 @@ export const useOrdersStore = defineStore("orders", {
     orderUpdateLoading: false,
     orderStatus: null,
     currentTab: "Pedidos de hoy",
-    ordersArray: []
+    ordersArray: [],
   }),
   actions: {
     async getOrders(id, path, rol, isSearch) {
       console.log(id);
       this.ordersLoading = true;
-      function getCurrentFormattedDate() {
-        const now = new Date();
-        const Time = new Date(now.getTime());
-        return `${Time.toISOString().slice(0, -14)}T00:00:00Z`;
-      }
-      console.log(getCurrentFormattedDate());
+      console.log(new Date(getCurrentFormattedDate()));
       try {
         const localStorageParsed = JSON.parse(
           localStorage.getItem("order_line_items")
         );
         const url = id.length
           ? `${BASE_URL}?include=${id}`
-          : (isSearch ? `${BASE_URL}?per_page=100&status=completed`:`${BASE_URL}?per_page=100&after=${getCurrentFormattedDate()}&status=completed`);
+          : isSearch
+          ? `${BASE_URL}?per_page=100&status=completed`
+          : `${BASE_URL}?per_page=100&status=completed`;
 
         let response = await axios.get(url, AUTH_HEADER);
         if (response.data[0]?.line_items) {
@@ -124,13 +126,12 @@ export const useOrdersStore = defineStore("orders", {
             this.ordersArray = ordersToRender;
           }
         }
-        
 
         const asddsa = processLineItems([
           {
             ...response.data[0],
             line_items: response?.data[0]?.line_items?.map((e) => {
-              if(e.meta_data[5].value == "1") e.meta_data[5].value = true
+              if (e.meta_data[5].value == "1") e.meta_data[5].value = true;
               return {
                 ...e,
                 meta_data: e.meta_data.map((i) => {
@@ -160,16 +161,19 @@ export const useOrdersStore = defineStore("orders", {
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(
             response.data[0].line_items
-          )
+          );
         } else {
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(asddsa[0].line_items);
           console.log(this.orders[0]);
         }
-        this.orders[0].meta_data[2].value = TotalNbultosSum(processLineItems(asddsa[0].line_items));
-      } catch (error) {
-        console.error(error);
-      } finally {
+        this.orders[0].meta_data[2].value = TotalNbultosSum(
+          processLineItems(asddsa[0].line_items)
+        );
+        } catch (error) {
+          console.error(error);
+          } finally {
+        this.chanceTabOrder("Pedidos de hoy")
         this.ordersLoading = false;
       }
     },
@@ -193,7 +197,10 @@ export const useOrdersStore = defineStore("orders", {
       this.orders[0] = { ...this.orders[0], comments: comments };
     },
     async updateOrderTotalBoxes(id, totalNumber) {
-      this.orders[0].meta_data[3] = {...this.orders[0].meta_data[3],value:parseInt(totalNumber)}
+      this.orders[0].meta_data[3] = {
+        ...this.orders[0].meta_data[3],
+        value: parseInt(totalNumber),
+      };
     },
     deleteSubproduct(id) {
       this.orders[0].line_items = this.orders[0]?.line_items.filter((e) => {
@@ -202,11 +209,21 @@ export const useOrdersStore = defineStore("orders", {
     },
     chanceTabOrder(tab) {
       this.currentTab = tab;
+      const todayDate = new Date(getCurrentFormattedDate());
+      const ajasj = this.ordersArray.filter((e) => {
+        return new Date(e.date_created) > todayDate;
+      });
+      const jsaja = this.ordersArray.filter((e) => {
+        return new Date(e.date_created) < todayDate;
+      });
+      console.log(tab,this.ordersArray);
       if (tab == "Pedidos de hoy") {
-        this.ordersList = this.ordersArray.filter(() => {
+        console.log("adsdsa");
+       return this.ordersList = ajasj
+        } else if(tab == "Pedidos pendientes") {
+        this.ordersList = jsaja
 
-        })
       }
-    }
+    },
   },
 });

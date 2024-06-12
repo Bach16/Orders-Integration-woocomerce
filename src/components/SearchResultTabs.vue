@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-6 mt-12 bg-white search-container">
-    <v-tabs v-model="tab" bg-color="transparent" color="#263d8d" >
-        {{ console.log(tab)}}
+    <v-tabs v-model="tab" bg-color="transparent" color="#263d8d">
+      {{ console.log(tab) }}
       <v-tab
         v-for="item in items"
         :key="item"
@@ -27,16 +27,36 @@
 </template>
 
 <script>
+import { onMounted, ref, watch } from "vue";
+import { useOrdersStore } from "../stores/Orders";
 import SearchResultContainer from "./searchResultContainer.vue";
+import { useRoute } from "vue-router";
 
 export default {
   components: { SearchResultContainer },
   props: ["isLoading", "ordersList", "rol", "firstSearch"],
-  data() {
-    
+  setup() {
+    const id = ref("");
+    const route = useRoute();
+    const ruta = route?.path?.split("/");
+    const tab = ref("Pedidos de hoy")
+
+    const orderStore = useOrdersStore();
+    const items = ref(["Pedidos de hoy", "Pedidos pendientes"])
+    watch(
+      () => tab,
+      (tab)=>{
+        console.log("saddas");
+
+        orderStore.currentTab = tab.value
+        orderStore.chanceTabOrder(tab.value)
+      },
+      { deep: true }
+    );
     return {
-      tab: "Pedidos de hoy",
-      items: ["Pedidos de hoy", "Pedidos pendientes"],
+      orderStore,
+      tab,
+      items,
     };
   },
 };
