@@ -4,7 +4,7 @@
       <v-col cols="4">
         <p class="font-weight-bold text-primary text-h6">Orden #{{ id }}</p>
         <p class="text-subtitle-1">
-          Creada el: {{ formatDate(date.slice(0, -9).replaceAll("-", "/")) }}
+          Creada el: {{ formatDate(date) }}
         </p>
       </v-col>
       <v-col cols="8" class="d-flex justify-center justify-md-end">
@@ -47,7 +47,9 @@ export default {
   ],
   methods: {
     formatDate: (dateStr) => {
-      const [year, month, day] = dateStr.split("/");
+      if (!dateStr) return
+      const dateStr2 = dateStr?.slice(0, -9)?.replaceAll("-", "/")
+      const [year, month, day] = dateStr2.split("/");
       return `${day}/${month}/${year}`;
     },
   },

@@ -1,7 +1,6 @@
 <template>
   <v-card class="pa-6 mt-12 bg-white search-container">
     <v-tabs v-model="tab" bg-color="transparent" class="border-b-sm border-black " color="#263d8d">
-      {{ console.log(tab) }}
       <v-tab
         v-for="item in items"
         :key="item"
@@ -46,7 +45,6 @@ export default {
     watch(
       () => tab,
       (tab)=>{
-        console.log("saddas");
 
         orderStore.currentTab = tab.value
         orderStore.chanceTabOrder(tab.value)

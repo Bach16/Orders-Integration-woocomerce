@@ -30,6 +30,8 @@
             content="Despachar orden"
             :id="item.id"
             :params="item.id"
+            :date="item.date_created"
+
           />
           <SearchResultCard
             v-if="rol == 'conductor'"
@@ -38,6 +40,8 @@
             :isDriver="true"
             :id="item.id"
             :params="item.id"
+            :date="item.date_created"
+
           />
         </v-col>
       </v-row>

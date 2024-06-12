@@ -15,19 +15,16 @@ const AUTH_HEADER = {
 };
 
 function TotalNbultosSum(array) {
-  console.log(array);
   const result = array?.reduce((total, item) => {
     if (parseInt(item.meta_data[0].value)) {
       return total + parseInt(item.meta_data[0].value);
     }
     return total + 0;
   }, 0);
-  console.log(result);
   return result;
 }
 
 function processLineItems(lineItems) {
-  console.log(lineItems);
   // Resultado final
   const result = [];
 
@@ -88,9 +85,7 @@ export const useOrdersStore = defineStore("orders", {
   }),
   actions: {
     async getOrders(id, path, rol, isSearch) {
-      console.log(id);
       this.ordersLoading = true;
-      console.log(new Date(getCurrentFormattedDate()));
       try {
         const localStorageParsed = JSON.parse(
           localStorage.getItem("order_line_items")
@@ -121,7 +116,6 @@ export const useOrdersStore = defineStore("orders", {
             const ordersToRender = response?.data?.filter((e) => {
               return !!e.meta_data[1] && e.meta_data[1].value == filt;
             });
-            console.log(ordersToRender, filt);
             this.ordersList = ordersToRender;
             this.ordersArray = ordersToRender;
           }
@@ -165,21 +159,18 @@ export const useOrdersStore = defineStore("orders", {
         } else {
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(asddsa[0].line_items);
-          console.log(this.orders[0]);
         }
         this.orders[0].meta_data[2].value = TotalNbultosSum(
           processLineItems(asddsa[0].line_items)
         );
         } catch (error) {
-          console.error(error);
           } finally {
         this.chanceTabOrder("Pedidos de hoy")
         this.ordersLoading = false;
       }
     },
     async updateOrder(id, updatedData) {
-      /*       console.log(updatedData);
-       */ this.orderUpdateLoading = true;
+       this.orderUpdateLoading = true;
       try {
         const response = await axios.put(
           `${BASE_URL}/${id}`,
@@ -188,7 +179,6 @@ export const useOrdersStore = defineStore("orders", {
         );
         this.orderStatus = response.data.firstName;
       } catch (error) {
-        console.error(error.message);
       } finally {
         this.orderUpdateLoading = false;
       }
@@ -216,9 +206,7 @@ export const useOrdersStore = defineStore("orders", {
       const jsaja = this.ordersArray.filter((e) => {
         return new Date(e.date_created) < todayDate;
       });
-      console.log(tab,this.ordersArray);
       if (tab == "Pedidos de hoy") {
-        console.log("adsdsa");
        return this.ordersList = ajasj
         } else if(tab == "Pedidos pendientes") {
         this.ordersList = jsaja

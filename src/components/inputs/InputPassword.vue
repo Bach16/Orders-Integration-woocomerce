@@ -10,6 +10,7 @@
   :variant="variant"
   @click:append-inner="visibles = !visibles"
   @input="input"
+  :height="height"
   :v-model="vModel"
 
 
@@ -36,7 +37,8 @@ export default {
     "variant",
     "vModel",
     "onClick",
-    "input"
+    "input",
+    "height"
   ],
   setup() {
     let visibles = ref(false);

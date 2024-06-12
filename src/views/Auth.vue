@@ -17,7 +17,6 @@
             <form @submit.prevent="login">
               <v-row>
                 <v-col cols="12">
-                  {{ console.log(authStore?.error) }}
                   <h4
                     v-if="authStore?.error == 403"
                     class="text-red-lighten-1 font-weight-light text-subtitle-2 mb-1"
@@ -37,7 +36,7 @@
                   <h2 class="text-primary font-weight-bold mb-1">Contraseña</h2>
                   <InputPassword
                     :vModel="inputs?.password"
-                    classs="mb-2"
+                    classs="mb-4"
                     density="compact"
                     placeholder="Ingresa tu contraseña"
                     prependInnerIcon="mdi-lock-outline"
@@ -135,7 +134,7 @@ export default {
   background-color: #4a5da3;
   color: #d0d4e2;
 }
-.w-60{
+.w-60 {
   width: 65%;
 }
 @media only screen and (max-width: 768px) {
