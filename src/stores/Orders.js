@@ -213,5 +213,36 @@ export const useOrdersStore = defineStore("orders", {
 
       }
     },
+    async uploadFile(file) {
+      try {
+        const BASE_URL_WP = import.meta.env.VITE_WORDPRESS_BASE_URL;
+        const formData = new FormData();
+        formData.append("file", file);
+
+        // Usa el token JWT para enviar la solicitud al endpoint de WordPress
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("Token JWT no encontrado");
+          return;
+        }
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        };
+
+        const uploadResponse = await axios.post(
+          `${BASE_URL_WP}/wp-json/custom/v1/upload`,
+          formData,
+          config
+        );
+        
+        console.log("Archivo subido con éxito:", uploadResponse.data);
+      } catch (error) {
+        console.error("Error al subir el archivo:", error);
+      }
+    },
   },
 });

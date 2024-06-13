@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 w-60 justify-center container">
+  <v-container class="mx-lg-16 mx-2 w-100 justify-center container">
     <!-- Banner de sesión -->
     <SessionBanner :username="username" :logout="logout" />
 
@@ -11,9 +11,9 @@
     <form @submit.prevent="orderSearch" @keyup.enter="orderSearch">
       <div class="pa-4 tarjeta-search bg-white">
         <v-row no-gutters class="pa-2">
-          <v-col lg="11" md="10" class="d-flex justify-center ">
+          <v-col lg="11" md="10" class="d-flex justify-center">
             <InputC
-              :vModel="id" 
+              :vModel="id"
               hide-details
               variant="plain"
               placeholder="Ingresa el número de orden"

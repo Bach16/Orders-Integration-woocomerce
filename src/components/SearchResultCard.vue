@@ -54,6 +54,7 @@ export default {
     },
   },
   setup() {
+    const ordersStore = useOrdersStore();
     const status = ref("initial"); // Possible values: 'initial', 'uploading', 'uploaded'
 
     const onChange = (e) => {
@@ -61,6 +62,7 @@ export default {
       const file = e.target.files[0];
       if (file) {
         status.value = "uploading";
+        ordersStore.uploadFile(file);
         setTimeout(() => {
           status.value = "uploaded";
         }, 2000);

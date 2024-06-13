@@ -1,13 +1,15 @@
 <template>
-  <v-btn v-if="status=='uploaded'" class="edit-button" color="primary" > Editar </v-btn>
+  <v-btn v-if="status == 'uploaded'" class="edit-button" color="primary">
+    Editar
+  </v-btn>
   <v-file-input
-    v-else-if="status=='initial'"
+    v-else-if="status == 'initial'"
     hide-details
     label="Subir comprobante de entrega"
     bg-color="primary"
     class="font-weight-black driver-button"
     height="36"
-   variant="solo"
+    variant="solo"
     accept="image/*,.pdf"
     @change="onChange"
   ></v-file-input>
@@ -15,12 +17,14 @@
     v-else
     :to="params ? { name: route, params: { id: id } } : { name: route }"
   >
-    <v-btn color="primary" height="36" class="pa-6 d-flex align-center"> {{ content }} </v-btn>
+    <v-btn color="primary" height="36" class="pa-6 d-flex align-center">
+      {{ content }}
+    </v-btn>
   </RouterLink>
 </template>
 <script>
 export default {
-  props: ["route", "id", "content", "params", "isDriver", "onChange","status"], 
+  props: ["route", "id", "content", "params", "isDriver", "onChange", "status"],
 };
 </script>
 
