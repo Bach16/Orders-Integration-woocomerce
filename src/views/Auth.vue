@@ -101,6 +101,7 @@ export default {
     const login = () => {
       const redirect = () => {
         router.push("/searchOrder");
+        
       };
       authStore.login(inputs.value.user, inputs.value.password, redirect);
     };
