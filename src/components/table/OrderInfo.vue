@@ -43,21 +43,21 @@
         <v-col cols="12" md="4" class="px-3 pt-3 pb-4 border-t-sm border-e-sm">
           <span class="bold-text">Bodeguero: </span>
           <span v-if="isResponsive"><br></span>
-          <span>{{ "Nombre bodeguero" }}</span>
+          <span>{{ userStore?.user?.first_name }} {{ userStore?.user?.last_name }}</span>
         </v-col>
 
         <!-- E-mail -->
         <v-col cols="6" md="4" class="px-3 pt-3 pb-4 border-t-sm border-e-sm">
           <span class="bold-text">E-mail: </span>
           <span v-if="isResponsive"><br></span>
-          <span>{{ truncateText("correo@correo.com") }}</span>
+          <span>{{ truncateText(userStore?.user?.email) }}</span>
         </v-col>
 
         <!-- Telefono -->
         <v-col cols="6" md="4" class="px-3 pt-3 pb-4 border-t-sm ">
           <span class="bold-text">Telefono: </span>
           <span v-if="isResponsive"><br></span>
-          <span>{{ "+593987654321" }}</span>
+          <span>{{ userStore?.user?.description }}</span>
         </v-col>
       </v-row>
     </v-responsive>
@@ -65,12 +65,18 @@
 </template>
 
 <script>
+import { useAuthStore } from '../../stores/Auth';
+
 export default {
   props: ["order"],
   data() {
     return {
       isResponsive: false,
     };
+  },
+  setup(){
+    const userStore = useAuthStore()
+    return {userStore}
   },
   methods: {
     truncateText(text) {

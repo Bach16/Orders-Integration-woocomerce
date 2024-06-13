@@ -15,7 +15,7 @@
     v-else
     :to="params ? { name: route, params: { id: id } } : { name: route }"
   >
-    <v-btn color="primary" height="36"> {{ content }} </v-btn>
+    <v-btn color="primary" height="36" class="pa-6 d-flex align-center"> {{ content }} </v-btn>
   </RouterLink>
 </template>
 <script>

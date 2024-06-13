@@ -25,7 +25,7 @@ const options = {
   styles: [
     'https://unpkg.com/vuetify@latest/dist/vuetify.min.css',
     'https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css',
-    '/public/print.css'
+    '/print.css'
    
   ],
   timeout: 1000, // default timeout before the print window appears

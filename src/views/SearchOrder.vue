@@ -1,55 +1,70 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 container">
+  <v-container class="mx-lg-16 mx-2 w-60 justify-center container">
     <!-- Banner de sesión -->
     <SessionBanner :username="username" :logout="logout" />
 
-    <hr>
-
-    <v-sheet class="py-4 px-2 bg-transparent">
+    <!-- <v-sheet class="py-4 px-2 bg-transparent">  
       <h2>Busqueda de Pedidos</h2>
-    </v-sheet>
+    </v-sheet> -->
 
     <!-- Tarjeta Busqueda de pedidos -->
     <form @submit.prevent="orderSearch" @keyup.enter="orderSearch">
-      <v-card class="ms-2 my-4 pa-4 tarjeta">
+      <div class="pa-4 tarjeta-search bg-white">
         <v-row no-gutters class="pa-2">
-          <v-col lg="11" md="10" class="d-flex justify-center">
+          <v-col lg="11" md="10" class="d-flex justify-center ">
             <InputC
-              :vModel="id"
+              :vModel="id" 
               hide-details
-              appendInnerIcon="mdi-magnify"
-              label="Buscar"
-              variant="outlined"
+              variant="plain"
+              placeholder="Ingresa el número de orden"
               height="56"
-              class="search-input"
+              class="search-input border-sm px-4"
               type="text"
               :input="filterInput"
               :onlyNumber="true"
               :isSearch="true"
             />
           </v-col>
-          <v-col lg="1" md="2" class="d-flex justify-center">
+          <v-col lg="1" md="2" class="d-flex justify-start">
             <v-btn
+              class="rounded-0"
+              icon="mdi-magnify"
               color="primary"
               type="submit"
               hide-details
               height="56"
-              class="ml-2"
+              width="56"
             >
-              Buscar
             </v-btn>
           </v-col>
         </v-row>
-      </v-card>
+      </div>
     </form>
 
+    <SearchOrderResult
+      v-if="firstSearch"
+      :isLoading="orderStore?.ordersLoading"
+      :firstSearch="firstSearch"
+      :ordersList="orderStore?.SearchOrder"
+      :rol="rol"
+      :changeSerchVisibility="changeSerchVisibility"
+    />
     <!-- Contenedor con resultados -->
-    <SearchResultContainer
+    <SearchResultTabs
+      v-else
       :isLoading="orderStore?.ordersLoading"
       :ordersList="orderStore?.ordersList"
       :rol="rol"
       :firstSearch="firstSearch"
     />
+
+    <!-- Contenedor con resultados -->
+    <!-- <SearchResultContainer
+      :isLoading="orderStore?.ordersLoading"
+      :ordersList="orderStore?.ordersList"
+      :rol="rol"
+      :firstSearch="firstSearch"
+    /> -->
   </v-container>
 </template>
 
@@ -57,11 +72,13 @@
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { onMounted, ref } from "vue";
-import SearchResultContainer from "../components/searchResultContainer.vue";
 import InputC from "../components/inputs/InputC.vue";
 import SessionBanner from "../components/buttons/SessionBanner.vue";
+import SearchResultTabs from "../components/SearchResultTabs.vue";
+import SearchOrderResult from "../components/SearchOrderResult.vue";
+
 export default {
-  components: { SearchResultContainer, InputC, SessionBanner },
+  components: { SearchOrderResult, SearchResultTabs, InputC, SessionBanner },
   setup() {
     const orderStore = useOrdersStore();
     const route = useRoute();
@@ -77,7 +94,11 @@ export default {
       if (storedRol) {
         rol.value = storedRol;
       }
-      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"));
+      orderStore
+        .getOrders(id.value, ruta[1], localStorage.getItem("rol"))
+        .then(() => {
+          orderStore.chanceTabOrder();
+        });
       if (
         (localStorage.getItem("rol") == "logistica" ||
           localStorage.getItem("rol") == "bodeguero" ||
@@ -86,7 +107,6 @@ export default {
       )
         return;
       else return router.push("/");
-      
     });
 
     const filterInput = (event) => {
@@ -96,7 +116,15 @@ export default {
 
     const orderSearch = () => {
       firstSearch.value = true;
-      orderStore.getOrders(id.value, ruta[1],localStorage.getItem("rol"),true);
+      orderStore.getOrders(
+        id.value,
+        ruta[1],
+        localStorage.getItem("rol"),
+        true
+      );
+    };
+    const changeSerchVisibility = () => {
+      firstSearch.value = false;
     };
     const logout = () => {
       localStorage.removeItem("token");
@@ -112,6 +140,7 @@ export default {
       filterInput,
       firstSearch,
       rol,
+      changeSerchVisibility,
       logout,
     };
   },
@@ -144,7 +173,27 @@ p {
   border-radius: 10px;
 }
 
+.tarjeta-search {
+  display: flex;
+  justify-content: center;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.w-60 {
+  width: 65%;
+}
+@media only screen and (max-width: 768px) {
+  .w-60 {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .w-60 {
+    width: 80%;
+  }
+}
 .search-input {
+  background-color: #fafafa;
   flex: 1;
 }
 
@@ -155,8 +204,8 @@ p {
 
 hr {
   border: none;
-    border-top: 1px solid #263e8d42;
-    margin: 10px 5px;
-    width: 100%;
+  border-top: 1px solid #263e8d42;
+  margin: 10px 5px;
+  width: 100%;
 }
 </style>

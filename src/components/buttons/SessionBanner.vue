@@ -1,33 +1,38 @@
 <template>
-  <div class="session-banner">
-    <div class="welcome-text" v-if="rol === 'bodeguero'">
-      <h2>Bienvenido a la sección de preparación</h2>
-      <p>
-        Aquí podrá revisar cada orden y agregar las cantidades de bultos,
-        unidades por bulto, totales de unidades y varios.
-      </p>
-      <span>Rol asignado: {{ rol }}</span>
-    </div>
+  <div class="mt-6">
+    <v-card class="bg-transparent align-center" flat>
+      <v-icon @click="logout" size="x-large">mdi-logout-variant</v-icon>
+      <span> Salir </span>
+    </v-card>
+    <div class="session-banner session-border bg-white mt-6 pa-6 pb-1">
+      <div class="welcome-text" v-if="rol === 'bodeguero'">
+        <h2>Bienvenido a la sección de preparación</h2>
+        <p class="my-2">
+          Aquí podrá revisar cada orden y agregar las cantidades de bultos,
+          unidades por bulto, totales de unidades y varios.
+        </p>
+        <span>Rol asignado: {{ rol }}</span>
+      </div>
 
-    <div class="welcome-text" v-if="rol === 'logistica'">
-      <h2>Bienvenido a la sección de despacho</h2>
-      <p>
-        Aquí podrá revisar cada item de la orden y confirmar los valores para el
-        despacho.
-      </p>
-      <span>Rol asignado: {{ rol }}</span>
-    </div>
+      <div class="welcome-text" v-if="rol === 'logistica'">
+        <h2>Bienvenido a la sección de despacho</h2>
+        <p>
+          Aquí podrá revisar cada item de la orden y confirmar los valores para
+          el despacho.
+        </p>
+        <span>Rol asignado: {{ rol }}</span>
+      </div>
 
-    <div class="welcome-text" v-if="rol === 'conductor'">
-      <h2>Bienvenido a la sección de entrega confirmada</h2>
-      <p>
-        Aquí podrá subir la foto del pedido entregado y firmado por el cliente.
-      </p>
-      <span>Rol asignado: {{ rol }}</span>
+      <div class="welcome-text" v-if="rol === 'conductor'">
+        <h2>Bienvenido a la sección de entrega confirmada</h2>
+        <p>
+          Aquí podrá subir la foto del pedido entregado y firmado por el
+          cliente.
+        </p>
+        <span>Rol asignado: {{ rol }}</span>
+      </div>
+      <!-- Icono de cerrar sesión -->
     </div>
-    <!-- Icono de cerrar sesión -->
-    <span>Salir </span
-    ><v-icon @click="logout" size="x-large">mdi-logout-variant</v-icon>
   </div>
 </template>
 
@@ -49,7 +54,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 8px;
+  
+}
+
+.session-border{
+  border-radius: 10px 10px 0px 0px;
 }
 
 .welcome-text {
