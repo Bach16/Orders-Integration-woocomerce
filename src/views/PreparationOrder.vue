@@ -262,16 +262,18 @@ export default {
             },
           ],
         };
-        if (localStorageData[orderId].meta_data[2].value !== null)
+        if (localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-3].value !== null)
           newArrayProducts.meta_data.push(
-            localStorageData[orderId].meta_data[2]
+            localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-3]
           );
-        if (localStorageData[orderId].meta_data[3].value !== null)
+        if (localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-2].value !== null)
           newArrayProducts.meta_data.push(
-            localStorageData[orderId].meta_data[3]
+            localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-2]
           );
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
+        console.log(localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-1]);
+        console.log(localStorageData[orderId].meta_data[3]);
         const res = orderStore.updateOrder(idasd, newArrayProducts);
         res.then((r) => {
           localStorage.removeItem("order_line_items");
@@ -285,25 +287,8 @@ export default {
     };
 
     const onChangeToLocalStorage = (e) => {
-      const localStorageParsed = JSON.parse(
-        localStorage.getItem("order_line_items")
-      );
-      const id = route.params.id;
       if (e.target.name === "nbultos") {
-        if (!localStorageParsed) {
-          localStorage.setItem(
-            "order_line_items",
-            JSON.stringify({ [id]: orderStore?.orders[0] })
-          );
-        } else {
-          localStorage.setItem(
-            "order_line_items",
-            JSON.stringify({
-              ...localStorageParsed,
-              [id]: orderStore?.orders[0],
-            })
-          );
-        }
+        orderStore.updateTotalNBultos(orderStore?.orders[0]?.line_items)
       }
     };
 

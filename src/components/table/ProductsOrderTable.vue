@@ -62,7 +62,7 @@
           <td class="border-e-sm" v-if="element.input">
             <v-text-field
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="quantity"
               v-model="element.quantity"
               hide-details="auto"
@@ -75,7 +75,7 @@
           <td class="border-e-sm" v-if="modificable">
             <v-text-field
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="nbultos"
               v-model="element.meta_data[0].value"
               hide-details="auto"
@@ -87,7 +87,7 @@
           <td class="border-e-sm" v-if="modificable">
             <v-text-field
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="unidbultos"
               v-model="element.meta_data[1].value"
               hide-details="auto"
@@ -99,7 +99,7 @@
           <td class="border-e-sm" v-if="modificable">
             <v-text-field
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="totalunidades"
               v-model="element.meta_data[2].value"
               hide-details="auto"
@@ -111,7 +111,7 @@
           <td class="border-e-sm" v-if="modificable">
             <v-text-field
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="varios"
               v-model="element.meta_data[3].value"
               hide-details="auto"
@@ -154,90 +154,90 @@
           <!-- N de Bultos -->
           <td class="border-e-sm border-b-sm">
             <v-text-field
-            v-if="!disabled"
+              v-if="!disabled"
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="nbultos"
               v-model="element.meta_data[0].value"
               hide-details="auto"
               variant="plain"
-              :disabled=disabled
+              :disabled="disabled"
             ></v-text-field>
-            <span v-else>{{ element.meta_data[0].value}}</span>
+            <span v-else>{{ element.meta_data[0].value }}</span>
           </td>
 
           <!-- Unidades por bulto -->
           <td class="border-e-sm border-b-sm">
             <v-text-field
-            v-if="!disabled"
+              v-if="!disabled"
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="unidbultos"
               v-model="element.meta_data[1].value"
               hide-details="auto"
               variant="plain"
-              :disabled=disabled
+              :disabled="disabled"
             ></v-text-field>
-            <span v-else>{{ element.meta_data[1].value}}</span>
+            <span v-else>{{ element.meta_data[1].value }}</span>
           </td>
 
           <!-- Total de unidades -->
           <td class="border-e-sm border-b-sm">
             <v-text-field
-            v-if="!disabled"
+              v-if="!disabled"
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="totalunidades"
               v-model="element.meta_data[2].value"
               hide-details="auto"
               variant="plain"
-              :disabled=disabled
+              :disabled="disabled"
             ></v-text-field>
-            <span v-else>{{ element.meta_data[2].value}}</span>
+            <span v-else>{{ element.meta_data[2].value }}</span>
           </td>
 
           <!-- Varios -->
           <td class="border-e-sm border-b-sm">
             <v-text-field
-            v-if="!disabled"
+              v-if="!disabled"
               @input="onChangeToLocalStorage"
-              @keypress="onlyNumbers($event)"
+              @keypress="this.$onlyNumbers($event)"
               name="varios"
               v-model="element.meta_data[3].value"
               hide-details="auto"
               variant="plain"
-              :disabled=disabled
+              :disabled="disabled"
             ></v-text-field>
-            <span v-else>{{ element.meta_data[3].value}}</span>
+            <span v-else>{{ element.meta_data[3].value }}</span>
           </td>
 
           <!-- Descripcion -->
           <td class="border-e-sm border-b-sm">
             <v-text-field
-            v-if="!disabled"
+              v-if="!disabled"
               @input="onChangeToLocalStorage"
               name="name"
               v-model="element.name"
               hide-details="auto"
               variant="plain"
-              :disabled=disabled
+              :disabled="disabled"
             ></v-text-field>
-            <span v-else>{{ element.name}}</span>
+            <span v-else>{{ element.name }}</span>
           </td>
 
           <!-- Supervisado -->
           <td class="border-e-sm border-b-sm">
             <v-text-field
-            v-if="!disabled"
+              v-if="!disabled"
               @input="onChangeToLocalStorage"
               @keypress="onlyLetters($event)"
               name="supervisado"
               v-model="element.meta_data[4].value"
               hide-details="auto"
               variant="plain"
-              :disabled=disabled
+              :disabled="disabled"
             ></v-text-field>
-            <span v-else>{{ element.meta_data[4].value}}</span>
+            <span v-else>{{ element.meta_data[4].value }}</span>
           </td>
 
           <!-- Listo -->
@@ -291,12 +291,6 @@ export default {
         (charCode < 65 || charCode > 90) &&
         (charCode < 97 || charCode > 122)
       ) {
-        event.preventDefault();
-      }
-    },
-    onlyNumbers(event) {
-      const charCode = event.charCode ? event.charCode : event.keyCode;
-      if (charCode < 48 || charCode > 57) {
         event.preventDefault();
       }
     },

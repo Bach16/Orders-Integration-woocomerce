@@ -32,7 +32,6 @@
       </v-card>
     </v-col>
     <v-col cols="5" offset="1">
-      
       <!-- Totales N Bultos -->
       <v-card
         class="pa-2 mb-2 datos align-center border-md border-primary border-opacity-50"
@@ -44,7 +43,17 @@
             <span class="ml-2 bold-text">Totales Nº de bultos </span>
           </v-col>
           <v-col cols="4" md="4" class="border-e-sm">
-            <span>{{ order?.meta_data[2].value }}</span>
+            {{
+              console.log(
+                order?.meta_data[
+                this.$findIndexByKey(order?.meta_data, "total_bultos")
+                ]
+              )
+            }}
+            <span>{{
+              order?.meta_data[this.$findIndexByKey(order?.meta_data, "total_bultos")]
+                .value
+            }}</span>
           </v-col>
         </v-row>
       </v-card>
@@ -54,17 +63,20 @@
         class="pa-2 datos align-center border-md border-primary border-opacity-50"
         flat
         height="47px"
-
       >
-        <v-row class="align-center" >
+        <v-row class="align-center">
           <v-col cols="8" md="8" class="border-e-sm">
             <span class="ml-2 bold-text">Total cajas de varios </span>
           </v-col>
-          <v-col cols="4" md="4" class="border-e-sm">
+          <v-col cols="4" md="4" class="border-e-sm">            
             <v-text-field
-              v-if="modificable"
-              @input="onChangeTotalBoxes"
-              @keypress="onlyNumbers($event)"
+              v-if="modificable && order"
+              v-model="
+                order.meta_data[
+                this.$findIndexByKey(order?.meta_data, 'total_caja_varios')
+                ].value
+              "
+              @keypress="this.$onlyNumbers($event)"
               :id="_id"
               name="totalVariousBoxes"
               variant="plain"
@@ -72,7 +84,7 @@
               class="mb-4"
             />
             <span v-else>{{
-              order?.meta_data[3].value
+              this.$findValueByKey(order?.meta_data, "total_caja_varios")
             }}</span>
           </v-col>
         </v-row>
@@ -86,14 +98,6 @@ import { useOrdersStore } from "../../stores/Orders";
 
 export default {
   props: ["order", "modificable", "_id", "comments"],
-  methods: {
-    onlyNumbers(event) {
-      const charCode = event.charCode ? event.charCode : event.keyCode;
-      if (charCode < 48 || charCode > 57) {
-        event.preventDefault();
-      }
-    },
-  },
   setup() {
     const orderStore = useOrdersStore();
     const onChangeToLocalStorage = (e) => {
