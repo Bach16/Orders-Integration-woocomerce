@@ -122,9 +122,7 @@ export default {
     const idasd = route.params.id;
 
     const save = (isSave, index, id) => {
-      const localStorageData = JSON.parse(
-        localStorage.getItem("order_line_items")
-      );
+      const localStorageData = {[idasd]:orderStore.orders[0]}
       /*  const newItem = {
         quantity: "",
         nbultos: 0,
@@ -192,6 +190,7 @@ export default {
         localStorageData[orderId] &&
         localStorageData[orderId].line_items */
       ) {
+        console.log(localStorageData);
         const newArray = localStorageData[orderId].line_items.filter((e) => {
           return !!e.idParent;
         });
