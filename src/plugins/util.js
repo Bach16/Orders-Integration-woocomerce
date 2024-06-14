@@ -9,7 +9,6 @@ export const findIndexByKey = (array, key) => {
     } // Return -1 to indicate the key wasn't found
   };
 export const TotalNbultosSum = (array) => {
-    console.log(array)
     const result = array?.reduce((total, item) => {
       if (parseInt(item.meta_data[0].value)) {
         return total + parseInt(item.meta_data[0].value);
