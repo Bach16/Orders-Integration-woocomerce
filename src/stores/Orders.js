@@ -1,5 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+import { TotalNbultosSum, findIndexByKey } from "../plugins/util";
 
 const BASE_URL = import.meta.env.VITE_ECOMMERCE_URL;
 const AUTH_HEADER = {
@@ -14,15 +15,7 @@ const AUTH_HEADER = {
   },
 };
 
-function TotalNbultosSum(array) {
-  const result = array?.reduce((total, item) => {
-    if (parseInt(item.meta_data[0].value)) {
-      return total + parseInt(item.meta_data[0].value);
-    }
-    return total + 0;
-  }, 0);
-  return result;
-}
+
 
 function processLineItems(lineItems) {
   // Resultado final
@@ -82,6 +75,8 @@ export const useOrdersStore = defineStore("orders", {
     currentTab: "Pedidos de hoy",
     ordersArray: [],
     SearchOrder: [],
+    file: {},
+    fileIsLoading: false,
   }),
   actions: {
     async getOrders(id, path, rol, isSearch) {
@@ -160,17 +155,17 @@ export const useOrdersStore = defineStore("orders", {
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(asddsa[0].line_items);
         }
-        this.orders[0].meta_data[2].value = TotalNbultosSum(
+        this.orders[0].meta_data[findIndexByKey(this.orders[0].meta_data,"total_bultos")].value = TotalNbultosSum(
           processLineItems(asddsa[0].line_items)
         );
-        } catch (error) {
-          } finally {
-        this.chanceTabOrder("Pedidos de hoy")
+      } catch (error) {
+      } finally {
+        this.chanceTabOrder("Pedidos de hoy");
         this.ordersLoading = false;
       }
     },
     async updateOrder(id, updatedData) {
-       this.orderUpdateLoading = true;
+      this.orderUpdateLoading = true;
       try {
         const response = await axios.put(
           `${BASE_URL}/${id}`,
@@ -188,9 +183,13 @@ export const useOrdersStore = defineStore("orders", {
     },
     async updateOrderTotalBoxes(id, totalNumber) {
       this.orders[0].meta_data[3] = {
-        ...this.orders[0].meta_data[3],
+        ...this.orders[0].meta_data[this.orders[0].meta_data.length-1],
         value: parseInt(totalNumber),
       };
+    },
+    async updateTotalNBultos(array) {
+      console.log(array);
+      this.orders[0].meta_data[findIndexByKey(this.orders[0].meta_data,"total_bultos")].value = TotalNbultosSum(array)
     },
     deleteSubproduct(id) {
       this.orders[0].line_items = this.orders[0]?.line_items.filter((e) => {
@@ -207,13 +206,12 @@ export const useOrdersStore = defineStore("orders", {
         return new Date(e.date_created) < todayDate;
       });
       if (tab == "Pedidos de hoy") {
-       return this.ordersList = ajasj
-        } else if(tab == "Pedidos pendientes") {
-        this.ordersList = jsaja
-
+        return (this.ordersList = ajasj);
+      } else if (tab == "Pedidos pendientes") {
+        this.ordersList = jsaja;
       }
     },
-    async uploadFile(file) {
+    async uploadFile(file, id) {
       try {
         const BASE_URL_WP = import.meta.env.VITE_WORDPRESS_BASE_URL;
         const formData = new FormData();
@@ -232,16 +230,34 @@ export const useOrdersStore = defineStore("orders", {
             "Content-Type": "multipart/form-data",
           },
         };
-
+        this.fileIsLoading = true;
         const uploadResponse = await axios.post(
           `${BASE_URL_WP}/wp-json/custom/v1/upload`,
           formData,
           config
         );
-        
-        console.log("Archivo subido con éxito:", uploadResponse.data);
+        this.file = { id, uploadResponse };
+
+        const dataToUpdate = {
+          meta_data: [
+            {
+              key: "_doc_file_url",
+              value: uploadResponse.data.file_url,
+            },
+          ],
+        };
+
+        const response = await axios.put(
+          `${BASE_URL}/${id}`,
+          dataToUpdate,
+          AUTH_HEADER
+        );
+
+        console.log("Archivo subido con éxito:", response.data);
       } catch (error) {
         console.error("Error al subir el archivo:", error);
+      } finally {
+        this.fileIsLoading = false;
       }
     },
   },
