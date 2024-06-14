@@ -100,8 +100,7 @@ import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTabl
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { useAuthStore } from "../stores/Auth";
-
-import { onMounted, watch, ref } from "vue";
+import { onMounted, watch, ref, onUnmounted } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
 import AddRowButton from "../components/buttons/AddRowButton.vue";
 import GoBackButton from "../components/buttons/GoBackButton.vue";
@@ -125,9 +124,7 @@ export default {
     const idasd = route.params.id;
 
     const save = (isSave, index, id) => {
-      const localStorageData = JSON.parse(
-        localStorage.getItem("order_line_items")
-      );
+      const localStorageData = {[idasd]:orderStore.orders[0]}
       /*  const newItem = {
         quantity: "",
         nbultos: 0,
@@ -195,6 +192,7 @@ export default {
         localStorageData[orderId] &&
         localStorageData[orderId].line_items */
       ) {
+        console.log(localStorageData);
         const newArray = localStorageData[orderId].line_items.filter((e) => {
           return !!e.idParent;
         });
@@ -318,11 +316,12 @@ export default {
           );
         }
       }
-
       userStore.checkUser(userStore.user)
-
-
     });
+    onUnmounted(() => {
+      orderStore.cleanOrder()
+    });
+
 
     watch(
       () => orderStore.orders,
