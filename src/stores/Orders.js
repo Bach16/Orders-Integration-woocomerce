@@ -147,11 +147,13 @@ export const useOrdersStore = defineStore("orders", {
               );
             }
           }
+          console.log("2");
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(
             response.data[0].line_items
           );
         } else {
+          console.log("order3");
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(asddsa[0].line_items);
         }
@@ -160,6 +162,7 @@ export const useOrdersStore = defineStore("orders", {
         );
       } catch (error) {
       } finally {
+        if (path === "searchOrder") this.orders = [];
         this.chanceTabOrder("Pedidos de hoy");
         this.ordersLoading = false;
       }
@@ -195,6 +198,10 @@ export const useOrdersStore = defineStore("orders", {
       this.orders[0].line_items = this.orders[0]?.line_items.filter((e) => {
         return e.id !== id;
       });
+    },
+    cleanOrder() {
+      console.log("asddadadadaad");
+      this.orders =[]
     },
     chanceTabOrder(tab) {
       this.currentTab = tab;
