@@ -1,5 +1,5 @@
 <template>
-  <v-container class=" w-60 mx-lg-16 mx-2 container">
+  <v-container class="w-60 mx-lg-16 mx-2 container">
     <div id="printMe">
       <v-row
         class="ms-2 my-6 align-center justify-start align-center"
@@ -38,13 +38,12 @@
     </div>
 
     <div class="mt-8 d-print-none">
-      <v-row no-gutters>
-        <v-col class="d-flex justify-center">
+      <v-row no-gutters class="align-center">
+        <v-col cols="4" class="d-flex justify-center">
           <v-btn
-            width="290px"
             size="large"
             class="px-6 mr-2"
-            rounded="lg"
+            rounded="lg" 
             color="primary"
             @click="onDisabledClick"
           >
@@ -52,12 +51,11 @@
           </v-btn>
         </v-col>
 
-        <v-col class="d-flex justify-center">
+        <v-col cols="4" class="d-flex justify-center">
           <v-btn
-            width="290px"
             size="large"
             class="px-6 mr-2"
-            rounded="lg"
+            rounded ="lg"
             color="primary"
             @click="onSaveClick"
           >
@@ -65,10 +63,9 @@
           </v-btn>
         </v-col>
 
-        <v-col class="d-flex justify-center">
+        <v-col cols="4" class="d-flex justify-center">
           <v-btn
             size="large"
-            width="290px"
             class="px-6 ml-2"
             rounded="lg"
             color="primary"
@@ -128,6 +125,7 @@
 import OrderInfo from "../components/table/OrderInfo.vue";
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
+import { useAuthStore } from "../stores/Auth";
 import { onMounted, ref, watch } from "vue";
 import ProductsOrderTable from "../components/table/ProductsOrderTable.vue";
 import OrderTableFooter from "../components/table/OrderTableFooter.vue";
@@ -153,6 +151,7 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const orderStore = useOrdersStore();
+    const userStore = useAuthStore();
     const dialog = ref(false);
     const isDisabled = ref(true);
     const body = {
@@ -261,7 +260,9 @@ export default {
     };
 
     onMounted(() => {
-      if (!localStorage.getItem("rol").length) {
+      if (!localStorage.getItem("rol")) {
+        return router.push("/");
+      } else if (!localStorage.getItem("token")){
         return router.push("/");
       } else if (localStorage.getItem("rol") !== "logistica") {
         return router.push("/searchOrder");
@@ -272,6 +273,8 @@ export default {
           orderStore.getOrders(id, ruta[1], localStorage.getItem("rol"));
         }
       }
+      userStore.checkUser(userStore.user)
+
     });
 
     return {
@@ -307,7 +310,7 @@ a:active {
   text-decoration: none;
   color: inherit;
 }
-.w-60{
+.w-60 {
   width: 65%;
 }
 @media only screen and (max-width: 768px) {

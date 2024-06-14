@@ -43,13 +43,8 @@
             <span class="ml-2 bold-text">Totales Nº de bultos </span>
           </v-col>
           <v-col cols="4" md="4" class="border-e-sm">
-            {{
-              console.log(
-                order?.meta_data[
-                this.$findIndexByKey(order?.meta_data, "total_bultos")
-                ]
-              )
-            }}
+            {{ console.log(order)
+             }}
             <span>{{
               order?.meta_data[this.$findIndexByKey(order?.meta_data, "total_bultos")]
                 .value

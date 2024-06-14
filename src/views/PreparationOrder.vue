@@ -99,6 +99,8 @@ import ProductsOrderTable from "../components/table/ProductsOrderTable.vue";
 import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTableSkeleton.vue";
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
+import { useAuthStore } from "../stores/Auth";
+
 import { onMounted, watch, ref, onUnmounted } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
 import AddRowButton from "../components/buttons/AddRowButton.vue";
@@ -116,6 +118,7 @@ export default {
   },
   setup() {
     const orderStore = useOrdersStore();
+    const userStore = useAuthStore();
     const route = useRoute();
     const router = useRouter();
     const dialog = ref(false);
@@ -296,7 +299,10 @@ export default {
     };
 
     onMounted(() => {
-      if (!localStorage.getItem("rol").length) {
+      console.log(localStorage.getItem("rol"));
+      if (!localStorage.getItem("rol")  ) {
+        return router.push("/");
+      } else if (!localStorage.getItem("token")) {
         return router.push("/");
       } else if (localStorage.getItem("rol") !== "bodeguero") {
         return router.push("/searchOrder");
@@ -311,6 +317,10 @@ export default {
           );
         }
       }
+
+      userStore.checkUser(userStore.user)
+
+
     });
     onUnmounted(() => {
       orderStore.cleanOrder()

@@ -38,7 +38,7 @@
           lg="4"
           md="4"
           sm="6"
-          class="d-flex justify-lg-center justify-sm-start pt-lg-0 pt-sm-4"
+          class="d-flex justify-lg-center justify-sm-start"
         >
           <span class="font-weight-bold text-h6 text-primary"
             >Documento: {{ orderStore?.orders[0]?.id }}</span
@@ -51,21 +51,48 @@
       flat
       class="mt-5 ms-2 pa-9 rounded-xl flat border-primary border-opacity-100 border-sm"
     >
-      <v-row class="pa-2 justify-center" no-gutters>
-        <v-col lg="3" md="6" sm="12">
+      <v-row class="pa-2 align-center justify-center" no-gutters>
+        <v-col lg="4" md="6" sm="12">
           <v-file-input
             class="text-primary text-opacity-100 font-weight-black"
             hide-details
-            label="Subir comprobante de entrega"
+            label="Editar comprobante de entrega"
             prepend-icon="mdi-upload"
             bg-color="white"
             color="primary"
             variant="plain"
             accept="image/*,.pdf"
+            @change="onFileChange"
           ></v-file-input>
+        </v-col>
+        <v-col cols="12">
+          <div class="d-flex align-center justify-center mt-6">
+            <!-- Show a progress indicator while the data is loading -->
+            <v-progress-circular
+              v-if="loading"
+              indeterminate
+              color="primary"
+              class="mt-4"
+            ></v-progress-circular>
+
+            <!-- Show the image if the URL is available -->
+            <v-img
+              v-if="imageUrl"
+              :src="imageUrl"
+              max-width="300"
+              max-height="300"
+              class="mt-4 align-center"
+            ></v-img>
+
+            <!-- Show an error message if there is an error -->
+            <div v-if="error" class="mt-4 text-red">
+              {{ error }}
+            </div>
+          </div>
         </v-col>
       </v-row>
     </v-card>
+
     <div class="text-center mt-8">
       <v-btn align-center color="primary" @click="dialog = true">
         Guardar
@@ -100,7 +127,7 @@
 <script>
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
-import { onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import GoBackButton from "../components/buttons/GoBackButton.vue";
 
 export default {
@@ -114,25 +141,59 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const orderStore = useOrdersStore();
+    const status = ref("initial"); // Possible values: 'initial', 'uploading', 'uploaded'
+    const loading = ref(true);
+    const error = ref(null);
+    const id = route.params.id;
 
-    onMounted(() => {
-      if (!localStorage.getItem("rol").length) {
-        return router.push("/");
-      } else if (localStorage.getItem("rol") !== "conductor") {
-        return router.push("/searchOrder");
+
+
+    onMounted(async () => {
+      // Check for authentication
+      if (!localStorage.getItem("rol") || !localStorage.getItem("token") || localStorage.getItem("rol") !== "conductor") {
+        router.push("/");
+        return;
+      }
+
+      // Fetch orders if the ID doesn't match
+      if (id && (!orderStore.orders[0] || orderStore.orders[0].id !== id)) {
+        try {
+          await orderStore.getOrders(id, localStorage.getItem("rol"));
+        } catch (e) {
+          error.value = e.message;
+        } finally {
+          loading.value = false;
+        }
+      } else {
+        loading.value = false;
       }
     });
-    if (orderStore?.orders[0]?.id !== route.params.id) {
-      onMounted(() => {
-        const id = route.params.id;
-        if (id) {
-          orderStore.getOrders(id, localStorage.getItem("rol"));
-        }
-      });
-    }
 
+    const onFileChange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        status.value = "uploading";
+        try {
+          await orderStore.uploadFile(file, id);
+          status.value = "uploaded";
+          // Refresh the orders to get the updated image URL
+          await orderStore.getOrders(id, localStorage.getItem("rol"));
+        } catch (e) {
+          error.value = e.message;
+        }
+      }
+    };
+
+    // Compute the image URL
+    const imageUrl = computed(() => {
+      return orderStore.orders[0]?.meta_data[0]?.value || null;
+    });
     return {
+      imageUrl,
+      loading,
+      error,
       orderStore,
+      onFileChange,
     };
   },
 };
@@ -141,11 +202,13 @@ export default {
 .w-60 {
   width: 65%;
 }
+
 @media only screen and (max-width: 768px) {
   .w-60 {
     width: 85%;
   }
 }
+
 @media only screen and (max-width: 1400px) {
   .w-60 {
     width: 80%;
