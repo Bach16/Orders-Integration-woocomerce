@@ -62,7 +62,16 @@
             color="primary"
             variant="plain"
             accept="image/*,.pdf"
+            @change="onChange"
           ></v-file-input>
+        </v-col>
+        <v-col>
+          <v-img
+            v-if="imageUrl"
+            :src="imageUrl"
+            max-width="300"
+            max-height="300"
+          ></v-img>
         </v-col>
       </v-row>
     </v-card>
@@ -100,7 +109,7 @@
 <script>
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import GoBackButton from "../components/buttons/GoBackButton.vue";
 
 export default {
@@ -114,11 +123,23 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const orderStore = useOrdersStore();
+    const status = ref("initial"); // Possible values: 'initial', 'uploading', 'uploaded'
+
+    const onChange = (e) => {
+      /* put file req */
+      const file = e.target.files[0];
+      if (file) {
+        status.value = "uploading";
+        orderStore.uploadFile(file);
+      }
+      
+    };
+
 
     onMounted(() => {
       if (!localStorage.getItem("rol")) {
         return router.push("/");
-      } else if (!localStorage.getItem("token")){
+      } else if (!localStorage.getItem("token")) {
         return router.push("/");
       } else if (localStorage.getItem("rol") !== "conductor") {
         return router.push("/searchOrder");
@@ -135,6 +156,7 @@ export default {
 
     return {
       orderStore,
+      onChange,
     };
   },
 };
