@@ -13,6 +13,8 @@ import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import VueHtmlToPaper from 'vue-html-to-paper';
 
+import App from './App.vue'
+import UtilsPlugin from './plugins/utils'
 
 
 const options = {
@@ -38,7 +40,6 @@ const options = {
 // or, using the defaults with no stylesheet
 //Vue.use(VueHtmlToPaper);
 // Components
-import App from './App.vue'
 
 const vuetify = createVuetify({
   components,
@@ -103,5 +104,5 @@ const router = createRouter({
 
 export default router
 
-createApp(App).use(vuetify).use(VueHtmlToPaper,options).use(createPinia()).use(router).mount('#app')
+createApp(App).use(UtilsPlugin).use(vuetify).use(VueHtmlToPaper,options).use(createPinia()).use(router).mount('#app')
 
