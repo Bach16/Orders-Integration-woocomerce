@@ -11,7 +11,7 @@
     <form @submit.prevent="orderSearch" @keyup.enter="orderSearch">
       <div class="pa-4 tarjeta-search bg-white">
         <v-row no-gutters class="pa-2">
-          <v-col lg="11" md="10" class="d-flex justify-center">
+          <v-col cols="11" class="d-flex justify-center">
             <InputC
               :vModel="id"
               hide-details
@@ -25,7 +25,7 @@
               :isSearch="true"
             />
           </v-col>
-          <v-col lg="1" md="2" class="d-flex justify-start">
+          <v-col cols="1" class="d-flex justify-start">
             <v-btn
               class="rounded-0"
               icon="mdi-magnify"
@@ -70,8 +70,9 @@
 
 <script>
 import { useRoute, useRouter } from "vue-router";
-import { useOrdersStore } from "../stores/Orders";
 import { onMounted, ref } from "vue";
+import { useOrdersStore } from "../stores/Orders";
+import { useAuthStore } from "../stores/Auth";
 import InputC from "../components/inputs/InputC.vue";
 import SessionBanner from "../components/buttons/SessionBanner.vue";
 import SearchResultTabs from "../components/SearchResultTabs.vue";
@@ -81,6 +82,7 @@ export default {
   components: { SearchOrderResult, SearchResultTabs, InputC, SessionBanner },
   setup() {
     const orderStore = useOrdersStore();
+    const userStore = useAuthStore();
     const route = useRoute();
     const ruta = route?.path?.split("/");
     const router = useRouter();
@@ -99,12 +101,18 @@ export default {
         .then(() => {
           orderStore.chanceTabOrder();
         });
+      /* if (localStorage.getItem("token")) {
+        return;
+      } else {
+        router.push("/");
+      } */
+     
       if (
         (localStorage.getItem("rol") == "logistica" ||
           localStorage.getItem("rol") == "bodeguero" ||
           localStorage.getItem("rol") == "conductor") &&
-        localStorage.getItem("rol").length
-      )
+        localStorage.getItem("rol") && localStorage.getItem("token")
+      ) 
         return;
       else return router.push("/");
     });

@@ -315,7 +315,10 @@ export default {
     };
 
     onMounted(() => {
-      if (!localStorage.getItem("rol").length) {
+      console.log(localStorage.getItem("rol"));
+      if (!localStorage.getItem("rol")  ) {
+        return router.push("/");
+      } else if (!localStorage.getItem("token")) {
         return router.push("/");
       } else if (localStorage.getItem("rol") !== "bodeguero") {
         return router.push("/searchOrder");

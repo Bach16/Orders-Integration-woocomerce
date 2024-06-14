@@ -116,7 +116,9 @@ export default {
     const orderStore = useOrdersStore();
 
     onMounted(() => {
-      if (!localStorage.getItem("rol").length) {
+      if (!localStorage.getItem("rol")) {
+        return router.push("/");
+      } else if (!localStorage.getItem("token")){
         return router.push("/");
       } else if (localStorage.getItem("rol") !== "conductor") {
         return router.push("/searchOrder");

@@ -42,7 +42,7 @@
 
         <!-- Bodeguero -->
         <v-col cols="12" md="4" class="px-3 pt-3 pb-4 border-t-sm border-e-sm">
-          <span class="bold-text">Bodeguero: </span>
+          <span class="bold-text"> Bodeguero: </span>
           <span v-if="isResponsive"><br /></span>
           <span
             >{{ userStore?.user?.first_name }}
@@ -61,7 +61,6 @@
         <v-col cols="6" md="4" class="px-3 pt-3 pb-4 border-t-sm">
           <span class="bold-text">Telefono: </span>
           <span v-if="isResponsive"><br /></span>
-          {{ console.log(userStore?.user?.url) }}
           <span>{{ removeHttp(userStore?.user?.url) }}</span>
         </v-col>
       </v-row>
@@ -83,7 +82,6 @@ export default {
   },
   setup() {
     const userStore = useAuthStore();
-    console.log(userStore.user);
     /* onMounted(() => {
       userStore.checkUser(userStore.user)
       }) */

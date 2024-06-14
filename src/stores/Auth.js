@@ -45,7 +45,6 @@ export const useAuthStore = defineStore("auth", {
             },
           }
         );
-        console.log(userResponse.data);
         localStorage.setItem("rol", userResponse.data.roles[0]);
         this.rol = userResponse.data.roles[0];
         this.user = userResponse.data;
@@ -82,7 +81,6 @@ export const useAuthStore = defineStore("auth", {
 
       if (Object.keys(user).length === 0 && user.constructor === Object){
         if(localStorage.getItem("token")){
-          console.log("verificando tokeeen");
           return this.verifyToken();
         } else {
           return router.push("/");
