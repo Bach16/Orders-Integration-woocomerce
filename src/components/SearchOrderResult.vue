@@ -46,7 +46,7 @@
         />
         <SearchResultCard
           v-if="rol == 'conductor'"
-          route="sendOrder"
+          route="deliveredOrder"
           content="Subir comprobante de entrega"
           :isDriver="true"
           :id="item.id"

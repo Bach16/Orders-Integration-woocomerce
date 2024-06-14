@@ -3,13 +3,11 @@
     <v-row class="align-center" no-gutters>
       <v-col cols="4">
         <p class="font-weight-bold text-primary text-h6">Orden #{{ id }}</p>
-        <p class="text-subtitle-1">
-          Creada el: {{ formatDate(date) }}
-        </p>
+        <p class="text-subtitle-1">Creada el: {{ formatDate(date) }}</p>
       </v-col>
       <v-col cols="8" class="d-flex justify-center justify-md-end">
         <h5 v-if="status == 'uploading'" class="edit-button" id="loaded-text">
-          Archivo cargado 👍
+          Cargando archivo...
         </h5>
         <div v-else id="driver-button">
           <SearchCardButton
@@ -47,13 +45,15 @@ export default {
   ],
   methods: {
     formatDate: (dateStr) => {
-      if (!dateStr) return
-      const dateStr2 = dateStr?.slice(0, -9)?.replaceAll("-", "/")
+      if (!dateStr) return;
+      const dateStr2 = dateStr?.slice(0, -9)?.replaceAll("-", "/");
       const [year, month, day] = dateStr2.split("/");
       return `${day}/${month}/${year}`;
     },
   },
-  setup() {
+  setup(props) {
+    // Access the prop directly
+    const id = ref(props.id);
     const ordersStore = useOrdersStore();
     const status = ref("initial"); // Possible values: 'initial', 'uploading', 'uploaded'
 
@@ -62,15 +62,13 @@ export default {
       const file = e.target.files[0];
       if (file) {
         status.value = "uploading";
-        ordersStore.uploadFile(file);
-        setTimeout(() => {
-          status.value = "uploaded";
-        }, 2000);
+        ordersStore.uploadFile(file,id.value).then(()=>status.value = "uploaded")
       }
     };
     return {
       onChange,
       status,
+      ordersStore,
     };
   },
 };

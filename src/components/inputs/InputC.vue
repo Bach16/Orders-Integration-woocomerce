@@ -9,20 +9,12 @@
     :placeholder="placeholder"
     :variant="variant"
     :height="height"
-    @keypress="onlyNumber ? onlyNumbers($event) : undefined"
+    @keypress="onlyNumber ? this.$onlyNumbers($event) : undefined"
   ></v-text-field>
 </template>
 
 <script>
 export default {
-  methods: {
-    onlyNumbers(event) {
-      const charCode = event.charCode ? event.charCode : event.keyCode;
-      if (charCode < 48 || charCode > 57) {
-        event.preventDefault();
-      }
-    },
-  },
   data() {
     return {
       rules: {

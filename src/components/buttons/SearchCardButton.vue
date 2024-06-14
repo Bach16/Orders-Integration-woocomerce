@@ -1,7 +1,10 @@
 <template>
-  <v-btn v-if="status == 'uploaded'" class="edit-button" color="primary">
-    Editar
-  </v-btn>
+  <RouterLink
+    v-if="status == 'uploaded'"
+    :to="params ? { name: route, params: { id: id } } : { name: route }"
+  >
+    <v-btn class="edit-button" color="primary"> Editar </v-btn>
+  </RouterLink>
   <v-file-input
     v-else-if="status == 'initial'"
     hide-details
