@@ -71,7 +71,7 @@
             <v-progress-circular
               v-if="loading"
               indeterminate
-              color="primary"
+              color="primary align center"
               class="mt-4"
             ></v-progress-circular>
 
@@ -94,7 +94,7 @@
     </v-card>
 
     <div class="text-center mt-8">
-      <v-btn align-center color="primary" @click="dialog = true">
+      <v-btn align-center color="primary" @click="onFileChange">
         Guardar
       </v-btn>
     </div>
@@ -147,7 +147,6 @@ export default {
     const id = route.params.id;
 
 
-
     onMounted(async () => {
       // Check for authentication
       if (!localStorage.getItem("rol") || !localStorage.getItem("token") || localStorage.getItem("rol") !== "conductor") {
@@ -169,23 +168,50 @@ export default {
       }
     });
 
-    const onFileChange = async (e) => {
+     const onFileChange = async (e) => {
       const file = e.target.files[0];
       if (file) {
+         console.log(orderStore.createFile(file));
         status.value = "uploading";
+        loading.value = true;
         try {
+
           await orderStore.uploadFile(file, id);
           status.value = "uploaded";
           // Refresh the orders to get the updated image URL
           await orderStore.getOrders(id, localStorage.getItem("rol"));
+          loading.value = false;
         } catch (e) {
           error.value = e.message;
         }
-      }
-    };
+      } 
+
+    }
+
+       // Ref for the file input
+    /* const file = ref(null);
+      // Method to handle file change
+    const onFileChange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const fileUrl = orderStore.createFile(file)
+        
+        console.log(orderStore.file, fileUrl);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          // Dynamically set the image URL to preview the uploaded image
+          imageUrl.value = orderStore.file.value
+        };
+        reader.readAsDataURL(file);
+      } 
+    }; */
 
     // Compute the image URL
     const imageUrl = computed(() => {
+      const fileUrl = orderStore.orders[0]?.meta_data[0]?.value;
+      orderStore.updateFile(fileUrl)
+      console.log(orderStore.createFile(fileUrl));
+
       return orderStore.orders[0]?.meta_data[0]?.value || null;
     });
     return {
@@ -196,7 +222,7 @@ export default {
       onFileChange,
     };
   },
-};
+}
 </script>
 <style>
 .w-60 {
