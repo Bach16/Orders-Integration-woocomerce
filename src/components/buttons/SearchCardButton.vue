@@ -1,11 +1,12 @@
 <template>
-  <RouterLink
-    v-if="status == 'uploaded'"
+  <div
+    v-if= isDriver
     :to="params ? { name: route, params: { id: id } } : { name: route }"
   >
-    <v-btn class="edit-button" color="primary"> Editar </v-btn>
-  </RouterLink>
-  <v-file-input
+    <!-- <v-btn class="edit-button" color="primary"> Subir comprobante de entrega </v-btn> -->
+     <DeliveredOrderDialog />
+  </div>
+<!--   <v-file-input
     v-else-if="status == 'initial'"
     hide-details
     label="Subir comprobante de entrega"
@@ -15,7 +16,7 @@
     variant="solo"
     accept="image/*,.pdf"
     @change="onChange"
-  ></v-file-input>
+  ></v-file-input> -->
   <RouterLink
     v-else
     :to="params ? { name: route, params: { id: id } } : { name: route }"
@@ -26,8 +27,11 @@
   </RouterLink>
 </template>
 <script>
+import DeliveredOrderDialog from '../DeliveredOrderDialog.vue';
+
 export default {
   props: ["route", "id", "content", "params", "isDriver", "onChange", "status"],
+  components: {DeliveredOrderDialog}
 };
 </script>
 
