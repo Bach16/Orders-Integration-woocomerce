@@ -17,7 +17,9 @@
             :params="params"
             :isDriver="isDriver"
             :onChange="onChange"
-            :status="isDriver && status"
+            :isEditable="isEditable"
+            :editableText="editableText"
+            :editableBoolean="editableBoolean"
           />
         </div>
       </v-col>
@@ -42,6 +44,9 @@ export default {
     "onChange",
     "status",
     "date",
+    "isEditable",
+    "editableText",
+    "editableBoolean",
   ],
   methods: {
     formatDate: (dateStr) => {
@@ -62,7 +67,9 @@ export default {
       const file = e.target.files[0];
       if (file) {
         status.value = "uploading";
-        ordersStore.uploadFile(file,id.value).then(()=>status.value = "uploaded")
+        ordersStore
+          .uploadFile(file, id.value)
+          .then(() => (status.value = "uploaded"));
       }
     };
     return {
