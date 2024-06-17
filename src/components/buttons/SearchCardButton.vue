@@ -1,33 +1,18 @@
 <template>
-  <RouterLink
-    v-if="status == 'uploaded'"
-    :to="params ? { name: route, params: { id: id } } : { name: route }"
-  >
-    <v-btn class="edit-button" color="primary"> Editar </v-btn>
-  </RouterLink>
-  <v-file-input
-    v-else-if="status == 'initial'"
-    hide-details
-    label="Subir comprobante de entrega"
-    bg-color="primary"
-    class="font-weight-black driver-button"
-    height="36"
-    variant="solo"
-    accept="image/*,.pdf"
-    @change="onChange"
-  ></v-file-input>
-  <RouterLink
-    v-else
-    :to="params ? { name: route, params: { id: id } } : { name: route }"
-  >
-    <v-btn color="primary" height="36" class="pa-6 d-flex align-center">
-      {{ content }}
-    </v-btn>
-  </RouterLink>
+  <div class="d-flex align-center" v-if="isEditable == true">
+    <p class="mr-10 font-weight-bold">{{ editableText }}</p>
+      <v-btn color="primary" height="36" class="pa-6 d-flex align-center">
+        Editar orden
+      </v-btn>
+  </div>
+
+  <v-btn v-else color="primary" height="36" class="pa-6 d-flex align-center">
+    {{ content }}
+  </v-btn>
 </template>
 <script>
 export default {
-  props: ["route", "id", "content", "params", "isDriver", "onChange", "status"],
+  props: ["route", "id", "content", "params", "isEditable", "editableText"],
 };
 </script>
 
