@@ -15,8 +15,6 @@ const AUTH_HEADER = {
   },
 };
 
-
-
 function processLineItems(lineItems) {
   // Resultado final
   const result = [];
@@ -157,9 +155,9 @@ export const useOrdersStore = defineStore("orders", {
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(asddsa[0].line_items);
         }
-        this.orders[0].meta_data[findIndexByKey(this.orders[0].meta_data,"total_bultos")].value = TotalNbultosSum(
-          processLineItems(asddsa[0].line_items)
-        );
+        this.orders[0].meta_data[
+          findIndexByKey(this.orders[0].meta_data, "total_bultos")
+        ].value = TotalNbultosSum(processLineItems(asddsa[0].line_items));
       } catch (error) {
       } finally {
         if (path === "searchOrder") this.orders = [];
@@ -186,13 +184,15 @@ export const useOrdersStore = defineStore("orders", {
     },
     async updateOrderTotalBoxes(id, totalNumber) {
       this.orders[0].meta_data[3] = {
-        ...this.orders[0].meta_data[this.orders[0].meta_data.length-1],
+        ...this.orders[0].meta_data[this.orders[0].meta_data.length - 1],
         value: parseInt(totalNumber),
       };
     },
     async updateTotalNBultos(array) {
       console.log(array);
-      this.orders[0].meta_data[findIndexByKey(this.orders[0].meta_data,"total_bultos")].value = TotalNbultosSum(array)
+      this.orders[0].meta_data[
+        findIndexByKey(this.orders[0].meta_data, "total_bultos")
+      ].value = TotalNbultosSum(array);
     },
     deleteSubproduct(id) {
       this.orders[0].line_items = this.orders[0]?.line_items.filter((e) => {
@@ -201,7 +201,7 @@ export const useOrdersStore = defineStore("orders", {
     },
     cleanOrder() {
       console.log("asddadadadaad");
-      this.orders =[]
+      this.orders = [];
     },
     chanceTabOrder(tab) {
       this.currentTab = tab;
@@ -218,11 +218,25 @@ export const useOrdersStore = defineStore("orders", {
         this.ordersList = jsaja;
       }
     },
+
+    updateFile(file) {      
+      this.file = file;
+    },
+
+    createFile(file) {
+      const formData = new FormData();
+      this.file = formData.append("file", file);
+      return file;
+    },
+
     async uploadFile(file, id) {
       try {
         const BASE_URL_WP = import.meta.env.VITE_WORDPRESS_BASE_URL;
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", file); 
+
+/*         const formData = this.createFile(file);
+ */
 
         // Usa el token JWT para enviar la solicitud al endpoint de WordPress
         const token = localStorage.getItem("token");
@@ -251,6 +265,7 @@ export const useOrdersStore = defineStore("orders", {
               key: "_doc_file_url",
               value: uploadResponse.data.file_url,
             },
+           
           ],
         };
 
