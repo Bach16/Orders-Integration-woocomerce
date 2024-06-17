@@ -62,6 +62,15 @@ export default {
     const ordersStore = useOrdersStore();
     const status = ref("initial"); // Possible values: 'initial', 'uploading', 'uploaded'
 
+    const body = {
+        meta_data: [
+          {
+            key: "estado_orden",
+            value: "enviado",
+          },
+        ],
+      };
+
     const onChange = (e) => {
       /* put file req */
       const file = e.target.files[0];
@@ -70,8 +79,12 @@ export default {
         ordersStore
           .uploadFile(file, id.value)
           .then(() => (status.value = "uploaded"));
+        ordersStore.updateOrder(id.value,body)
       }
     };
+
+   
+
     return {
       onChange,
       status,
