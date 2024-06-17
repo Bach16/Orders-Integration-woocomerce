@@ -317,14 +317,12 @@ export default {
           );
         }
       }
-
       userStore.checkUser(userStore.user)
-
-
     });
     onUnmounted(() => {
       orderStore.cleanOrder()
     });
+
 
     watch(
       () => orderStore.orders,
