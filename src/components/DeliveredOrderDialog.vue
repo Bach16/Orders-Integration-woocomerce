@@ -58,6 +58,9 @@
 
             <v-col cols="6" class="mb-n5 d-flex justify-end">
               <a
+                v-if="
+                  this.$findValueByKey(orderInfo[0]?.meta_data, '_doc_file_url')
+                "
                 href="#"
                 @click.prevent="
                   downloadImage(
