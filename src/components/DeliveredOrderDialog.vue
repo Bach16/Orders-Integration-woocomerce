@@ -20,8 +20,8 @@
             </v-col>
             <v-col cols="12" class="mb-n1">
               <span class="text-black text-h6">
-                Pedido para: {{ orderInfo[0].billing.first_name }}
-                {{ orderInfo[0].billing.last_name }}</span
+                Pedido para: {{ orderInfo[0]?.billing?.first_name }}
+                {{ orderInfo[0]?.billing?.last_name }}</span
               >
             </v-col>
 
@@ -36,7 +36,7 @@
                 {{
                   getOrderUrl(
                     this.$findValueByKey(
-                      orderInfo[0].meta_data,
+                      orderInfo[0]?.meta_data,
                       "_doc_file_url"
                     )
                   )
@@ -74,7 +74,17 @@
               >
                 <v-row class="d-flex align-center justify-center">
                   <v-col cols="5" class="d-flex align-center justify-center">
+                    {{ console.log(loading) }}
+                    <v-progress-circular
+                      v-if="loading"
+                      indeterminate
+                      color="primary "
+                      class="mt-4 py-10"
+                      min-height="500px"
+                    >
+                    </v-progress-circular>
                     <v-file-input
+                      v-else
                       class="ml-2 pa-4 text-primary text-opacity-100 font-weight-black"
                       prepend-icon="mdi-upload"
                       label="Click aqui para subir"
@@ -155,13 +165,14 @@ export default {
         .catch((error) => {
           console.log("error");
         }); */
-
     },
   },
   setup(props) {
     const orderStore = useOrdersStore();
     const dialog = ref(false);
     const id = ref(props.id);
+    const loading = ref(false);
+
     let orderInfo = ref(
       orderStore.ordersList.filter((e) => {
         return e.id == id.value;
@@ -170,6 +181,7 @@ export default {
 
     const onClick = () => {
       dialog.value = true;
+      console.log(id.value);
       const newArray = orderStore.ordersList.filter((e) => {
         return e.id == id.value;
       });
@@ -189,6 +201,8 @@ export default {
 
     const onSave = () => {
       if (orderStore.file) {
+        loading.value = true;
+
         const body = {
           meta_data: [
             {
@@ -199,9 +213,11 @@ export default {
         };
         try {
           orderStore.updateOrder(id.value, body);
-          orderStore
-            .uploadFile(orderStore.file, id.value)
-            .then(() => (dialog.value = false));
+          orderStore.uploadFile(orderStore.file, id.value).then(() => {
+            loading.value = false;
+
+            dialog.value = false;
+          });
         } catch (e) {
           error.value = e.message;
         }
@@ -215,6 +231,7 @@ export default {
       onFileChange,
       onSave,
       orderInfo,
+      loading
     };
   },
 };
