@@ -1,11 +1,25 @@
 <template>
   <v-card flat>
-    <div>
+    <div class="d-lg-flex align-center"
+      v-if="isEditable == true">
+      <p class="mr-10 font-weight-bold">{{ editableText }}</p>
+      <v-btn
+        class="edit-button"
+        color="primary"
+        text="Editar comprobante de entrega"
+        @click="onClick"
+        width="320"
+      ></v-btn>
+    </div>
+
+    <div v-else>
       <v-btn
         class="edit-button"
         color="primary"
         text="Subir comprobante de entrega"
         @click="onClick"
+        width="320"
+
       ></v-btn>
     </div>
 
@@ -127,10 +141,9 @@
 <script>
 import { ref } from "vue";
 import { useOrdersStore } from "../stores/Orders";
-import axios from "axios";
 
 export default {
-  props: ["id"],
+  props: ["id",  "isEditable", "editableText"],
   methods: {
     getOrderUrl(url) {
       if (!url) {
@@ -173,7 +186,7 @@ export default {
     const loading = ref(false);
 
     let orderInfo = ref(
-      orderStore.ordersList.filter((e) => {
+      orderStore.SearchOrder.filter((e) => {
         return e.id == id.value;
       })
     );
@@ -181,9 +194,14 @@ export default {
     const onClick = () => {
       dialog.value = true;
       console.log(id.value);
-      const newArray = orderStore.ordersList.filter((e) => {
+      let asddada = orderStore.ordersList
+        ? orderStore.ordersList
+        : orderStore.SearchOrder;
+      const newArray = asddada.filter((e) => {
         return e.id == id.value;
       });
+
+      console.log(orderStore.ordersList);
       return (orderInfo = newArray);
     };
 
@@ -230,7 +248,7 @@ export default {
       onFileChange,
       onSave,
       orderInfo,
-      loading
+      loading,
     };
   },
 };
