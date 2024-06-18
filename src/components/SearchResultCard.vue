@@ -5,7 +5,7 @@
         <p class="font-weight-bold text-primary text-h6">Orden #{{ id }}</p>
         <p class="text-subtitle-1">Creada el: {{ formatDate(date) }}</p>
       </v-col>
-      <v-col cols="12" md="8" sm="8"  class="mb-2 d-flex justify-start justify-md-end">
+      <v-col cols="12" md="8" sm="8"  class="mb-2 d-flex justify-sm-end justify-start">
         <h5 v-if="status == 'uploading'" class="edit-button" id="loaded-text">
           Cargando archivo...
         </h5>
