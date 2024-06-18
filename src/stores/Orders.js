@@ -68,6 +68,8 @@ export const useOrdersStore = defineStore("orders", {
     orders: [],
     ordersLoading: false,
     ordersList: [],
+    todaysOrders: [],
+    pendingOrders: [],
     orderUpdateLoading: false,
     orderStatus: null,
     currentTab: "Pedidos de hoy",
@@ -97,7 +99,14 @@ export const useOrdersStore = defineStore("orders", {
             }
           );
         }
+        const todayDate = new Date(getCurrentFormattedDate());
 
+        const ajasj = response.data.filter((e) => {
+          return new Date(e.date_created) > todayDate;
+        });
+        const jsaja = response.data.filter((e) => {
+          return new Date(e.date_created) < todayDate;
+        });
         if (path === "searchOrder") {
           if (isSearch) {
             this.SearchOrder = response.data;
@@ -105,10 +114,21 @@ export const useOrdersStore = defineStore("orders", {
             let filt = "completado";
             if (rol == "logistica") filt = "preparado";
             if (rol == "conductor") filt = "despachado";
-
+            console.log(ajasj,jsaja);
+            
+            const ddaajasj = ajasj?.filter((e) => {
+              return !!e.meta_data[1] && e.meta_data[1].value == filt;
+            });
+            const asjsaja = jsaja?.filter((e) => {
+              return !!e.meta_data[1] && e.meta_data[1].value == filt;
+            });
             const ordersToRender = response?.data?.filter((e) => {
               return !!e.meta_data[1] && e.meta_data[1].value == filt;
             });
+            console.log(asjsaja,ddaajasj);
+            this.todaysOrders = ddaajasj;
+            this.pendingOrders = asjsaja;
+
             this.ordersList = ordersToRender;
             this.ordersArray = ordersToRender;
           }
@@ -213,9 +233,9 @@ export const useOrdersStore = defineStore("orders", {
         return new Date(e.date_created) < todayDate;
       });
       if (tab == "Pedidos de hoy") {
-        return (this.ordersList = ajasj);
+        return (this.todaysOrders = ajasj);
       } else if (tab == "Pedidos pendientes") {
-        this.ordersList = jsaja;
+        this.pendingOrders = jsaja;
       }
     },
 
@@ -224,7 +244,6 @@ export const useOrdersStore = defineStore("orders", {
       console.log(file);
     },
 
-   
     async uploadFile(file, id) {
       try {
         const BASE_URL_WP = import.meta.env.VITE_WORDPRESS_BASE_URL;
