@@ -219,24 +219,20 @@ export const useOrdersStore = defineStore("orders", {
       }
     },
 
-    updateFile(file) {      
+    updateFile(file) {
       this.file = file;
+      console.log(file);
     },
 
-    createFile(file) {
-      const formData = new FormData();
-      this.file = formData.append("file", file);
-      return file;
-    },
-
+   
     async uploadFile(file, id) {
       try {
         const BASE_URL_WP = import.meta.env.VITE_WORDPRESS_BASE_URL;
         const formData = new FormData();
-        formData.append("file", file); 
+        formData.append("file", file);
 
-/*         const formData = this.createFile(file);
- */
+        /*         const formData = this.createFile(file);
+         */
 
         // Usa el token JWT para enviar la solicitud al endpoint de WordPress
         const token = localStorage.getItem("token");
@@ -265,7 +261,6 @@ export const useOrdersStore = defineStore("orders", {
               key: "_doc_file_url",
               value: uploadResponse.data.file_url,
             },
-           
           ],
         };
 

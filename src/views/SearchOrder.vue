@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 w-100 justify-center container">
+  <v-container class="mx-lg-16 mx-2 w-60 justify-center container">
     <!-- Banner de sesión -->
     <SessionBanner :username="username" :logout="logout" />
 
@@ -192,12 +192,12 @@ p {
 }
 @media only screen and (max-width: 768px) {
   .w-60 {
-    width: 90%;
+    width: 100%;
   }
 }
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1500px) {
   .w-60 {
-    width: 80%;
+    width:  80%;
   }
 }
 .search-input {
