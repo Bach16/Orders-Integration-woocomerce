@@ -1,10 +1,12 @@
 <template>
   <div
-    v-if= isDriver
-    :to="params ? { name: route, params: { id: id } } : { name: route }"
-  >
-    <!-- <v-btn class="edit-button" color="primary"> Subir comprobante de entrega </v-btn> -->
-     <DeliveredOrderDialog />
+    v-if= isDriver  >
+  <!--   <v-btn class="edit-button" 
+    color="primary"
+    @click="dialog = true"
+    > Subir comprobante de entrega 
+    </v-btn> -->
+     <DeliveredOrderDialog :id="id" />
   </div>
 <!--   <v-file-input
     v-else-if="status == 'initial'"
