@@ -74,7 +74,6 @@
               >
                 <v-row class="d-flex align-center justify-center">
                   <v-col cols="5" class="d-flex align-center justify-center">
-                    {{ console.log(loading) }}
                     <v-progress-circular
                       v-if="loading"
                       indeterminate

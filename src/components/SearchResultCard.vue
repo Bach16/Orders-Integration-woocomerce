@@ -17,7 +17,9 @@
             :params="params"
             :isDriver="isDriver"
             :onChange="onChange"
-            :status="isDriver && status"
+            :isEditable="isEditable"
+            :editableText="editableText"
+            :editableBoolean="editableBoolean"
           />
         </div>
       </v-col>
@@ -42,6 +44,9 @@ export default {
     "onChange",
     "status",
     "date",
+    "isEditable",
+    "editableText",
+    "editableBoolean",
   ],
   methods: {
     formatDate: (dateStr) => {

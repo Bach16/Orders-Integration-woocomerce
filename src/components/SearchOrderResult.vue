@@ -26,6 +26,7 @@
         v-for="item in ordersList"
         :key="item.id"
       >
+      {{ console.log(this.$findValueByKey(item.meta_data,"estado_orden")) }}
         <SearchResultCard
           v-if="rol == 'bodeguero'"
           route="preparationOrder"
@@ -33,18 +34,20 @@
           :id="item.id"
           :params="item.id"
           :date="item.date_created"
-
-        />
-        <SearchResultCard
+          :isEditable="this.$findValueByKey(item.meta_data,'estado_orden') == 'preparado'"
+          editableText="Esta orden ya fue preparada"
+          />
+          <SearchResultCard
           v-if="rol == 'logistica'"
           route="sendOrder"
           content="Despachar orden"
           :id="item.id"
           :params="item.id"
           :date="item.date_created"
-
-        />
-        <SearchResultCard
+          :isEditable="this.$findValueByKey(item.meta_data,'estado_orden') == 'despachado'"
+          editableText="Esta orden ya fue despachada"
+          />
+          <SearchResultCard
           v-if="rol == 'conductor'"
           route="deliveredOrder"
           content="Subir comprobante de entrega"
@@ -52,7 +55,8 @@
           :id="item.id"
           :params="item.id"
           :date="item.date_created"
-
+          :isEditable="this.$findValueByKey(item.meta_data,'estado_orden') == 'enviado'"
+          editableText="Esta orden ya fue entregada"
         />
       </v-col>
     </v-row>
