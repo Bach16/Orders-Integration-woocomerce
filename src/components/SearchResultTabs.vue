@@ -1,6 +1,11 @@
 <template>
   <v-card class="pa-6 mt-12 bg-white search-container">
-    <v-tabs v-model="tab" bg-color="transparent" class="border-b-sm border-black " color="#263d8d">
+    <v-tabs
+      v-model="tab"
+      bg-color="transparent"
+      class="border-b-sm border-black"
+      color="#263d8d"
+    >
       <v-tab
         v-for="item in items"
         :key="item"
@@ -12,10 +17,19 @@
 
     <v-tabs-window v-model="tab">
       <v-tabs-window-item v-for="item in items" :key="item" :value="item">
-        <v-card color="white" flat>
+        <v-card v-if="item == 'Pedidos de hoy'" color="white" flat>
           <SearchResultContainer
             :isLoading="isLoading"
-            :ordersList="ordersList"
+            :ordersList="todaysOrders"
+            :pendingOrders="pendingOrders"
+            :rol="rol"
+            :firstSearch="firstSearch"
+          />
+        </v-card>
+        <v-card v-else color="white" flat>
+          <SearchResultContainer
+            :isLoading="isLoading"
+            :ordersList="pendingOrders"
             :rol="rol"
             :firstSearch="firstSearch"
           />
@@ -33,21 +47,26 @@ import { useRoute } from "vue-router";
 
 export default {
   components: { SearchResultContainer },
-  props: ["isLoading", "ordersList", "rol", "firstSearch"],
+  props: [
+    "isLoading",
+    "ordersList",
+    "todaysOrders",
+    "pendingOrders",
+    "rol",
+    "firstSearch",
+  ],
   setup() {
     const id = ref("");
     const route = useRoute();
     const ruta = route?.path?.split("/");
-    const tab = ref("Pedidos de hoy")
+    const tab = ref("Pedidos de hoy");
 
     const orderStore = useOrdersStore();
-    const items = ref(["Pedidos de hoy", "Pedidos pendientes"])
+    const items = ref(["Pedidos de hoy", "Pedidos pendientes"]);
     watch(
       () => tab,
-      (tab)=>{
-
-        orderStore.currentTab = tab.value
-        orderStore.chanceTabOrder(tab.value)
+      (tab) => {
+        orderStore.currentTab = tab.value;
       },
       { deep: true }
     );

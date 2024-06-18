@@ -1,7 +1,6 @@
 <template>
   <v-card flat>
-    <div class="d-lg-flex align-center"
-      v-if="isEditable == true">
+    <div class="d-lg-flex align-center" v-if="isEditable == true">
       <p class="mr-10 font-weight-bold">{{ editableText }}</p>
       <v-btn
         class="edit-button"
@@ -19,7 +18,6 @@
         text="Subir comprobante de entrega"
         @click="onClick"
         width="320"
-
       ></v-btn>
     </div>
 
@@ -60,6 +58,9 @@
 
             <v-col cols="6" class="mb-n5 d-flex justify-end">
               <a
+                v-if="
+                  this.$findValueByKey(orderInfo[0]?.meta_data, '_doc_file_url')
+                "
                 href="#"
                 @click.prevent="
                   downloadImage(
@@ -141,9 +142,10 @@
 <script>
 import { ref } from "vue";
 import { useOrdersStore } from "../stores/Orders";
+import { useRoute } from "vue-router";
 
 export default {
-  props: ["id",  "isEditable", "editableText"],
+  props: ["id", "isEditable", "editableText"],
   methods: {
     getOrderUrl(url) {
       if (!url) {
@@ -155,28 +157,6 @@ export default {
     },
     downloadImage(event, url, filename) {
       event.preventDefault();
-      /* 
-        
-      fetch(url)
-        .then(response => {
-          console.log(response,"asd");
-          response.blob()})
-        .then((blob) => {
-          const link = document.createElement("a");
-          const urlBlob = window.URL.createObjectURL(blob);
-          link.href = urlBlob;
-          link.download = filename;
-          document.body.appendChild(link);
-
-          link.click();
-
-          document.body.removeChild(link);
-
-          window.URL.revokeObjectURL(urlBlob);
-        })
-        .catch((error) => {
-          console.log("error");
-        }); */
     },
   },
   setup(props) {
@@ -184,6 +164,8 @@ export default {
     const dialog = ref(false);
     const id = ref(props.id);
     const loading = ref(false);
+    const route = useRoute();
+    const ruta = route?.path?.split("/");
 
     let orderInfo = ref(
       orderStore.SearchOrder.filter((e) => {
@@ -193,15 +175,12 @@ export default {
 
     const onClick = () => {
       dialog.value = true;
-      console.log(id.value);
-      let asddada = orderStore.ordersList
+      let dynamicOrders = orderStore.ordersList
         ? orderStore.ordersList
         : orderStore.SearchOrder;
-      const newArray = asddada.filter((e) => {
+      const newArray = dynamicOrders.filter((e) => {
         return e.id == id.value;
       });
-
-      console.log(orderStore.ordersList);
       return (orderInfo = newArray);
     };
 
@@ -229,12 +208,16 @@ export default {
           ],
         };
         try {
-          orderStore.updateOrder(id.value, body);
-          orderStore.uploadFile(orderStore.file, id.value).then(() => {
-            loading.value = false;
-
-            dialog.value = false;
-          });
+          orderStore
+            .uploadFile(orderStore.file, id.value)
+            .then(() => {
+              loading.value = false;
+              orderStore.updateOrder(id.value, body);
+              dialog.value = false;
+            })
+            .then(() => {
+              orderStore.getOrders("", ruta[1], localStorage.getItem("rol"));
+            });
         } catch (e) {
           error.value = e.message;
         }

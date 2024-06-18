@@ -1,14 +1,14 @@
 <template>
   <v-card class="pa-6 mt-12 bg-white search-container">
     <v-row class="align-end" no-gutters>
-      <v-col cols="8">
-        <span class="mx-2 text-h5 text-primary font-weight-bold">
+      <v-col lg="8" md="8" sm="8" cols="6">
+        <span class="mx-md-2 px-1  text-md-h5 text-sm-h6 text-primary font-weight-bold">
           Resultados de Busqueda</span
         >
       </v-col>
       <v-col class="d-flex justify-end">
         <span
-          class="mr-6 text-primary cursor-pointer font-weight-medium text-decoration-underline"
+          class="mr-md-6 text-primary cursor-pointer font-weight-medium text-decoration-underline"
           @click="callModifyObject"
         >
           Mostrar ordenes de hoy
@@ -26,7 +26,6 @@
         v-for="item in ordersList"
         :key="item.id"
       >
-      {{ console.log(this.$findValueByKey(item.meta_data,"estado_orden")) }}
         <SearchResultCard
           v-if="rol == 'bodeguero'"
           route="preparationOrder"

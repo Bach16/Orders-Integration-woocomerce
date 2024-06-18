@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mx-lg-16 mx-2 w-60 justify-center container">
+  <v-container class="mx-lg-16 mx-2 justify-center container max-size">
     <!-- Banner de sesión -->
     <SessionBanner :username="username" :logout="logout" />
 
@@ -11,7 +11,7 @@
     <form @submit.prevent="orderSearch" @keyup.enter="orderSearch">
       <div class="pa-4 tarjeta-search bg-white">
         <v-row no-gutters class="pa-2">
-          <v-col cols="11" class="d-flex justify-center">
+          <v-col lg="11" md="11" sm="11" cols="10" class="d-flex justify-center">
             <InputC
               :vModel="id"
               hide-details
@@ -25,7 +25,7 @@
               :isSearch="true"
             />
           </v-col>
-          <v-col cols="1" class="d-flex justify-start">
+          <v-col lg="1" md="1" sm="1" cols="2" class="d-flex justify-start">
             <v-btn
               class="rounded-0"
               icon="mdi-magnify"
@@ -54,6 +54,8 @@
       v-else
       :isLoading="orderStore?.ordersLoading"
       :ordersList="orderStore?.ordersList"
+      :pendingOrders="orderStore?.pendingOrders"
+      :todaysOrders="orderStore?.todaysOrders"
       :rol="rol"
       :firstSearch="firstSearch"
     />
@@ -187,18 +189,25 @@ p {
   border-radius: 0px 0px 10px 10px;
 }
 
-.w-60 {
+.max-size {
   width: 65%;
 }
-@media only screen and (max-width: 768px) {
-  .w-60 {
-    width: 100%;
+
+@media only screen and (max-width: 1500px) {
+  .max-size {
+    width: 80%;
   }
 }
-@media only screen and (max-width: 1500px) {
-  .w-60 {
-    width:  80%;
+@media only screen and (max-width: 768px) {
+  .max-size {
+    width: 90%;
   }
+}
+@media only screen and (max-width: 500px) {
+  .max-size {
+    width: 100%;
+  }
+
 }
 .search-input {
   background-color: #fafafa;

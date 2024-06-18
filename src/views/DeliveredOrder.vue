@@ -1,5 +1,5 @@
 <template>
-  <v-container class="w-60 mx-lg-16 mx-2 container">
+  <v-container class="max-size mx-lg-16 mx-2 container">
     <v-row align-center class="pa-6" no-gutters>
       <v-col cols="12">
         <GoBackButton />
@@ -171,7 +171,6 @@ export default {
      const onFileChange = async (e) => {
       const file = e.target.files[0];
       if (file) {
-         console.log(orderStore.createFile(file));
         status.value = "uploading";
         loading.value = true;
         try {
@@ -188,29 +187,11 @@ export default {
 
     }
 
-       // Ref for the file input
-    /* const file = ref(null);
-      // Method to handle file change
-    const onFileChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const fileUrl = orderStore.createFile(file)
-        
-        console.log(orderStore.file, fileUrl);
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          // Dynamically set the image URL to preview the uploaded image
-          imageUrl.value = orderStore.file.value
-        };
-        reader.readAsDataURL(file);
-      } 
-    }; */
-
+    
     // Compute the image URL
     const imageUrl = computed(() => {
       const fileUrl = orderStore.orders[0]?.meta_data[0]?.value;
       orderStore.updateFile(fileUrl)
-      console.log(orderStore.createFile(fileUrl));
 
       return orderStore.orders[0]?.meta_data[0]?.value || null;
     });
@@ -225,19 +206,24 @@ export default {
 }
 </script>
 <style>
-.w-60 {
+.max-size {
   width: 65%;
 }
 
-@media only screen and (max-width: 768px) {
-  .w-60 {
-    width: 85%;
-  }
-}
-
-@media only screen and (max-width: 1400px) {
-  .w-60 {
+@media only screen and (max-width: 1500px) {
+  .max-size {
     width: 80%;
   }
+}
+@media only screen and (max-width: 768px) {
+  .max-size {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .max-size {
+    width: 100%;
+  }
+
 }
 </style>

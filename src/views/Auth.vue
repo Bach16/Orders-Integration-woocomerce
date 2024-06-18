@@ -1,5 +1,5 @@
 <template>
-  <v-container class="w-60 mx-lg-16 mx-2">
+  <v-container class="max-size mx-lg-16 mx-2">
     <div class="login">
       <v-row no-gutters class="card2">
         <v-col>
@@ -141,17 +141,22 @@ export default {
   background-color: #4a5da3;
   color: #d0d4e2;
 }
-.w-60 {
+.max-size {
   width: 65%;
 }
-@media only screen and (max-width: 768px) {
-  .w-60 {
-    width: 85%;
+@media only screen and (max-width: 1500px) {
+  .max-size {
+    width: 80%;
   }
 }
-@media only screen and (max-width: 1400px) {
-  .w-60 {
-    width: 80%;
+@media only screen and (max-width: 768px) {
+  .max-size {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .max-size {
+    width: 100%;
   }
 }
 </style>

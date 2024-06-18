@@ -1,5 +1,5 @@
 <template>
-  <v-container class="w-60 mx-lg-16 mx-2 container">
+  <v-container class="max-size mx-lg-16 mx-2 container">
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <GoBackButton />
@@ -193,7 +193,6 @@ export default {
         localStorageData[orderId] &&
         localStorageData[orderId].line_items */
       ) {
-        console.log(localStorageData);
         const newArray = localStorageData[orderId].line_items.filter((e) => {
           return !!e.idParent;
         });
@@ -274,8 +273,6 @@ export default {
           );
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
-        console.log(localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-1]);
-        console.log(localStorageData[orderId].meta_data[3]);
         const res = orderStore.updateOrder(idasd, newArrayProducts);
         res.then((r) => {
           localStorage.removeItem("order_line_items");
@@ -299,7 +296,6 @@ export default {
     };
 
     onMounted(() => {
-      console.log(localStorage.getItem("rol"));
       if (!localStorage.getItem("rol")  ) {
         return router.push("/");
       } else if (!localStorage.getItem("token")) {
@@ -388,17 +384,23 @@ a:active {
 .table-wrapper {
   width: 105%;
 }
-.w-60{
+.max-size{
   width: 65%;
 }
-@media only screen and (max-width: 768px) {
-  .w-60 {
-    width: 85%;
-  }
-}
-@media only screen and (max-width: 1400px) {
-  .w-60 {
+@media only screen and (max-width: 1500px) {
+  .max-size {
     width: 80%;
   }
+}
+@media only screen and (max-width: 768px) {
+  .max-size {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .max-size {
+    width: 100%;
+  }
+
 }
 </style>
