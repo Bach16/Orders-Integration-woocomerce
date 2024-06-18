@@ -54,6 +54,8 @@
       v-else
       :isLoading="orderStore?.ordersLoading"
       :ordersList="orderStore?.ordersList"
+      :pendingOrders="orderStore?.pendingOrders"
+      :todaysOrders="orderStore?.todaysOrders"
       :rol="rol"
       :firstSearch="firstSearch"
     />
