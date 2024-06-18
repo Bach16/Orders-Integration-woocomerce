@@ -101,10 +101,10 @@ export const useOrdersStore = defineStore("orders", {
         }
         const todayDate = new Date(getCurrentFormattedDate());
 
-        const ajasj = response.data.filter((e) => {
+        const arrayTodayOrders = response.data.filter((e) => {
           return new Date(e.date_created) > todayDate;
         });
-        const jsaja = response.data.filter((e) => {
+        const arrayPendingOrders = response.data.filter((e) => {
           return new Date(e.date_created) < todayDate;
         });
         if (path === "searchOrder") {
@@ -114,20 +114,18 @@ export const useOrdersStore = defineStore("orders", {
             let filt = "completado";
             if (rol == "logistica") filt = "preparado";
             if (rol == "conductor") filt = "despachado";
-            console.log(ajasj,jsaja);
             
-            const ddaajasj = ajasj?.filter((e) => {
+            const filteredTodayOrders = arrayTodayOrders?.filter((e) => {
               return !!e.meta_data[1] && e.meta_data[1].value == filt;
             });
-            const asjsaja = jsaja?.filter((e) => {
+            const filteredPendingOrders = arrayPendingOrders?.filter((e) => {
               return !!e.meta_data[1] && e.meta_data[1].value == filt;
             });
             const ordersToRender = response?.data?.filter((e) => {
               return !!e.meta_data[1] && e.meta_data[1].value == filt;
             });
-            console.log(asjsaja,ddaajasj);
-            this.todaysOrders = ddaajasj;
-            this.pendingOrders = asjsaja;
+            this.todaysOrders = filteredTodayOrders;
+            this.pendingOrders = filteredPendingOrders;
 
             this.ordersList = ordersToRender;
             this.ordersArray = ordersToRender;
@@ -165,13 +163,11 @@ export const useOrdersStore = defineStore("orders", {
               );
             }
           }
-          console.log("2");
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(
             response.data[0].line_items
           );
         } else {
-          console.log("order3");
           this.orders = asddsa;
           this.orders[0].line_items = processLineItems(asddsa[0].line_items);
         }
@@ -209,7 +205,6 @@ export const useOrdersStore = defineStore("orders", {
       };
     },
     async updateTotalNBultos(array) {
-      console.log(array);
       this.orders[0].meta_data[
         findIndexByKey(this.orders[0].meta_data, "total_bultos")
       ].value = TotalNbultosSum(array);
@@ -220,7 +215,6 @@ export const useOrdersStore = defineStore("orders", {
       });
     },
     cleanOrder() {
-      console.log("asddadadadaad");
       this.orders = [];
     },
     chanceTabOrder(tab) {
@@ -241,7 +235,6 @@ export const useOrdersStore = defineStore("orders", {
 
     updateFile(file) {
       this.file = file;
-      console.log(file);
     },
 
     async uploadFile(file, id) {
