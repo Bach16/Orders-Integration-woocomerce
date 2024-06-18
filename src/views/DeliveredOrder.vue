@@ -1,5 +1,5 @@
 <template>
-  <v-container class="w-60 mx-lg-16 mx-2 container">
+  <v-container class="max-size mx-lg-16 mx-2 container">
     <v-row align-center class="pa-6" no-gutters>
       <v-col cols="12">
         <GoBackButton />
@@ -225,19 +225,24 @@ export default {
 }
 </script>
 <style>
-.w-60 {
+.max-size {
   width: 65%;
 }
 
-@media only screen and (max-width: 768px) {
-  .w-60 {
-    width: 85%;
-  }
-}
-
-@media only screen and (max-width: 1400px) {
-  .w-60 {
+@media only screen and (max-width: 1500px) {
+  .max-size {
     width: 80%;
   }
+}
+@media only screen and (max-width: 768px) {
+  .max-size {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .max-size {
+    width: 100%;
+  }
+
 }
 </style>

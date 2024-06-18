@@ -1,11 +1,11 @@
 <template>
-  <v-card class="px-3 tarjeta" flat>
+  <v-card class="px-1 px-sm-3 tarjeta" flat>
     <v-row class="align-center" no-gutters>
-      <v-col cols="4">
+      <v-col cols="12" md="4" sm="4" class="mb-2">
         <p class="font-weight-bold text-primary text-h6">Orden #{{ id }}</p>
         <p class="text-subtitle-1">Creada el: {{ formatDate(date) }}</p>
       </v-col>
-      <v-col cols="8" class="d-flex justify-center justify-md-end">
+      <v-col cols="12" md="8" sm="8"  class="mb-2 d-flex justify-start justify-md-end">
         <h5 v-if="status == 'uploading'" class="edit-button" id="loaded-text">
           Cargando archivo...
         </h5>
@@ -17,13 +17,11 @@
             :params="params"
             :isDriver="isDriver"
             :onChange="onChange"
-            :isEditable="isEditable"
-            :editableText="editableText"
-            :editableBoolean="editableBoolean"
+            :status="isDriver && status"
           />
         </div>
       </v-col>
-      <v-divider class="mt-6"></v-divider>
+      <v-divider :thickness="1"  color="black"  class="mt-6 opacity-40"></v-divider>
     </v-row>
   </v-card>
 </template>
@@ -44,9 +42,6 @@ export default {
     "onChange",
     "status",
     "date",
-    "isEditable",
-    "editableText",
-    "editableBoolean",
   ],
   methods: {
     formatDate: (dateStr) => {
