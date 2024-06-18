@@ -171,7 +171,6 @@ export default {
      const onFileChange = async (e) => {
       const file = e.target.files[0];
       if (file) {
-         console.log(orderStore.createFile(file));
         status.value = "uploading";
         loading.value = true;
         try {
@@ -188,29 +187,11 @@ export default {
 
     }
 
-       // Ref for the file input
-    /* const file = ref(null);
-      // Method to handle file change
-    const onFileChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const fileUrl = orderStore.createFile(file)
-        
-        console.log(orderStore.file, fileUrl);
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          // Dynamically set the image URL to preview the uploaded image
-          imageUrl.value = orderStore.file.value
-        };
-        reader.readAsDataURL(file);
-      } 
-    }; */
-
+    
     // Compute the image URL
     const imageUrl = computed(() => {
       const fileUrl = orderStore.orders[0]?.meta_data[0]?.value;
       orderStore.updateFile(fileUrl)
-      console.log(orderStore.createFile(fileUrl));
 
       return orderStore.orders[0]?.meta_data[0]?.value || null;
     });

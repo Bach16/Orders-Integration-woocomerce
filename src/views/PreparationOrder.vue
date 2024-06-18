@@ -193,7 +193,6 @@ export default {
         localStorageData[orderId] &&
         localStorageData[orderId].line_items */
       ) {
-        console.log(localStorageData);
         const newArray = localStorageData[orderId].line_items.filter((e) => {
           return !!e.idParent;
         });
@@ -274,8 +273,6 @@ export default {
           );
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
-        console.log(localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-1]);
-        console.log(localStorageData[orderId].meta_data[3]);
         const res = orderStore.updateOrder(idasd, newArrayProducts);
         res.then((r) => {
           localStorage.removeItem("order_line_items");
@@ -299,7 +296,6 @@ export default {
     };
 
     onMounted(() => {
-      console.log(localStorage.getItem("rol"));
       if (!localStorage.getItem("rol")  ) {
         return router.push("/");
       } else if (!localStorage.getItem("token")) {

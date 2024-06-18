@@ -26,7 +26,6 @@
         v-for="item in ordersList"
         :key="item.id"
       >
-      {{ console.log(this.$findValueByKey(item.meta_data,"estado_orden")) }}
         <SearchResultCard
           v-if="rol == 'bodeguero'"
           route="preparationOrder"
