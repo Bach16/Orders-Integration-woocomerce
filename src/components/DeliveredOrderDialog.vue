@@ -155,8 +155,22 @@ export default {
 
       return "Comprobante subido: " + url.split("/")[urlSplit.length - 1];
     },
-    downloadImage(event, url, filename) {
+    async downloadImage(event, url, filename) {
+      console.log(url);
       event.preventDefault();
+      try { // ---------- esto da error de CORS -----
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "order-image.jpg"; // Adjust filename if necessary
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   setup(props) {
