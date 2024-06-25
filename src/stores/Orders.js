@@ -216,6 +216,7 @@ export const useOrdersStore = defineStore("orders", {
     },
     cleanOrder() {
       this.orders = [];
+      this.pendingOrders = []
     },
     chanceTabOrder(tab) {
       this.currentTab = tab;

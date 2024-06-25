@@ -1,9 +1,9 @@
 <template>
-  <v-card class="pa-6 mt-12 bg-white search-container">
+  <v-card class="pa-6 mt-12 bg-white search-container overflow-visible">
     <v-tabs
       v-model="tab"
       bg-color="transparent"
-      class="border-b-sm border-black"
+      class="border-b-sm border-black overflow-visible"
       color="#263d8d"
     >
       <v-tab
@@ -11,8 +11,14 @@
         :key="item"
         :text="item"
         :value="item"
-        class="text-h6 font-weight-medium pr-4"
-      ></v-tab>
+        class="text-h5 texto-re-loco pr-4 overflow-visible"
+      >
+        <div v-if="item == 'Pedidos pendientes'" class="d-flex flex-row justify-center align-center ga-2">
+          <p class="sa">{{ item }}</p>
+          <p  v-if="pendingOrders.length !== 0" class="tab-pending-message">{{pendingOrders.length }}</p>
+        </div>
+        <p class="sa" v-else>{{ item }}</p>
+      </v-tab>
     </v-tabs>
 
     <v-tabs-window v-model="tab">
@@ -40,7 +46,7 @@
 </template>
 
 <script>
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useOrdersStore } from "../stores/Orders";
 import SearchResultContainer from "./searchResultContainer.vue";
 import { useRoute } from "vue-router";
@@ -63,6 +69,9 @@ export default {
 
     const orderStore = useOrdersStore();
     const items = ref(["Pedidos de hoy", "Pedidos pendientes"]);
+    onUnmounted(() => {
+      orderStore.cleanOrder()
+    });
     watch(
       () => tab,
       (tab) => {
@@ -78,3 +87,27 @@ export default {
   },
 };
 </script>
+
+<style>
+.tab-pending-message {
+  font-size: 15px;
+  color: rgb(255, 255, 255);
+  font-weight:600;
+  height: 25px;
+  width: 25px;
+  padding-right: 3px;
+  padding-bottom: 0px;
+  font-family: Helvetica, sans-serif;
+  background-color: #ed3c57;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 35px;
+}
+.sa{
+  font-weight:600;
+}
+.texto-re-loco{
+  color: rgb(146, 146, 146);
+}
+</style>
