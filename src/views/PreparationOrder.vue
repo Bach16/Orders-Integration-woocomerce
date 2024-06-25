@@ -1,5 +1,7 @@
 <template>
   <v-container class="max-size mx-lg-16 mx-2 container">
+    <div id="printMe">
+
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <GoBackButton />
@@ -34,7 +36,7 @@
       </div>
 
       <!-- Boton eliminar -->
-      <div class="py-0 px-2">
+      <div class="py-0 px-2 d-print-none">
         <div class="top-container"></div>
         <div
           v-for="(item, index) in orderStore?.orders[0]?.line_items"
@@ -60,20 +62,61 @@
       :comments="orderStore?.orders[0]?.comments"
     />
 
-    <div class="text-center mt-8">
-      <v-btn
-        size="large"
-        class="px-6"
-        rounded="lg"
-        color="primary"
-        @click="onSaveClick"
-      >
-        Guardar para despacho
-      </v-btn>
+    <div class="mt-8 d-print-none">
+      <v-row no-gutters class="align-center d-flex justify-center">
+        
+
+        <v-col cols="4" class="d-flex justify-center">
+          <v-btn
+            size="large"
+            class="px-6 ml-2"
+            rounded="lg"
+            color="primary"
+            @click="print"
+          >
+            Imprimir guia
+          </v-btn>
+        </v-col>
+
+        <v-col cols="4" class="d-flex justify-center">
+          <v-btn
+            size="large"
+            class="px-6"
+            rounded="lg"
+            color="primary"
+            @click="dialog2 = true"
+          >
+            Guardar para despacho
+          </v-btn>
+        </v-col>
+
+      </v-row>
     </div>
 
     <!-- Alerta de pedido actualizado -->
     <div class="text-center pa-4">
+      <v-dialog v-model="dialog2" width="auto">
+        <v-card
+          max-width="400"
+          prepend-icon="mdi-content-save"
+          text="¿Estás seguro de que quieres guardar la información ingresada?"
+          title="Preparación del Pedido"
+        >
+          <template v-slot:actions>
+            <v-btn
+              class="ms-auto mr-16 font-weight-bold"
+              text="Regresar"
+              @click="dialog2 = false"
+            ></v-btn>
+            <v-btn
+              class="ms-auto mr-16 font-weight-bold"
+              text="Guardar"
+              @click="onSaveClick"
+            ></v-btn>
+          </template>
+        </v-card>
+      </v-dialog>
+
       <v-dialog v-model="dialog" width="auto">
         <v-card
           max-width="400"
@@ -83,11 +126,16 @@
         >
           <template v-slot:actions>
             <RouterLink :to="{ name: 'searchOrder' }">
-              <v-btn class="ms-auto" text="Ok" @click="dialog = false"></v-btn>
+              <v-btn
+                class="ms-auto font-weight-bold"
+                text="Ok"
+                @click="dialog2 = false"
+              ></v-btn>
             </RouterLink>
           </template>
         </v-card>
       </v-dialog>
+    </div>
     </div>
   </v-container>
 </template>
@@ -116,16 +164,23 @@ export default {
     AddRowButton,
     GoBackButton,
   },
+  methods: {
+    print() {
+      // Pass the element id here
+      this.$htmlToPaper("printMe");
+    },
+  },
   setup() {
     const orderStore = useOrdersStore();
     const userStore = useAuthStore();
     const route = useRoute();
     const router = useRouter();
     const dialog = ref(false);
+    const dialog2 = ref(false);
     const idasd = route.params.id;
 
     const save = (isSave, index, id) => {
-      const localStorageData = {[idasd]:orderStore.orders[0]}
+      const localStorageData = { [idasd]: orderStore.orders[0] };
       /*  const newItem = {
         quantity: "",
         nbultos: 0,
@@ -215,7 +270,7 @@ export default {
             meta_data: e.meta_data,
           };
         });
-        
+
         const superArray = orderToUpdate.filter((e) => {
           return !!e.meta_data[6];
         });
@@ -263,13 +318,25 @@ export default {
             },
           ],
         };
-        if (localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-3].value !== null)
+        if (
+          localStorageData[orderId].meta_data[
+            localStorageData[orderId].meta_data.length - 3
+          ].value !== null
+        )
           newArrayProducts.meta_data.push(
-            localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-3]
+            localStorageData[orderId].meta_data[
+              localStorageData[orderId].meta_data.length - 3
+            ]
           );
-        if (localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-2].value !== null)
+        if (
+          localStorageData[orderId].meta_data[
+            localStorageData[orderId].meta_data.length - 2
+          ].value !== null
+        )
           newArrayProducts.meta_data.push(
-            localStorageData[orderId].meta_data[localStorageData[orderId].meta_data.length-2]
+            localStorageData[orderId].meta_data[
+              localStorageData[orderId].meta_data.length - 2
+            ]
           );
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
@@ -287,7 +354,7 @@ export default {
 
     const onChangeToLocalStorage = (e) => {
       if (e.target.name === "nbultos") {
-        orderStore.updateTotalNBultos(orderStore?.orders[0]?.line_items)
+        orderStore.updateTotalNBultos(orderStore?.orders[0]?.line_items);
       }
     };
 
@@ -295,8 +362,12 @@ export default {
       save(true);
     };
 
+    const onSaveClick2 = () => {
+      save(true);
+    };
+
     onMounted(() => {
-      if (!localStorage.getItem("rol")  ) {
+      if (!localStorage.getItem("rol")) {
         return router.push("/");
       } else if (!localStorage.getItem("token")) {
         return router.push("/");
@@ -313,12 +384,11 @@ export default {
           );
         }
       }
-      userStore.checkUser(userStore.user)
+      userStore.checkUser(userStore.user);
     });
     onUnmounted(() => {
-      orderStore.cleanOrder()
+      orderStore.cleanOrder();
     });
-
 
     watch(
       () => orderStore.orders,
@@ -338,6 +408,7 @@ export default {
     return {
       orderStore,
       dialog,
+      dialog2,
       save,
       onChangeToLocalStorage,
       onSaveClick,
@@ -384,7 +455,7 @@ a:active {
 .table-wrapper {
   width: 105%;
 }
-.max-size{
+.max-size {
   width: 65%;
 }
 @media only screen and (max-width: 1500px) {
@@ -401,6 +472,5 @@ a:active {
   .max-size {
     width: 100%;
   }
-
 }
 </style>
