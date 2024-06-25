@@ -179,7 +179,7 @@ export default {
     const id = ref(props.id);
     const loading = ref(false);
     const route = useRoute();
-    const ruta = route?.path?.split("/");
+    const ruta = route?.path?.split("/"); 
 
     let orderInfo = ref(
       orderStore.SearchOrder.filter((e) => {
