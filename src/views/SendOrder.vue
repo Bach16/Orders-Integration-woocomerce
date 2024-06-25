@@ -57,7 +57,7 @@
             class="px-6 mr-2"
             rounded ="lg"
             color="primary"
-            @click="onSaveClick"
+            @click="dialog2 = true"
           >
             Guardar para entregar
           </v-btn>
@@ -79,6 +79,29 @@
 
     <!-- Alerta -->
     <div class="text-center pa-4 d-print-none">
+
+      <v-dialog v-model="dialog2" width="auto">
+        <v-card
+          max-width="400"
+          prepend-icon="mdi-content-save"
+          text="¿Estás seguro de que quieres guardar la información ingresada?"
+          title="Despacho del Pedido"
+        >
+          <template v-slot:actions>
+            <v-btn
+              class="ms-auto pl-6 font-weight-bold"
+              text="Regresar"
+              @click="dialog2 = false"
+            ></v-btn>
+            <v-btn
+              class="ms-auto pr-6 font-weight-bold"
+              text="Guardar"
+              @click="onSaveClick"
+            ></v-btn>
+          </template>
+        </v-card>
+      </v-dialog>
+
       <v-dialog v-model="dialog" width="auto">
         <v-card
           max-width="400"
@@ -100,11 +123,11 @@
                 @click="dialog = false"
               ></v-btn>
             </RouterLink>
-            <v-btn
+           <!--  <v-btn
               class="ms-auto pr-6 font-weight-bold"
               text="Regresar"
               @click="dialog = false"
-            ></v-btn>
+            ></v-btn> -->
             <v-btn
               class="ms-auto pr-6 font-weight-bold"
               text="Imprimir"
@@ -153,6 +176,8 @@ export default {
     const orderStore = useOrdersStore();
     const userStore = useAuthStore();
     const dialog = ref(false);
+    const dialog2 = ref(false);
+
     const isDisabled = ref(true);
     const body = {
       status: "completed",
@@ -280,6 +305,7 @@ export default {
     return {
       orderStore,
       dialog,
+      dialog2,
       onSaveClick,
       goBack,
       toPrint,

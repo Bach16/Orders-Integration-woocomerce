@@ -69,7 +69,7 @@
               variant="plain"
             ></v-text-field>
           </td>
-          <td class="border-e-sm" v-else>{{ element.quantity }}</td>
+          <td class="border-e-sm font-weight-bold" v-else>{{ element.quantity }}</td>
 
           <!-- N de Bultos -->
           <td class="border-e-sm" v-if="modificable">
@@ -129,7 +129,7 @@
               variant="plain"
             ></v-text-field>
           </td>
-          <td class="border-e-sm" v-else>{{ element.name }}</td>
+          <td class="border-e-sm font-weight-bold" v-else>{{ element.name }}</td>
 
           <!-- Supervisado -->
           <td v-if="modificable">
