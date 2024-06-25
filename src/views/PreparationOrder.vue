@@ -1,5 +1,7 @@
 <template>
   <v-container class="max-size mx-lg-16 mx-2 container">
+    <div id="printMe">
+
     <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
       <v-col cols="12">
         <GoBackButton />
@@ -34,7 +36,7 @@
       </div>
 
       <!-- Boton eliminar -->
-      <div class="py-0 px-2">
+      <div class="py-0 px-2 d-print-none">
         <div class="top-container"></div>
         <div
           v-for="(item, index) in orderStore?.orders[0]?.line_items"
@@ -60,16 +62,35 @@
       :comments="orderStore?.orders[0]?.comments"
     />
 
-    <div class="text-center mt-8">
-      <v-btn
-        size="large"
-        class="px-6"
-        rounded="lg"
-        color="primary"
-        @click="dialog2 = true"
-      >
-        Guardar para despacho
-      </v-btn>
+    <div class="mt-8 d-print-none">
+      <v-row no-gutters class="align-center d-flex justify-center">
+        
+
+        <v-col cols="4" class="d-flex justify-center">
+          <v-btn
+            size="large"
+            class="px-6 ml-2"
+            rounded="lg"
+            color="primary"
+            @click="print"
+          >
+            Imprimir guia
+          </v-btn>
+        </v-col>
+
+        <v-col cols="4" class="d-flex justify-center">
+          <v-btn
+            size="large"
+            class="px-6"
+            rounded="lg"
+            color="primary"
+            @click="dialog2 = true"
+          >
+            Guardar para despacho
+          </v-btn>
+        </v-col>
+
+      </v-row>
     </div>
 
     <!-- Alerta de pedido actualizado -->
@@ -105,11 +126,16 @@
         >
           <template v-slot:actions>
             <RouterLink :to="{ name: 'searchOrder' }">
-              <v-btn class="ms-auto font-weight-bold" text="Ok" @click="dialog2 = false"></v-btn>
+              <v-btn
+                class="ms-auto font-weight-bold"
+                text="Ok"
+                @click="dialog2 = false"
+              ></v-btn>
             </RouterLink>
           </template>
         </v-card>
       </v-dialog>
+    </div>
     </div>
   </v-container>
 </template>
@@ -137,6 +163,12 @@ export default {
     DeleteTableButton,
     AddRowButton,
     GoBackButton,
+  },
+  methods: {
+    print() {
+      // Pass the element id here
+      this.$htmlToPaper("printMe");
+    },
   },
   setup() {
     const orderStore = useOrdersStore();
