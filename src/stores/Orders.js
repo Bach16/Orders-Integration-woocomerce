@@ -146,7 +146,7 @@ export const useOrdersStore = defineStore("orders", {
           }
         }
 
-        const asddsa = processLineItems([
+        const arrayConSubproductos = processLineItems([ //funcion para añadir los subproductos al array que renderiza los productos
           {
             ...response.data[0],
             line_items: response?.data[0]?.line_items?.map((e) => {
@@ -177,17 +177,17 @@ export const useOrdersStore = defineStore("orders", {
               );
             }
           }
-          this.orders = asddsa;
+          this.orders = arrayConSubproductos;
           this.orders[0].line_items = processLineItems(
             response.data[0].line_items
           );
         } else {
-          this.orders = asddsa;
-          this.orders[0].line_items = processLineItems(asddsa[0].line_items);
+          this.orders = arrayConSubproductos;
+          this.orders[0].line_items = processLineItems(arrayConSubproductos[0].line_items);
         }
         this.orders[0].meta_data[
           findIndexByKey(this.orders[0].meta_data, "total_bultos")
-        ].value = TotalNbultosSum(processLineItems(asddsa[0].line_items));
+        ].value = TotalNbultosSum(processLineItems(arrayConSubproductos[0].line_items));
       } catch (error) {
       } finally {
         if (path === "searchOrder") this.orders = [];
