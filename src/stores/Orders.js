@@ -1,6 +1,10 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { TotalNbultosSum, findIndexByKey } from "../plugins/util";
+import {
+  TotalNbultosSum,
+  findIndexByKey,
+  findValueByKey,
+} from "../plugins/util";
 
 const BASE_URL = import.meta.env.VITE_ECOMMERCE_URL;
 const AUTH_HEADER = {
@@ -111,19 +115,29 @@ export const useOrdersStore = defineStore("orders", {
           if (isSearch) {
             this.SearchOrder = response.data;
           } else {
-            let filt = "completado";
-            if (rol == "logistica") filt = "preparado";
-            if (rol == "conductor") filt = "despachado";
-            
-            const filteredTodayOrders = arrayTodayOrders?.filter((e) => {
-              return !!e.meta_data[1] && e.meta_data[1].value == filt;
-            });
-            const filteredPendingOrders = arrayPendingOrders?.filter((e) => {
-              return !!e.meta_data[1] && e.meta_data[1].value == filt;
-            });
-            const ordersToRender = response?.data?.filter((e) => {
-              return !!e.meta_data[1] && e.meta_data[1].value == filt;
-            });
+            let filt;
+            switch (rol) {
+              case "logistica":
+                filt = "preparado";
+                break;
+              case "conductor":
+                filt = "despachado";
+                break;
+              default:
+                filt = "completado";
+            }
+            const filterByState = (orders, state) => {
+              return orders?.filter((e) => {
+                return findValueByKey(e?.meta_data, "estado_orden") === state;
+              });
+            };
+
+            const filteredTodayOrders = filterByState(arrayTodayOrders, filt);
+            const filteredPendingOrders = filterByState(
+              arrayPendingOrders,
+              filt
+            );
+            const ordersToRender = filterByState(response?.data, filt);
             this.todaysOrders = filteredTodayOrders;
             this.pendingOrders = filteredPendingOrders;
 
@@ -216,7 +230,7 @@ export const useOrdersStore = defineStore("orders", {
     },
     cleanOrder() {
       this.orders = [];
-      this.pendingOrders = []
+      this.pendingOrders = [];
     },
     chanceTabOrder(tab) {
       this.currentTab = tab;
