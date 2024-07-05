@@ -29,9 +29,11 @@
       <div class="table-container">
         <ProductsOrderTable
           :order="orderStore?.orders[0]"
-          :modificable="true"
+          :modificable="isModificable"
           :save="save"
           :onChangeToLocalStorage="onChangeToLocalStorage"
+          :disabled="true"
+
         />
       </div>
 
@@ -166,8 +168,15 @@ export default {
   },
   methods: {
     print() {
-      // Pass the element id here
-      this.$htmlToPaper("printMe");
+      const beforePrint = async ()=>{
+        this.isDisabled = true
+        this.isModificable = false
+      }
+      beforePrint().then(()=>this.$htmlToPaper("printMe")).then(()=>{
+        this.isDisabled = false
+        this.isModificable = true
+
+      })      
     },
   },
   setup() {
@@ -177,7 +186,10 @@ export default {
     const router = useRouter();
     const dialog = ref(false);
     const dialog2 = ref(false);
+    const isDisabled = ref(false);
+    const isModificable = ref(true);
     const idasd = route.params.id;
+
 
     const save = (isSave, index, id) => {
       const localStorageData = { [idasd]: orderStore.orders[0] };
@@ -406,6 +418,8 @@ export default {
     );
 
     return {
+      isModificable,
+      isDisabled,
       orderStore,
       dialog,
       dialog2,
