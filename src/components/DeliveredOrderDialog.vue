@@ -156,7 +156,6 @@ export default {
       return "Comprobante subido: " + url.split("/")[urlSplit.length - 1];
     },
     async downloadImage(event, url, filename) {
-      console.log(url);
       event.preventDefault();
       try { // ---------- esto da error de CORS -----
         const response = await fetch(url);

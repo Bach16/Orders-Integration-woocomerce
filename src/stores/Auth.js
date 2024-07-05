@@ -34,8 +34,6 @@ export const useAuthStore = defineStore("auth", {
             import.meta.env.VITE_JWT_URL
           }?username=${user}&password=${password}`
         );
-        console.log(tokenResponse);
-        console.log(tokenResponse);
         localStorage.setItem("token", tokenResponse.data.token);
 
         // Fetch user details
