@@ -235,16 +235,16 @@ export const useOrdersStore = defineStore("orders", {
     chanceTabOrder(tab) {
       this.currentTab = tab;
       const todayDate = new Date(getCurrentFormattedDate());
-      const ajasj = this.ordersArray.filter((e) => {
+      const TodayOrders = this.ordersArray.filter((e) => {
         return new Date(e.date_created) > todayDate;
       });
-      const jsaja = this.ordersArray.filter((e) => {
+      const APendingOrders = this.ordersArray.filter((e) => {
         return new Date(e.date_created) < todayDate;
       });
       if (tab == "Pedidos de hoy") {
-        return (this.todaysOrders = ajasj);
+        return (this.todaysOrders = TodayOrders);
       } else if (tab == "Pedidos pendientes") {
-        this.pendingOrders = jsaja;
+        this.pendingOrders = APendingOrders;
       }
     },
 
