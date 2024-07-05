@@ -246,7 +246,7 @@ export const useOrdersStore = defineStore("orders", {
       } else if (tab == "Pedidos pendientes") {
         this.pendingOrders = APendingOrders;
       }
-    },
+    }, 
 
     updateFile(file) {
       this.file = file;
