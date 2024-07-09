@@ -129,7 +129,6 @@ export const useOrdersStore = defineStore("orders", {
             const filterByState = (orders, state) => {
               return orders?.filter((e) => {
                 if (state == "completado") {
-                  console.log(state);
 
                   return findValueByKey(e?.meta_data, "estado_orden") === "completado" || findValueByKey(e?.meta_data, "estado_orden") === "por despachar";
                 } else {

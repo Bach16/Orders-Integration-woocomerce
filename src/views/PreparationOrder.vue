@@ -225,7 +225,7 @@ export default {
     const idasd = route.params.id;
 
     const save = (isSave, isSend, index, id) => {
-      console.log(isSend);
+      
       const localStorageData = { [idasd]: orderStore.orders[0] };
       /*  const newItem = {
         quantity: "",

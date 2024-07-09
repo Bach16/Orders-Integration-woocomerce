@@ -38,7 +38,7 @@
           :isEditable="
             this.$findValueByKey(item.meta_data, 'estado_orden') == 'preparado' || this.$findValueByKey(item.meta_data, 'estado_orden') == 'por despachar'
           "
-          editableText="Esta orden ya fue preparada"
+          :editableText="this.$findValueByKey(item.meta_data, 'estado_orden') == 'preparado'? 'Esta orden ya fue preparada' : 'Esta orden ya fue editada pero no despachada'"
         />
         <SearchResultCard
           v-if="rol == 'logistica'"
@@ -74,6 +74,7 @@
 import SearchResultCard from "./SearchResultCard.vue";
 import NotFound from "./NotFound.vue";
 
+
 export default {
   components: { NotFound, SearchResultCard },
   props: [
@@ -87,8 +88,8 @@ export default {
     callModifyObject() {
       this.changeSerchVisibility();
     },
+ 
   },
-
 
 };
 </script>
