@@ -1,143 +1,175 @@
 <template>
   <v-container class="max-size mx-lg-16 mx-2 container">
     <div id="printMe">
+      <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
+        <v-col cols="12">
+          <GoBackButton />
+        </v-col>
+        <v-col cols="12" md="8">
+          <v-sheet class="bg-transparent">
+            <h1 class="text-primary text-uppercase">Preparación de Pedido</h1>
+          </v-sheet>
+        </v-col>
+        <v-col cols="12" md="4">
+          <h2 class="text-start text-primary">
+            Nº de Orden {{ orderStore?.orders[0]?.id }}
+          </h2>
+        </v-col>
+      </v-row>
 
-    <v-row class="ms-2 my-6 align-center justify-start" no-gutters>
-      <v-col cols="12">
-        <GoBackButton />
-      </v-col>
-      <v-col cols="12" md="8">
-        <v-sheet class="bg-transparent">
-          <h1 class="text-primary text-uppercase">Preparación de Pedido</h1>
-        </v-sheet>
-      </v-col>
-      <v-col cols="12" md="4">
-        <h2 class="text-start text-primary">
-          Nº de Orden {{ orderStore?.orders[0]?.id }}
-        </h2>
-      </v-col>
-    </v-row>
+      <OrderInfo :order="orderStore?.orders[0]" />
 
-    <OrderInfo :order="orderStore?.orders[0]" />
-
-    <!-- Tabla -->
-    <ProductsOrderTableSkeleton
-      :modificable="true"
-      v-if="orderStore?.ordersLoading"
-    />
-    <div class="d-flex table-wrapper" v-else>
-      <div class="table-container">
-        <ProductsOrderTable
-          :order="orderStore?.orders[0]"
-          :modificable="isModificable"
-          :save="save"
-          :onChangeToLocalStorage="onChangeToLocalStorage"
-          :disabled="true"
-
-        />
-      </div>
-
-      <!-- Boton eliminar -->
-      <div class="py-0 px-2 d-print-none">
-        <div class="top-container"></div>
-        <div
-          v-for="(item, index) in orderStore?.orders[0]?.line_items"
-          :key="item.id"
-          class="d-flex flex-column"
-        >
-          <DeleteTableButton
-            :onClick="orderStore?.deleteSubproduct"
-            :id="item.id"
-            v-if="!item?.total"
+      <!-- Tabla -->
+      <ProductsOrderTableSkeleton
+        :modificable="true"
+        v-if="orderStore?.ordersLoading"
+      />
+      <div class="d-flex table-wrapper" v-else>
+        <div class="table-container">
+          <ProductsOrderTable
+            :order="orderStore?.orders[0]"
+            :modificable="isModificable"
+            :save="save"
+            :onChangeToLocalStorage="onChangeToLocalStorage"
+            :disabled="true"
           />
-          <div v-else>
-            <AddRowButton :index="index" :save="save" :id="item.id" />
+        </div>
+
+        <!-- Boton eliminar -->
+        <div class="py-0 px-2 d-print-none">
+          <div class="top-container"></div>
+          <div
+            v-for="(item, index) in orderStore?.orders[0]?.line_items"
+            :key="item.id"
+            class="d-flex flex-column"
+          >
+            <DeleteTableButton
+              :onClick="orderStore?.deleteSubproduct"
+              :id="item.id"
+              v-if="!item?.total"
+            />
+            <div v-else>
+              <AddRowButton :index="index" :save="save" :id="item.id" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <OrderTableFooter
-      :order="orderStore?.orders[0]"
-      :modificable="true"
-      :_id="orderStore?.orders[0]?.id"
-      :comments="orderStore?.orders[0]?.comments"
-    />
+      <OrderTableFooter
+        :order="orderStore?.orders[0]"
+        :modificable="true"
+        :_id="orderStore?.orders[0]?.id"
+        :comments="orderStore?.orders[0]?.comments"
+      />
 
-    <div class="mt-8 d-print-none">
-      <v-row no-gutters class="align-center d-flex justify-center">
-        
-
-        <v-col cols="4" class="d-flex justify-center">
-          <v-btn
-            size="large"
-            class="px-6 ml-2"
-            rounded="lg"
-            color="primary"
-            @click="print"
-          >
-            Imprimir guia
-          </v-btn>
-        </v-col>
-
-        <v-col cols="4" class="d-flex justify-center">
-          <v-btn
-            size="large"
-            class="px-6"
-            rounded="lg"
-            color="primary"
-            @click="dialog2 = true"
-          >
-            Guardar para despacho
-          </v-btn>
-        </v-col>
-
-      </v-row>
-    </div>
-
-    <!-- Alerta de pedido actualizado -->
-    <div class="text-center pa-4">
-      <v-dialog v-model="dialog2" width="auto">
-        <v-card
-          max-width="400"
-          prepend-icon="mdi-content-save"
-          text="¿Estás seguro de que quieres guardar la información ingresada?"
-          title="Preparación del Pedido"
-        >
-          <template v-slot:actions>
+      <div class="mt-8 d-print-none">
+        <v-row no-gutters class="align-center d-flex justify-center">
+          <v-col cols="4" class="d-flex justify-center">
             <v-btn
-              class="ms-auto mr-16 font-weight-bold"
-              text="Regresar"
-              @click="dialog2 = false"
-            ></v-btn>
-            <v-btn
-              class="ms-auto mr-16 font-weight-bold"
-              text="Guardar"
-              @click="onSaveClick"
-            ></v-btn>
-          </template>
-        </v-card>
-      </v-dialog>
+              size="large"
+              class="px-6 ml-2"
+              rounded="lg"
+              color="primary"
+              @click="print"
+            >
+              Imprimir guia
+            </v-btn>
+          </v-col>
 
-      <v-dialog v-model="dialog" width="auto">
-        <v-card
-          max-width="400"
-          prepend-icon="mdi-content-save"
-          text="La preparación del pedido ha sido guardada exitosamente."
-          title="Preparación guardada"
-        >
-          <template v-slot:actions>
-            <RouterLink :to="{ name: 'searchOrder' }">
+          <v-col cols="4" class="d-flex justify-center">
+            <v-btn
+              size="large"
+              class="px-6"
+              rounded="lg"
+              color="primary"
+              @click="dialog2 = true"
+            >
+              Enviar para despacho
+            </v-btn>
+          </v-col>
+
+          <v-col cols="4" class="d-flex justify-center">
+            <v-btn
+              size="large"
+              class="px-6"
+              rounded="lg"
+              color="primary"
+              @click="dialog3 = true"
+            >
+              Guardar cambios
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+
+      <!-- Alerta de pedido actualizado -->
+      <div class="text-center pa-4">
+        <v-dialog v-model="dialog2" width="auto">
+          <v-card
+            max-width="400"
+            prepend-icon="mdi-content-save"
+            text="¿Estás seguro de que quieres guardar la información ingresada?"
+            title="Preparación del Pedido"
+          >
+            <template v-slot:actions>
               <v-btn
-                class="ms-auto font-weight-bold"
-                text="Ok"
+                class="ms-auto mr-16 font-weight-bold"
+                text="Regresar"
                 @click="dialog2 = false"
               ></v-btn>
-            </RouterLink>
-          </template>
-        </v-card>
-      </v-dialog>
-    </div>
+              <v-btn
+                class="ms-auto mr-16 font-weight-bold"
+                text="Guardar"
+                @click="onSaveClick"
+              ></v-btn>
+            </template>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="dialog" width="auto">
+          <v-card
+            max-width="400"
+            prepend-icon="mdi-content-save"
+            text="La preparación del pedido ha sido guardada exitosamente."
+            title="Preparación guardada"
+          >
+            <template v-slot:actions>
+              <RouterLink :to="{ name: 'searchOrder' }">
+                <v-btn
+                  class="ms-auto font-weight-bold"
+                  text="Ok"
+                  @click="dialog = false"
+                ></v-btn>
+              </RouterLink>
+            </template>
+          </v-card>
+        </v-dialog>
+      </div>
+
+      <!-- Alerta de pedido no despachado -->
+      <div class="text-center pa-4">
+        <v-dialog v-model="dialog3" width="auto">
+          <v-card
+            max-width="400"
+            prepend-icon="mdi-content-save"
+            text="La información se guardará, pero el pedido no se enviará a despacho. ¿Estás seguro de que deseas continuar?"
+            title="Guardar cambios"
+          >
+            <template v-slot:actions>
+              <v-btn
+                class="ms-auto mr-16 font-weight-bold"
+                text="Regresar"
+                @click="dialog3 = false"
+              ></v-btn>
+              <v-btn
+                class="ms-auto mr-16 font-weight-bold"
+                text="Guardar"
+                @click="onSaveClick2"
+              ></v-btn>
+            </template>
+          </v-card>
+        </v-dialog>
+      </div>
     </div>
   </v-container>
 </template>
@@ -168,15 +200,16 @@ export default {
   },
   methods: {
     print() {
-      const beforePrint = async ()=>{
-        this.isDisabled = true
-        this.isModificable = false
-      }
-      beforePrint().then(()=>this.$htmlToPaper("printMe")).then(()=>{
-        this.isDisabled = false
-        this.isModificable = true
-
-      })      
+      const beforePrint = async () => {
+        this.isDisabled = true;
+        this.isModificable = false;
+      };
+      beforePrint()
+        .then(() => this.$htmlToPaper("printMe"))
+        .then(() => {
+          this.isDisabled = false;
+          this.isModificable = true;
+        });
     },
   },
   setup() {
@@ -186,12 +219,13 @@ export default {
     const router = useRouter();
     const dialog = ref(false);
     const dialog2 = ref(false);
+    const dialog3 = ref(false);
     const isDisabled = ref(false);
     const isModificable = ref(true);
     const idasd = route.params.id;
 
-
-    const save = (isSave, index, id) => {
+    const save = (isSave, isSend, index, id) => {
+      console.log(isSend);
       const localStorageData = { [idasd]: orderStore.orders[0] };
       /*  const newItem = {
         quantity: "",
@@ -321,15 +355,31 @@ export default {
             ],
           };
         });
-        const newArrayProducts = {
-          line_items: superArrays,
-          meta_data: [
-            {
-              key: "estado_orden",
-              value: "preparado",
-            },
-          ],
-        };
+
+        let newArrayProducts = [];
+
+        if (isSend) {
+          newArrayProducts = {
+            line_items: superArrays,
+            meta_data: [
+              {
+                key: "estado_orden",
+                value: "preparado",
+              },
+            ],
+          };
+        } else {
+          newArrayProducts = {
+            line_items: superArrays,
+            meta_data: [
+              {
+                key: "estado_orden",
+                value: "por despachar",
+              },
+            ],
+          };
+        }
+
         if (
           localStorageData[orderId].meta_data[
             localStorageData[orderId].meta_data.length - 3
@@ -352,6 +402,7 @@ export default {
           );
 
         // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
+
         const res = orderStore.updateOrder(idasd, newArrayProducts);
         res.then((r) => {
           localStorage.removeItem("order_line_items");
@@ -371,11 +422,11 @@ export default {
     };
 
     const onSaveClick = () => {
-      save(true);
+      save(true, true);
     };
 
     const onSaveClick2 = () => {
-      save(true);
+      save(true, false);
     };
 
     onMounted(() => {
@@ -423,9 +474,11 @@ export default {
       orderStore,
       dialog,
       dialog2,
+      dialog3,
       save,
       onChangeToLocalStorage,
       onSaveClick,
+      onSaveClick2,
     };
   },
 };

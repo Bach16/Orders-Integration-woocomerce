@@ -23,6 +23,8 @@
             :id="item.id"
             :params="item.id"
             :date="item.date_created"
+            :isEditable="this.$findValueByKey(item.meta_data,'estado_orden') == 'por despachar'"
+          editableText="Esta orden ya fue editada pero no despachada"
           />
           <SearchResultCard
             v-if="rol == 'logistica'"

@@ -2,7 +2,9 @@
   <v-card class="pa-6 mt-12 bg-white search-container">
     <v-row class="align-end" no-gutters>
       <v-col lg="8" md="8" sm="8" cols="6">
-        <span class="mx-md-2 px-1  text-md-h5 text-sm-h6 text-primary font-weight-bold">
+        <span
+          class="mx-md-2 px-1 text-md-h5 text-sm-h6 text-primary font-weight-bold"
+        >
           Resultados de Busqueda</span
         >
       </v-col>
@@ -33,20 +35,24 @@
           :id="item.id"
           :params="item.id"
           :date="item.date_created"
-          :isEditable="this.$findValueByKey(item.meta_data,'estado_orden') == 'preparado'"
+          :isEditable="
+            this.$findValueByKey(item.meta_data, 'estado_orden') == 'preparado' || this.$findValueByKey(item.meta_data, 'estado_orden') == 'por despachar'
+          "
           editableText="Esta orden ya fue preparada"
-          />
-          <SearchResultCard
+        />
+        <SearchResultCard
           v-if="rol == 'logistica'"
           route="sendOrder"
           content="Despachar orden"
           :id="item.id"
           :params="item.id"
           :date="item.date_created"
-          :isEditable="this.$findValueByKey(item.meta_data,'estado_orden') == 'despachado'"
+          :isEditable="
+            this.$findValueByKey(item.meta_data, 'estado_orden') == 'despachado'
+          "
           editableText="Esta orden ya fue despachada"
-          />
-          <SearchResultCard
+        />
+        <SearchResultCard
           v-if="rol == 'conductor'"
           route="deliveredOrder"
           content="Subir comprobante de entrega"
@@ -54,7 +60,9 @@
           :id="item.id"
           :params="item.id"
           :date="item.date_created"
-          :isEditable="this.$findValueByKey(item.meta_data,'estado_orden') == 'enviado'"
+          :isEditable="
+            this.$findValueByKey(item.meta_data, 'estado_orden') == 'enviado'
+          "
           editableText="Esta orden ya fue entregada"
         />
       </v-col>
@@ -80,5 +88,7 @@ export default {
       this.changeSerchVisibility();
     },
   },
+
+
 };
 </script>
