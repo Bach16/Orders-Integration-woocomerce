@@ -36,9 +36,9 @@
           :params="item.id"
           :date="item.date_created"
           :isEditable="
-            this.$findValueByKey(item.meta_data, 'estado_orden') == 'preparado' || this.$findValueByKey(item.meta_data, 'estado_orden') == 'por despachar'
+            this.$findValueByKey(item.meta_data, 'estado_orden') != 'completado' || this.$findValueByKey(item.meta_data, 'estado_orden') == 'por despachar'
           "
-          :editableText="this.$findValueByKey(item.meta_data, 'estado_orden') == 'preparado'? 'Esta orden ya fue preparada' : 'Esta orden ya fue editada pero no despachada'"
+          :editableText="this.$findValueByKey(item.meta_data, 'estado_orden') !== 'por despachar'? 'Esta orden ya fue preparada' : 'Esta orden ya fue editada pero no despachada'"
         />
         <SearchResultCard
           v-if="rol == 'logistica'"
@@ -48,7 +48,7 @@
           :params="item.id"
           :date="item.date_created"
           :isEditable="
-            this.$findValueByKey(item.meta_data, 'estado_orden') == 'despachado'
+            this.$findValueByKey(item.meta_data, 'estado_orden') != 'completado' &&  this.$findValueByKey(item.meta_data, 'estado_orden') != 'preparado' && this.$findValueByKey(item.meta_data, 'estado_orden') != 'por despachar'
           "
           editableText="Esta orden ya fue despachada"
         />
