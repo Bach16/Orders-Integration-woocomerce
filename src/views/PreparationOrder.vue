@@ -102,6 +102,7 @@
         </v-row>
       </div>
 
+
       <!-- Alerta de pedido actualizado -->
       <div class="text-center pa-4">
         <v-dialog v-model="dialog2" width="auto">
@@ -182,6 +183,7 @@ import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTabl
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { useAuthStore } from "../stores/Auth";
+import { findValueByKey} from "../plugins/util";
 
 import { onMounted, watch, ref, onUnmounted } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
@@ -272,6 +274,9 @@ export default {
           },
         ],
       };
+
+      console.log(findValueByKey(orderStore.orders[0]?.meta_data, "total_caja_varios"));
+
 
       /* const saveMetadataLocalStorage = () => {
         orderStore.orders[0].line_items.map((e) => {
@@ -366,6 +371,10 @@ export default {
                 key: "estado_orden",
                 value: "preparado",
               },
+              {
+                key: "total_caja_varios",
+                value: findValueByKey(orderStore.orders[0]?.meta_data, "total_caja_varios"),
+              },
             ],
           };
         } else {
@@ -375,6 +384,10 @@ export default {
               {
                 key: "estado_orden",
                 value: "por despachar",
+              },
+              {
+                key: "total_caja_varios",
+                value: findValueByKey(orderStore.orders[0]?.meta_data, "total_caja_varios"),
               },
             ],
           };
