@@ -9,7 +9,7 @@
     props: ["index","save","id"],
     methods: {
         addRow(index,id){
-            this.save(false,index,id);
+            this.save(false,false,index,id);
         }
     }
   };

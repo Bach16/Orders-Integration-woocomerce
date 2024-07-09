@@ -128,7 +128,12 @@ export const useOrdersStore = defineStore("orders", {
             }
             const filterByState = (orders, state) => {
               return orders?.filter((e) => {
-                return findValueByKey(e?.meta_data, "estado_orden") === state;
+                if (state == "completado") {
+
+                  return findValueByKey(e?.meta_data, "estado_orden") === "completado" || findValueByKey(e?.meta_data, "estado_orden") === "por despachar";
+                } else {
+                  return findValueByKey(e?.meta_data, "estado_orden") === state;
+                }
               });
             };
 
@@ -146,7 +151,8 @@ export const useOrdersStore = defineStore("orders", {
           }
         }
 
-        const arrayConSubproductos = processLineItems([ //funcion para añadir los subproductos al array que renderiza los productos
+        const arrayConSubproductos = processLineItems([
+          //funcion para añadir los subproductos al array que renderiza los productos
           {
             ...response.data[0],
             line_items: response?.data[0]?.line_items?.map((e) => {
@@ -183,11 +189,15 @@ export const useOrdersStore = defineStore("orders", {
           );
         } else {
           this.orders = arrayConSubproductos;
-          this.orders[0].line_items = processLineItems(arrayConSubproductos[0].line_items);
+          this.orders[0].line_items = processLineItems(
+            arrayConSubproductos[0].line_items
+          );
         }
         this.orders[0].meta_data[
           findIndexByKey(this.orders[0].meta_data, "total_bultos")
-        ].value = TotalNbultosSum(processLineItems(arrayConSubproductos[0].line_items));
+        ].value = TotalNbultosSum(
+          processLineItems(arrayConSubproductos[0].line_items)
+        );
       } catch (error) {
       } finally {
         if (path === "searchOrder") this.orders = [];
@@ -246,7 +256,7 @@ export const useOrdersStore = defineStore("orders", {
       } else if (tab == "Pedidos pendientes") {
         this.pendingOrders = APendingOrders;
       }
-    }, 
+    },
 
     updateFile(file) {
       this.file = file;
