@@ -102,24 +102,24 @@
         </v-row>
       </div>
 
-
       <!-- Alerta de pedido actualizado -->
       <div class="text-center pa-4">
-        <v-dialog v-model="dialog2" width="auto">
+        <v-dialog v-model="dialog2" persistent width="auto">
           <v-card
             max-width="400"
             prepend-icon="mdi-content-save"
             text="¿Estás seguro de que quieres guardar la información ingresada?"
             title="Preparación del Pedido"
+            class="custom-icon-color"
           >
             <template v-slot:actions>
               <v-btn
-                class="ms-auto mr-16 font-weight-bold"
+                class="btn-dialog ml-4"
                 text="Regresar"
                 @click="dialog2 = false"
               ></v-btn>
               <v-btn
-                class="ms-auto mr-16 font-weight-bold"
+                class="ms-auto mr-6 btn-dialog"
                 text="Guardar"
                 @click="onSaveClick"
               ></v-btn>
@@ -127,17 +127,18 @@
           </v-card>
         </v-dialog>
 
-        <v-dialog v-model="dialog" width="auto">
+        <v-dialog v-model="dialog" persistent width="auto">
           <v-card
             max-width="400"
             prepend-icon="mdi-content-save"
             text="La preparación del pedido ha sido guardada exitosamente."
             title="Preparación guardada"
+            class="custom-icon-color"
           >
             <template v-slot:actions>
               <RouterLink :to="{ name: 'searchOrder' }">
                 <v-btn
-                  class="ms-auto font-weight-bold"
+                  class="ms-auto mr-6 btn-dialog"
                   text="Ok"
                   @click="dialog = false"
                 ></v-btn>
@@ -149,23 +150,45 @@
 
       <!-- Alerta de pedido no despachado -->
       <div class="text-center pa-4">
-        <v-dialog v-model="dialog3" width="auto">
+        <v-dialog v-model="dialog3" persistent width="auto">
           <v-card
             max-width="400"
             prepend-icon="mdi-content-save"
             text="La información se guardará, pero el pedido no se enviará a despacho. ¿Estás seguro de que deseas continuar?"
             title="Guardar cambios"
+            class="custom-icon-color"
           >
             <template v-slot:actions>
               <v-btn
-                class="ms-auto mr-16 font-weight-bold"
+                class="btn-dialog ml-4"
                 text="Regresar"
                 @click="dialog3 = false"
               ></v-btn>
               <v-btn
-                class="ms-auto mr-16 font-weight-bold"
+                class="ms-auto mr-6 btn-dialog"
                 text="Guardar"
                 @click="onSaveClick2"
+              ></v-btn>
+            </template>
+          </v-card>
+        </v-dialog>
+      </div>
+
+      <!-- Alerta de filas vacias -->
+      <div class="text-center pa-4">
+        <v-dialog v-model="dialog4" persistent width="auto" color="primary">
+          <v-card
+            max-width="400"
+            prepend-icon="mdi-alert-circle" 
+            text="Existen filas vacías. Cada fila debe tener al menos un valor agregado."
+            title="Error"
+            class="custom-icon-color"
+          >
+            <template v-slot:actions>
+              <v-btn
+                class="btn-dialog ms-auto mr-6"
+                text="Regresar"
+                @click="dialog4 = false"
               ></v-btn>
             </template>
           </v-card>
@@ -183,7 +206,7 @@ import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTabl
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { useAuthStore } from "../stores/Auth";
-import { findValueByKey} from "../plugins/util";
+import { findValueByKey } from "../plugins/util";
 
 import { onMounted, watch, ref, onUnmounted } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
@@ -222,25 +245,14 @@ export default {
     const dialog = ref(false);
     const dialog2 = ref(false);
     const dialog3 = ref(false);
+    const dialog4 = ref(false);
     const isDisabled = ref(false);
     const isModificable = ref(true);
     const idasd = route.params.id;
 
     const save = (isSave, isSend, index, id) => {
-      
       const localStorageData = { [idasd]: orderStore.orders[0] };
-      /*  const newItem = {
-        quantity: "",
-        nbultos: 0,
-        unidbultos: "",
-        totalunidades: "",
-        varios: "",
-        name: "",
-        supervised: "",
-        input: true,
-        checked: false,
-        isNew: true,
-      }; */
+
       const newItem = {
         idParent: id,
         id: parseInt(String(Date.now()).slice(-7)),
@@ -275,8 +287,9 @@ export default {
         ],
       };
 
-      console.log(findValueByKey(orderStore.orders[0]?.meta_data, "total_caja_varios"));
-
+      console.log(
+        findValueByKey(orderStore.orders[0]?.meta_data, "total_caja_varios")
+      );
 
       /* const saveMetadataLocalStorage = () => {
         orderStore.orders[0].line_items.map((e) => {
@@ -302,11 +315,13 @@ export default {
         const newArray = localStorageData[orderId].line_items.filter((e) => {
           return !!e.idParent;
         });
+
         const wocommerceProductsArray = localStorageData[
           orderId
         ].line_items.filter((e) => {
           return !e.idParent;
         });
+
         wocommerceProductsArray.map((e) => {
           return {
             value: (e.meta_data[6].value = newArray.filter((i) => {
@@ -361,71 +376,130 @@ export default {
           };
         });
 
-        let newArrayProducts = [];
+        console.log(superArrays);
 
-        if (isSend) {
-          newArrayProducts = {
-            line_items: superArrays,
-            meta_data: [
-              {
-                key: "estado_orden",
-                value: "preparado",
-              },
-              {
-                key: "total_caja_varios",
-                value: findValueByKey(orderStore.orders[0]?.meta_data, "total_caja_varios"),
-              },
-            ],
-          };
-        } else {
-          newArrayProducts = {
-            line_items: superArrays,
-            meta_data: [
-              {
-                key: "estado_orden",
-                value: "por despachar",
-              },
-              {
-                key: "total_caja_varios",
-                value: findValueByKey(orderStore.orders[0]?.meta_data, "total_caja_varios"),
-              },
-            ],
-          };
-        }
+        try {
+          superArrays.forEach((item, index) => {
+            const keysToCheck = [
+              "nbultos",
+              "unidbultos",
+              "totalunidades",
+              "varios",
+            ];
+            const allEmpty = keysToCheck.every((key) => {
+              return item.meta_data.some(
+                (meta) => meta.key === key && meta.value === ""
+              );
+            });
 
-        if (
-          localStorageData[orderId].meta_data[
-            localStorageData[orderId].meta_data.length - 3
-          ].value !== null
-        )
-          newArrayProducts.meta_data.push(
+            if (allEmpty) {
+              throw new Error(`La fila no esta llena`);
+            }
+
+            const subProductsMeta = item.meta_data.find(
+              (meta) => meta.key === "subProducts"
+            );
+
+            if (
+              subProductsMeta &&
+              Array.isArray(subProductsMeta.value) &&
+              subProductsMeta.value.length > 0
+            ) {
+              subProductsMeta.value.forEach((subProduct) => {
+                const subAllEmpty = keysToCheck.every((key) => {
+                  return subProduct.meta_data.some(
+                    (meta) => meta.key === key && meta.value === ""
+                  );
+                });
+                if (subAllEmpty) {
+                  throw new Error(`El subproducto no esta lleno`);
+                }
+              });
+            }
+          });
+
+          console.log("todos las filas estan llenas");
+
+          let newArrayProducts = [];
+
+          if (isSend) {
+            newArrayProducts = {
+              line_items: superArrays,
+              meta_data: [
+                {
+                  key: "estado_orden",
+                  value: "preparado",
+                },
+                {
+                  key: "total_caja_varios",
+                  value: findValueByKey(
+                    orderStore.orders[0]?.meta_data,
+                    "total_caja_varios"
+                  ),
+                },
+              ],
+            };
+          } else {
+            newArrayProducts = {
+              line_items: superArrays,
+              meta_data: [
+                {
+                  key: "estado_orden",
+                  value: "por despachar",
+                },
+                {
+                  key: "total_caja_varios",
+                  value: findValueByKey(
+                    orderStore.orders[0]?.meta_data,
+                    "total_caja_varios"
+                  ),
+                },
+              ],
+            };
+          }
+
+          if (
             localStorageData[orderId].meta_data[
               localStorageData[orderId].meta_data.length - 3
-            ]
-          );
-        if (
-          localStorageData[orderId].meta_data[
-            localStorageData[orderId].meta_data.length - 2
-          ].value !== null
-        )
-          newArrayProducts.meta_data.push(
+            ].value !== null
+          )
+            newArrayProducts.meta_data.push(
+              localStorageData[orderId].meta_data[
+                localStorageData[orderId].meta_data.length - 3
+              ]
+            );
+          if (
             localStorageData[orderId].meta_data[
               localStorageData[orderId].meta_data.length - 2
-            ]
-          );
+            ].value !== null
+          )
+            newArrayProducts.meta_data.push(
+              localStorageData[orderId].meta_data[
+                localStorageData[orderId].meta_data.length - 2
+              ]
+            );
 
-        // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
+          // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
 
-        const res = orderStore.updateOrder(idasd, newArrayProducts);
-        res.then((r) => {
-          localStorage.removeItem("order_line_items");
-        });
+          const res = orderStore.updateOrder(idasd, newArrayProducts);
+          res.then((r) => {
+            localStorage.removeItem("order_line_items");
+          });
+
+          dialog.value = true;
+        } catch (error) {
+          console.error(error.message);
+          dialog4.value = true;
+          dialog2.value = false;
+          dialog3.value = false;
+
+        }
+
+
       } else {
         // Si no hay datos válidos en el localStorage, simplemente actualizar el estado de la orden
         orderStore.updateOrder(idasd, { status: "completed" });
       }
-
-      dialog.value = true;
     };
 
     const onChangeToLocalStorage = (e) => {
@@ -488,6 +562,7 @@ export default {
       dialog,
       dialog2,
       dialog3,
+      dialog4,
       save,
       onChangeToLocalStorage,
       onSaveClick,
@@ -498,6 +573,17 @@ export default {
 </script>
 
 <style>
+
+.custom-icon-color .v-card-item__prepend .v-icon {
+  color: #263d8d; 
+}
+
+.btn-dialog{
+  background-color: #263d8d;
+  color: white;
+  margin-bottom: 10px;
+}
+
 .datos {
   display: flex;
   justify-content: center;

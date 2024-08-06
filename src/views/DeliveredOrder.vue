@@ -101,17 +101,19 @@
 
     <template>
       <div class="text-center pa-4">
-        <v-dialog v-model="dialog" width="auto">
+        <v-dialog v-model="dialog" persistent width="auto">
           <v-card
             max-width="400"
             prepend-icon="mdi-content-save"
             text="El comprobante ha sido guardado exitosamente."
             title="Comprobante Guardado"
+             class="custom-icon-color"
+
           >
             <template v-slot:actions>
               <RouterLink :to="{ name: 'searchOrder' }">
                 <v-btn
-                  class="ms-auto"
+                  class="btn-dialog ms-auto mr-6"
                   text="Ok"
                   @click="dialog = false"
                 ></v-btn>

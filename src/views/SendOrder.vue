@@ -80,21 +80,23 @@
     <!-- Alerta -->
     <div class="text-center pa-4 d-print-none">
 
-      <v-dialog v-model="dialog2" width="auto">
+      <v-dialog v-model="dialog2" persistent width="auto">
         <v-card
           max-width="400"
           prepend-icon="mdi-content-save"
           text="¿Estás seguro de que quieres guardar la información ingresada?"
           title="Despacho del Pedido"
+          class="custom-icon-color"
         >
+        
           <template v-slot:actions>
             <v-btn
-              class="ms-auto pl-6 font-weight-bold"
+              class="btn-dialog ml-4"
               text="Regresar"
               @click="dialog2 = false"
             ></v-btn>
             <v-btn
-              class="ms-auto pr-6 font-weight-bold"
+              class="ms-auto mr-6 btn-dialog"
               text="Guardar"
               @click="onSaveClick"
             ></v-btn>
@@ -102,13 +104,13 @@
         </v-card>
       </v-dialog>
 
-      <v-dialog v-model="dialog" width="auto">
+      <v-dialog v-model="dialog" persistent width="auto">
         <v-card
           max-width="400"
           prepend-icon="mdi-content-save"
           text="El despacho ha sido guardado exitosamente. Recuerda imprimir tu guía."
           title="Despacho guardado"
-          class="d-print-none"
+          class="d-print-none custom-icon-color"
         >
           <template v-slot:actions>
             <RouterLink
@@ -118,7 +120,7 @@
               }"
             >
               <v-btn
-                class="ms-auto pl-6 font-weight-bold"
+                class="btn-dialog ml-4"
                 text="Salir"
                 @click="dialog = false"
               ></v-btn>
@@ -129,7 +131,7 @@
               @click="dialog = false"
             ></v-btn> -->
             <v-btn
-              class="ms-auto pr-6 font-weight-bold"
+              class="ms-auto mr-6 btn-dialog"
               text="Imprimir"
               @click="print"
             ></v-btn>
