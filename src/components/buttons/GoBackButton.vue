@@ -11,23 +11,24 @@
       ></v-icon>
       <p class="text-primary">Regresar</p>
     </div>
-    <v-dialog v-model="dialog" width="auto">
+    <v-dialog v-model="dialog" persistent width="auto">
       <v-card
         max-width="400"
         prepend-icon="mdi-exit-to-app"
         text="¿Estás seguro de que deseas regresar? Los cambios que has realizado no se guardarán."
         title="Regresar"
+        class="custom-icon-color"
       >
         <template v-slot:actions>
           <RouterLink :to="{ name: 'searchOrder' }">
             <v-btn
-              class="ms-auto pl-6 font-weight-bold"
+              class="btn-dialog ml-4"
               text="Salir"
               @click="dialog = false"
             ></v-btn>
           </RouterLink>
           <v-btn
-            class="ms-auto pr-6 font-weight-bold"
+            class="ms-auto mr-6 btn-dialog"
             text="Cancelar"
             @click="dialog = false"
           ></v-btn>

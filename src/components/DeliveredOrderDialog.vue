@@ -21,7 +21,7 @@
       ></v-btn>
     </div>
 
-    <v-dialog v-model="dialog" max-width="800">
+    <v-dialog v-model="dialog" persistent max-width="800">
       <v-card>
         <div class="pa-8">
           <v-row>
