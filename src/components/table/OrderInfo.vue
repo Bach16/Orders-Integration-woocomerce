@@ -6,7 +6,7 @@
         <v-col cols="12" md="12" class="px-3 pt-4 pb-3">
           <span class="bold-text">Razón social: </span>
           <!-- Mantener el texto "Razón social" en la parte superior y aplicar el salto de línea en el modo responsive -->
-          <span class="ml-4">{{ order?.billing?.company }} </span>
+          <span class="ml-4">{{ order?.billing?.first_name }} {{ order?.billing?.last_name }}</span>
         </v-col>
 
         <!-- Provincia -->
@@ -32,11 +32,21 @@
 
         <!-- Direccion -->
         <v-col cols="12" md="12" class="px-3 py-3 border-t-sm">
-          <span class="bold-text">Direccion: </span>
+          <span class="bold-text">Dirección factura: </span>
           <span v-if="isResponsive"><br /></span>
           <span class="ml-4"
             >{{ order?.billing?.address_1 }}
             {{ order?.billing?.address_2 }}</span
+          >
+        </v-col>
+
+        <!-- Direccion envío-->
+        <v-col cols="12" md="12" class="px-3 py-3 border-t-sm">
+          <span class="bold-text">Direccion envío: </span>
+          <span v-if="isResponsive"><br /></span>
+          <span class="ml-4"
+            >{{ order?.shipping?.address_1 }}
+            {{ order?.shipping?.address_2 }}</span
           >
         </v-col>
 
