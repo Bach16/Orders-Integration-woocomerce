@@ -1,4 +1,6 @@
 <template>
+  {{ console.log(order?.meta_data[this.$findIndexByKey(order?.meta_data, "comments")]
+                .value) }}
   <v-row no-gutters>
     <v-col cols="6">
       <!-- Observaciones -->
@@ -25,7 +27,10 @@
               rows="2"
             />
             <v-card-text v-else class="mt-n4 ml-n4">{{
-              order?.comments
+              
+              
+               order?.meta_data[this.$findIndexByKey(order?.meta_data, "comments")]
+                .value
             }}</v-card-text>
           </v-col>
         </v-row>

@@ -206,7 +206,7 @@ import ProductsOrderTableSkeleton from "../components/skeletons/ProductOrderTabl
 import { useRoute, useRouter } from "vue-router";
 import { useOrdersStore } from "../stores/Orders";
 import { useAuthStore } from "../stores/Auth";
-import { findValueByKey } from "../plugins/util";
+import { findIndexByKey, findValueByKey } from "../plugins/util";
 
 import { onMounted, watch, ref, onUnmounted } from "vue";
 import DeleteTableButton from "../components/buttons/DeleteTableButton.vue";
@@ -477,6 +477,16 @@ export default {
               localStorageData[orderId].meta_data[
                 localStorageData[orderId].meta_data.length - 2
               ]
+            );
+            console.log(localStorageData[orderId].meta_data[findIndexByKey(localStorageData[orderId].meta_data,"comments")
+            ]);
+          if (
+            localStorageData[orderId].meta_data[findIndexByKey(localStorageData[orderId].meta_data,"comments")
+            ].value !== null
+          )
+            newArrayProducts.meta_data.push(
+              localStorageData[orderId].meta_data[findIndexByKey(localStorageData[orderId].meta_data,"comments")
+            ]
             );
 
           // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente

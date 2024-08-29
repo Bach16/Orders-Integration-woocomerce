@@ -220,7 +220,8 @@ export const useOrdersStore = defineStore("orders", {
       }
     },
     async updateOrderComments(id, comments) {
-      this.orders[0] = { ...this.orders[0], comments: comments };
+      console.log(this.orders[0].meta_data[findIndexByKey(  this.orders[0].meta_data,"comments")]);
+      this.orders[0].meta_data[findIndexByKey(  this.orders[0].meta_data,"comments")].value = comments;
     },
     async updateOrderTotalBoxes(id, totalNumber) {
       this.orders[0].meta_data[3] = {
