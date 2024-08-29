@@ -480,14 +480,20 @@ export default {
             );
             
           if (
-            localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
-            ]?.value !== null
-          )
+            !!localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
+            ]?.value 
+          ){
+
             newArrayProducts.meta_data.push(
               localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
             ]
             );
-
+          console.log(!!localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
+            ]?.value );
+          } else {
+            console.log("no tiene metadatos");
+          }
+          
           // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
 
           const res = orderStore.updateOrder(idasd, newArrayProducts);
