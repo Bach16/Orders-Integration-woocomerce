@@ -478,14 +478,14 @@ export default {
                 localStorageData[orderId].meta_data.length - 2
               ]
             );
-            console.log(localStorageData[orderId].meta_data[findIndexByKey(localStorageData[orderId].meta_data,"comments")
+            console.log(localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
             ]);
           if (
-            localStorageData[orderId].meta_data[findIndexByKey(localStorageData[orderId].meta_data,"comments")
+            localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
             ].value !== null
           )
             newArrayProducts.meta_data.push(
-              localStorageData[orderId].meta_data[findIndexByKey(localStorageData[orderId].meta_data,"comments")
+              localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
             ]
             );
 

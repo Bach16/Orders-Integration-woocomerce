@@ -1,6 +1,4 @@
 <template>
-  {{ console.log(order?.meta_data[this.$findIndexByKey(order?.meta_data, "comments")]
-                .value) }}
   <v-row no-gutters>
     <v-col cols="6">
       <!-- Observaciones -->
