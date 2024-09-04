@@ -59,7 +59,14 @@
         :order="orderStore?.orders[0]"
         :modificable="true"
         :_id="orderStore?.orders[0]?.id"
-        :comments="orderStore?.orders[0]?.meta_data[this.$findIndexByKey(orderStore?.orders[0]?.meta_data, `custom_order_comments`)]?.value"
+        :comments="
+          orderStore?.orders[0]?.meta_data[
+            this.$findIndexByKey(
+              orderStore?.orders[0]?.meta_data,
+              `custom_order_comments`
+            )
+          ]?.value
+        "
       />
 
       <div class="mt-8 d-print-none">
@@ -179,7 +186,7 @@
         <v-dialog v-model="dialog4" persistent width="auto" color="primary">
           <v-card
             max-width="400"
-            prepend-icon="mdi-alert-circle" 
+            prepend-icon="mdi-alert-circle"
             text="Existen filas vacías. Cada fila debe tener al menos un valor agregado."
             title="Error"
             class="custom-icon-color"
@@ -287,7 +294,6 @@ export default {
         ],
       };
 
-
       /* const saveMetadataLocalStorage = () => {
         orderStore.orders[0].line_items.map((e) => {
           return e.meta_data.map((i) => {
@@ -372,7 +378,6 @@ export default {
             ],
           };
         });
-
 
         try {
           superArrays.forEach((item, index) => {
@@ -474,20 +479,34 @@ export default {
                 localStorageData[orderId].meta_data.length - 2
               ]
             );
-            
-          if (
-            !!localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"custom_order_comments")
-            ]?.value 
-          ){
 
+          if (
+            !!localStorageData[orderId]?.meta_data[
+              findIndexByKey(
+                localStorageData[orderId]?.meta_data,
+                "custom_order_comments"
+              )
+            ]?.value
+          ) {
             newArrayProducts.meta_data.push(
-              localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"custom_order_comments")
-            ]
+              localStorageData[orderId]?.meta_data[
+                findIndexByKey(
+                  localStorageData[orderId]?.meta_data,
+                  "custom_order_comments"
+                )
+              ]
             );
           } else {
-            console.log("no existen metadatos de comentarios");
+            newArrayProducts.meta_data.push(
+              localStorageData[orderId]?.meta_data[
+                findIndexByKey(
+                  localStorageData[orderId]?.meta_data,
+                  "custom_order_comments"
+                )
+              ]
+            );
           }
-          
+
           // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
 
           const res = orderStore.updateOrder(idasd, newArrayProducts);
@@ -501,10 +520,7 @@ export default {
           dialog4.value = true;
           dialog2.value = false;
           dialog3.value = false;
-
         }
-
-
       } else {
         // Si no hay datos válidos en el localStorage, simplemente actualizar el estado de la orden
         orderStore.updateOrder(idasd, { status: "completed" });
@@ -582,12 +598,11 @@ export default {
 </script>
 
 <style>
-
 .custom-icon-color .v-card-item__prepend .v-icon {
-  color: #263d8d; 
+  color: #263d8d;
 }
 
-.btn-dialog{
+.btn-dialog {
   background-color: #263d8d;
   color: white;
   margin-bottom: 10px;
