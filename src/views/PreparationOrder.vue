@@ -59,7 +59,7 @@
         :order="orderStore?.orders[0]"
         :modificable="true"
         :_id="orderStore?.orders[0]?.id"
-        :comments="orderStore?.orders[0]?.comments"
+        :comments="orderStore?.orders[0]?.meta_data[this.$findIndexByKey(orderStore?.orders[0]?.meta_data, `custom_order_comments`)]?.value"
       />
 
       <div class="mt-8 d-print-none">
@@ -287,9 +287,6 @@ export default {
         ],
       };
 
-      console.log(
-        findValueByKey(orderStore.orders[0]?.meta_data, "total_caja_varios")
-      );
 
       /* const saveMetadataLocalStorage = () => {
         orderStore.orders[0].line_items.map((e) => {
@@ -376,7 +373,6 @@ export default {
           };
         });
 
-        console.log(superArrays);
 
         try {
           superArrays.forEach((item, index) => {
@@ -480,18 +476,16 @@ export default {
             );
             
           if (
-            !!localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
+            !!localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"custom_order_comments")
             ]?.value 
           ){
 
             newArrayProducts.meta_data.push(
-              localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
+              localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"custom_order_comments")
             ]
             );
-          console.log(!!localStorageData[orderId]?.meta_data[findIndexByKey(localStorageData[orderId]?.meta_data,"comments")
-            ]?.value );
           } else {
-            console.log("no tiene metadatos");
+            console.log("no existen metadatos de comentarios");
           }
           
           // Enviar la orden actualizada al store fusionando los datos recuperados con la orden existente
