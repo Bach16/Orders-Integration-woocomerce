@@ -34,7 +34,19 @@
         :modificable="false"
         :disabled="isDisabled"
       />
-      <OrderTableFooter :order="orderStore?.orders[0]" :modificable="false" />
+      <OrderTableFooter
+        :order="orderStore?.orders[0]"
+        :modificable="false"
+        :_id="orderStore?.orders[0]?.id"
+        :comments="
+          orderStore?.orders[0]?.meta_data[
+            this.$findIndexByKey(
+              orderStore?.orders[0]?.meta_data,
+              `custom_order_comments`
+            )
+          ]?.value
+        "
+      />
     </div>
 
     <div class="mt-8 d-print-none">
@@ -43,7 +55,7 @@
           <v-btn
             size="large"
             class="px-6 mr-2"
-            rounded="lg" 
+            rounded="lg"
             color="primary"
             @click="onDisabledClick"
           >
@@ -55,7 +67,7 @@
           <v-btn
             size="large"
             class="px-6 mr-2"
-            rounded ="lg"
+            rounded="lg"
             color="primary"
             @click="dialog2 = true"
           >
@@ -79,7 +91,6 @@
 
     <!-- Alerta -->
     <div class="text-center pa-4 d-print-none">
-
       <v-dialog v-model="dialog2" persistent width="auto">
         <v-card
           max-width="400"
@@ -88,7 +99,6 @@
           title="Despacho del Pedido"
           class="custom-icon-color"
         >
-        
           <template v-slot:actions>
             <v-btn
               class="btn-dialog ml-4"
@@ -125,7 +135,7 @@
                 @click="dialog = false"
               ></v-btn>
             </RouterLink>
-           <!--  <v-btn
+            <!--  <v-btn
               class="ms-auto pr-6 font-weight-bold"
               text="Regresar"
               @click="dialog = false"
@@ -289,7 +299,7 @@ export default {
     onMounted(() => {
       if (!localStorage.getItem("rol")) {
         return router.push("/");
-      } else if (!localStorage.getItem("token")){
+      } else if (!localStorage.getItem("token")) {
         return router.push("/");
       } else if (localStorage.getItem("rol") !== "logistica") {
         return router.push("/searchOrder");
@@ -300,8 +310,7 @@ export default {
           orderStore.getOrders(id, ruta[1], localStorage.getItem("rol"));
         }
       }
-      userStore.checkUser(userStore.user)
-
+      userStore.checkUser(userStore.user);
     });
 
     return {
@@ -355,6 +364,5 @@ a:active {
   .max-size {
     width: 100%;
   }
-
 }
 </style>

@@ -24,7 +24,7 @@
               no-resize
               rows="2"
             />
-            <v-card-text v-else class="mt-n4 ml-n4"></v-card-text>
+            <v-card-text v-else class="mt-n4 ml-n4">{{ comments }}</v-card-text>
           </v-col>
         </v-row>
       </v-card>
