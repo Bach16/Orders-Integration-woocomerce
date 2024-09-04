@@ -220,7 +220,7 @@ export const useOrdersStore = defineStore("orders", {
       }
     },
     async updateOrderComments(id, comments) {
-      if (this?.orders[0]?.meta_data[findIndexByKey(  this?.orders[0]?.meta_data,"custom_order_comments")]?.value) { 
+      if (this?.orders[0]?.meta_data[findIndexByKey(  this?.orders[0]?.meta_data,"custom_order_comments")]) { 
         this.orders[0].meta_data[findIndexByKey(  this.orders[0].meta_data,"custom_order_comments")].value = comments;
       }else{
         this.orders[0].meta_data.push(
