@@ -58,6 +58,8 @@
       <!-- Tabla sin draggable -->
       <tbody v-if="modificable">
         <tr v-for="element in order?.line_items" :key="element.id">
+          {{ console.log(element)
+           }}
           <!-- Cantidad -->
           <td class="border-e-sm" v-if="element.input">
             <v-text-field
