@@ -96,7 +96,7 @@ export const useOrdersStore = defineStore("orders", {
           : `${BASE_URL}?per_page=100&status=completed`;
 
         let response = await axios.get(url, AUTH_HEADER);
-        if(response?.data[0]?.line_items[0] && !response?.data[0]?.line_items[0]?.meta_data){
+        if(response?.data[0]?.line_items[0] && !response?.data[0]?.line_items[0]?.meta_data.length){
           console.log("dasd");
           response.data[0].line_items[0].meta_data = [
             {
