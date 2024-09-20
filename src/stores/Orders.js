@@ -96,37 +96,40 @@ export const useOrdersStore = defineStore("orders", {
           : `${BASE_URL}?per_page=100&status=completed`;
 
         let response = await axios.get(url, AUTH_HEADER);
-        if(response?.data[0]?.line_items[0] && !response?.data[0]?.line_items[0]?.meta_data.length){
+        if (
+          response?.data[0]?.line_items[0] &&
+          !response?.data[0]?.line_items[0]?.meta_data.length
+        ) {
           response.data[0].line_items[0].meta_data = [
             {
-                "key": "nbultos",
-                "value": "",
+              key: "nbultos",
+              value: "",
             },
             {
-                "key": "unidbultos",
-                "value": "",
+              key: "unidbultos",
+              value: "",
             },
             {
-                "key": "totalunidades",
-                "value": "",
+              key: "totalunidades",
+              value: "",
             },
             {
-                "key": "varios",
-                "value": "",
+              key: "varios",
+              value: "",
             },
             {
-                "key": "supervised",
-                "value": "",
+              key: "supervised",
+              value: "",
             },
             {
-                "key": "revisado",
-                "value": "",
+              key: "revisado",
+              value: "",
             },
             {
-                "key": "subProducts",
-                "value": [],
-            }
-        ]
+              key: "subProducts",
+              value: [],
+            },
+          ];
         }
         if (response.data[0]?.line_items) {
           response.data[0].line_items = response.data[0]?.line_items.map(
@@ -161,8 +164,12 @@ export const useOrdersStore = defineStore("orders", {
             const filterByState = (orders, state) => {
               return orders?.filter((e) => {
                 if (state == "completado") {
-
-                  return findValueByKey(e?.meta_data, "estado_orden") === "completado" || findValueByKey(e?.meta_data, "estado_orden") === "por despachar";
+                  return (
+                    findValueByKey(e?.meta_data, "estado_orden") ===
+                      "completado" ||
+                    findValueByKey(e?.meta_data, "estado_orden") ===
+                      "por despachar"
+                  );
                 } else {
                   return findValueByKey(e?.meta_data, "estado_orden") === state;
                 }
@@ -182,24 +189,59 @@ export const useOrdersStore = defineStore("orders", {
             this.ordersArray = ordersToRender;
           }
         }
-
-        const arrayConSubproductos = processLineItems([
-          //funcion para añadir los subproductos al array que renderiza los productos
-          {
-            ...response.data[0],
-            line_items: response?.data[0]?.line_items?.map((e) => {
-              if (e.meta_data[5].value == "1") e.meta_data[5].value = true;
-              return {
-                ...e,
-                meta_data: e.meta_data.map((i) => {
-                  if (i.value == "1") {
-                    return { ...i };
-                  } else return i;
-                }),
-              };
-            }),
-          },
-        ]);
+          const arrayConSubproductos = processLineItems([
+            {
+              ...response.data[0],
+              line_items: response?.data[0]?.line_items?.map((e) => {
+                console.log(e);
+                if(!e.meta_data.length){
+                  e.meta_data = [
+                    {
+                        key: "nbultos",
+                        value: ""
+                    },
+                    {
+                        key: "unidbultos",
+                        value: ""
+                    },
+                    {
+                        key: "totalunidades",
+                        value: ""
+                    },
+                    {
+                        key: "varios",
+                        value: ""
+                    },
+                    {
+                        key: "supervised",
+                        value: ""
+                    },
+                    {
+                        key: "revisado",
+                        value: false
+                    },
+                    {
+                        key: "subProducts",
+                        value: []
+                    }
+                ]
+                }
+                if (e.meta_data[5]) {
+                  if (e.meta_data[5].value == "1") {
+                    e.meta_data[5].value = true;
+                  } else e.meta_data[5].value = false;
+                }
+                return {
+                  ...e,
+                  meta_data: e.meta_data.map((i) => {
+                    if (i.value == "1") {
+                      return { ...i };
+                    } else return i;
+                  }),
+                };
+              }),
+            },
+          ]);
 
         if (localStorageParsed) {
           if (id in localStorageParsed) {
@@ -215,11 +257,13 @@ export const useOrdersStore = defineStore("orders", {
               );
             }
           }
+          console.log("1", arrayConSubproductos);
           this.orders = arrayConSubproductos;
           this.orders[0].line_items = processLineItems(
             response.data[0].line_items
           );
         } else {
+          console.log("2", arrayConSubproductos);
           this.orders = arrayConSubproductos;
           this.orders[0].line_items = processLineItems(
             arrayConSubproductos[0].line_items
@@ -252,17 +296,20 @@ export const useOrdersStore = defineStore("orders", {
       }
     },
     async updateOrderComments(id, comments) {
-      if (this?.orders[0]?.meta_data[findIndexByKey(  this?.orders[0]?.meta_data,"custom_order_comments")]) { 
-        this.orders[0].meta_data[findIndexByKey(  this.orders[0].meta_data,"custom_order_comments")].value = comments;
-      }else{
-        this.orders[0].meta_data.push(
-          {
-            key:"custom_order_comments",
-            value:comments
-          }
-        )
+      if (
+        this?.orders[0]?.meta_data[
+          findIndexByKey(this?.orders[0]?.meta_data, "custom_order_comments")
+        ]
+      ) {
+        this.orders[0].meta_data[
+          findIndexByKey(this.orders[0].meta_data, "custom_order_comments")
+        ].value = comments;
+      } else {
+        this.orders[0].meta_data.push({
+          key: "custom_order_comments",
+          value: comments,
+        });
       }
-      
     },
     async updateOrderTotalBoxes(id, totalNumber) {
       this.orders[0].meta_data[3] = {
