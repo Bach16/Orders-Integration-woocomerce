@@ -60,22 +60,9 @@
             <span class="ml-2 bold-text">Total cajas de varios </span>
           </v-col>
           <v-col cols="4" md="4" class="border-e-sm">            
-            <v-text-field
-              v-if="modificable && order"
-              v-model="
-                order.meta_data[
-                this.$findIndexByKey(order?.meta_data, 'total_caja_varios')
-                ].value
-              "
-              @keypress="this.$onlyNumbers($event)"
-              :id="_id"
-              name="totalVariousBoxes"
-              variant="plain"
-              hide-details="auto"
-              class="mb-4"
-            />
-            <span v-else>{{
-              this.$findValueByKey(order?.meta_data, "total_caja_varios")
+            <span>{{
+              order?.meta_data[this.$findIndexByKey(order?.meta_data, "total_caja_varios")]
+                .value
             }}</span>
           </v-col>
         </v-row>

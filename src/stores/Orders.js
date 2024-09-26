@@ -2,6 +2,7 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import {
   TotalNbultosSum,
+  TotalVariosSum,
   findIndexByKey,
   findValueByKey,
 } from "../plugins/util";
@@ -274,6 +275,11 @@ export const useOrdersStore = defineStore("orders", {
         ].value = TotalNbultosSum(
           processLineItems(arrayConSubproductos[0].line_items)
         );
+        this.orders[0].meta_data[
+          findIndexByKey(this.orders[0].meta_data, "total_caja_varios")
+        ].value = TotalVariosSum(
+          processLineItems(arrayConSubproductos[0].line_items)
+        );
       } catch (error) {
       } finally {
         if (path === "searchOrder") this.orders = [];
@@ -321,6 +327,11 @@ export const useOrdersStore = defineStore("orders", {
       this.orders[0].meta_data[
         findIndexByKey(this.orders[0].meta_data, "total_bultos")
       ].value = TotalNbultosSum(array);
+    },
+    async updateTotalVarios(array) {
+      this.orders[0].meta_data[
+        findIndexByKey(this.orders[0].meta_data, "total_caja_varios")
+      ].value = TotalVariosSum(array);
     },
     deleteSubproduct(id) {
       this.orders[0].line_items = this.orders[0]?.line_items.filter((e) => {

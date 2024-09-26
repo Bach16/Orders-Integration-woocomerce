@@ -531,6 +531,9 @@ export default {
       if (e.target.name === "nbultos") {
         orderStore.updateTotalNBultos(orderStore?.orders[0]?.line_items);
       }
+      if (e.target.name === "varios") {
+        orderStore.updateTotalVarios(orderStore?.orders[0]?.line_items);
+      }
     };
 
     const onSaveClick = () => {

@@ -27,3 +27,12 @@ export const TotalNbultosSum = (array) => {
   }, 0);
   return result;
 };
+export const TotalVariosSum = (array) => {
+  const result = array?.reduce((total, item) => {
+    if (parseInt(item.meta_data[3].value)) {
+      return total + parseInt(item.meta_data[3].value);
+    }
+    return total + 0;
+  }, 0);
+  return result;
+};
