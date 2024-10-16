@@ -33,6 +33,7 @@
         :order="orderStore?.orders[0]"
         :modificable="false"
         :disabled="isDisabled"
+        :onChangeToLocalStorage="onChangeToLocalStorage"
       />
       <OrderTableFooter
         :order="orderStore?.orders[0]"
@@ -204,6 +205,14 @@ export default {
       dialog.value = false;
       print();
     };
+    const onChangeToLocalStorage = (e) => {
+      if (e.target.name === "nbultos") {
+        orderStore.updateTotalNBultos(orderStore?.orders[0]?.line_items);
+      }
+      if (e.target.name === "varios") {
+        orderStore.updateTotalVarios(orderStore?.orders[0]?.line_items);
+      }
+    };
 
     const saveOrder = () => {
       const aja = orderStore.orders[0].line_items.filter((e) => {
@@ -322,6 +331,7 @@ export default {
       toPrint,
       isDisabled,
       onDisabledClick,
+      onChangeToLocalStorage
     };
   },
 };
